@@ -26,7 +26,7 @@
 <details>
 <summary><strong>📌 WBS</strong></summary>
 
-- 링크: [WBS](https://docs.google.com/spreadsheets/d/1DiH1bHHJueDsMxrl0_vGZ8jhjAMejhCEK-gJhL4AF-4/edit?gid=1152197925#gid=1152197925)
+- 링크: [WBS](https://docs.google.com/spreadsheets/d/1DiH1bHHJueDsMxrl0_vGZ8jhjAMejhCEK-gJhL4AF-4/edit?gid=0#gid=0)
 
 </details>
 

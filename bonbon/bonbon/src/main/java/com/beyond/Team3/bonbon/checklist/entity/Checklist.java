@@ -1,0 +1,39 @@
+package com.beyond.Team3.bonbon.checklist.entity;
+
+import com.beyond.Team3.bonbon.common.base.EntityDate;
+import com.beyond.Team3.bonbon.franchise.entity.Franchise;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.OneToOne;
+import jakarta.persistence.Table;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+
+import java.time.LocalDate;
+
+@Entity
+@AllArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Table(name = "checklist")
+public class Checklist extends EntityDate {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @OneToOne
+    private Franchise franchiseId;
+
+    private String checklistType;
+
+    private LocalDate nextCheckDate;    // 다음 점검일
+
+    @Column(columnDefinition = "TEXT")
+    private String notes;   // 점검 메모
+
+    private String photo;
+
+}

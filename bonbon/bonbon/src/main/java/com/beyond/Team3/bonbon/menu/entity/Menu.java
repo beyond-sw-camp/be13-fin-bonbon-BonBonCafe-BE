@@ -3,6 +3,7 @@ package com.beyond.Team3.bonbon.menu.entity;
 import com.beyond.Team3.bonbon.common.base.EntityDate;
 import com.beyond.Team3.bonbon.common.enums.MenuStatus;
 import com.beyond.Team3.bonbon.headquarter.entity.Headquarter;
+import com.beyond.Team3.bonbon.menu.dto.MenuRequestDto;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -14,14 +15,14 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
+@Builder
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "menu")
+@Getter
 public class Menu extends EntityDate {
 
     @Id
@@ -30,13 +31,15 @@ public class Menu extends EntityDate {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "headquarter_id")
-    private Headquarter headquarterId;
+    private Headquarter headquarter;
 
-    private String menuImage;
+    @Column(nullable = false) //ProductThumbnail 클래스 생성하기
+    private String image;
 
+    @Column(nullable = false)
     private String name;
 
-    private String decription;
+    private String description;
 
     @Column(nullable = false)
     private int price;
@@ -44,4 +47,14 @@ public class Menu extends EntityDate {
     @Enumerated(EnumType.STRING)
     private MenuStatus status = MenuStatus.ACTIVE;
 
+    public static Menu createMenu(MenuRequestDto dto, Headquarter headquarter) {
+        return Menu.builder()
+                .headquarter(headquarter)
+                .image(dto.getImage())
+                .name(dto.getName())
+                .description(dto.getDescription())
+                .price(dto.getPrice())
+                .status(dto.getStatus())
+                .build();
+    }
 }

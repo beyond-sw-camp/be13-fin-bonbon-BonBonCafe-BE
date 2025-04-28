@@ -1,12 +1,10 @@
 package com.beyond.Team3.bonbon.menu.dto;
 
 import com.beyond.Team3.bonbon.common.enums.MenuStatus;
-import com.beyond.Team3.bonbon.menu.entity.Menu;
 import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.Getter;
 
-@Data
+@Getter
 @AllArgsConstructor
 public class MenuRequestDto {
 

@@ -18,27 +18,56 @@ public class MenuService {
     private final MenuRepository menuRepository;
     private final HeadquarterRepository headquarterRepository;
 
-    public Page<MenuResponseDto> getAllMenu(Pageable pageable) {
-
-        return null;
+    // 메뉴 전체 조회
+    public Page<MenuResponseDto> getAllMenu(Pageable pageable, Long headquarterId) {
+        Page<Menu> menu = menuRepository.findAllMenu(pageable, headquarterId);
+        return menu.map(MenuResponseDto::menuResponseDto);
     }
 
+    // 메뉴 단일 조회
+    public MenuResponseDto getMenu(Long menuId, Long headquarterId) {
+        Menu menu = findMenuWithHeadquarterValidation(menuId, headquarterId);
+
+        return MenuResponseDto.menuResponseDto(menu);
+    }
+
+    // 메뉴 등록
     @Transactional
     public MenuResponseDto createMenu(MenuRequestDto menuRequestDto, Long headquarterId) {
         Headquarter headquarter = headquarterRepository.findById(headquarterId)
                 .orElseThrow(() -> new IllegalArgumentException("해당 본사가 없습니다."));
+
         Menu menu = Menu.createMenu(menuRequestDto, headquarter);
         menuRepository.save(menu);
         return MenuResponseDto.menuResponseDto(menu);
     }
 
-    public MenuResponseDto updateMenu(Long menuId, MenuRequestDto menuRequestDto) {
-
-        return null;
+    // 메뉴 수정
+    @Transactional
+    public MenuResponseDto updateMenu(Long menuId, Long headquarterId, MenuRequestDto menuRequestDto) {
+        Menu menu = findMenuWithHeadquarterValidation(menuId, headquarterId);
+        menu.updateMenu(menuRequestDto);
+        return MenuResponseDto.menuResponseDto(menu);
     }
 
-    public MenuResponseDto deleteMenu(Long menuId) {
+    // 메뉴 삭제
+    @Transactional
+    public void deleteMenu(Long menuId, Long headquarterId) {
+        findMenuWithHeadquarterValidation(menuId, headquarterId);
+        menuRepository.deleteById(menuId);
+    }
 
-        return null;
+    /**
+     * 메서드
+     */
+    private Menu findMenuWithHeadquarterValidation(Long menuId, Long headquarterId) {
+        Menu menu = menuRepository.findById(menuId)
+                .orElseThrow(() -> new IllegalArgumentException("해당 메뉴가 없습니다."));
+
+        if (!menu.hasSameHeadquarter(headquarterId)) {
+            throw new IllegalArgumentException("해당 메뉴가 없습니다.");
+        }
+
+        return menu;
     }
 }

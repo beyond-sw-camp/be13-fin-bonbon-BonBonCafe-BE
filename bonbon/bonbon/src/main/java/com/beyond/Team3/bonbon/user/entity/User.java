@@ -10,14 +10,18 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
 import lombok.RequiredArgsConstructor;
 
 
 @Entity
+@Data
+@Builder
 @AllArgsConstructor
 @RequiredArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "user")
-public class User{
+public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

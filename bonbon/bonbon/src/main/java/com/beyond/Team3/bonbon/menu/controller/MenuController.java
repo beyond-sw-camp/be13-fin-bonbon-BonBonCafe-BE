@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,19 +20,30 @@ import org.springframework.web.bind.annotation.*;
 public class MenuController {
     private final MenuService menuService;
 
-    @Operation(summary = "메뉴 전체 조회")
-    @GetMapping("/menu")
+    @Operation(summary = "메뉴 전체 조회", description = "본사 번호 입력")
+    @GetMapping("/headquarters/{headquarterId}/menus")
     public ResponseEntity<Page<MenuResponseDto>> getAllMenu(
-            @PageableDefault(size = 10, page = 0) Pageable pageable
+            @PageableDefault(size = 10, page = 0) Pageable pageable,
+            @PathVariable Long headquarterId
             ){
-
-        Page<MenuResponseDto> menuResponseDto = menuService.getAllMenu(pageable);
+        Page<MenuResponseDto> menuResponseDto = menuService.getAllMenu(pageable, headquarterId);
 
         return ResponseEntity.ok(menuResponseDto);
     }
 
+    @Operation(summary = "메뉴 단일 조회", description = "본사 번호 입력")
+    @GetMapping("/headquarters/{headquarterId}/menus/{menuId}")
+    public ResponseEntity<MenuResponseDto> getMenu(
+            @PathVariable Long headquarterId,
+            @PathVariable Long menuId
+    ){
+        MenuResponseDto menuResponseDto = menuService.getMenu(menuId, headquarterId);
+
+        return ResponseEntity.status(HttpStatus.OK).body(menuResponseDto);
+    }
+
     @Operation(summary = "메뉴 등록")
-    @PostMapping("/menu/{headquarterId}")
+    @PostMapping("/headquarters/{headquarterId}/menus")
     public ResponseEntity<MenuResponseDto> createMenu(
             @RequestBody MenuRequestDto menuRequestDto,
             @PathVariable Long headquarterId
@@ -42,19 +54,24 @@ public class MenuController {
     }
 
     @Operation(summary = "메뉴 수정")
-    @PutMapping("/menu/{menuId}")
-    public ResponseEntity<MenuResponseDto> updateMenu(@PathVariable Long menuId, @RequestBody MenuRequestDto menuRequestDto){
-        MenuResponseDto menuResponseDto = menuService.updateMenu(menuId, menuRequestDto);
+    @PutMapping("/headquarters/{headquarterId}/menus/{menuId}")
+    public ResponseEntity<MenuResponseDto> updateMenu(
+            @PathVariable Long headquarterId,
+            @PathVariable Long menuId,
+            @RequestBody MenuRequestDto menuRequestDto) {
+        MenuResponseDto menuResponseDto = menuService.updateMenu(menuId, headquarterId, menuRequestDto);
 
         return ResponseEntity.ok(menuResponseDto);
     }
 
     @Operation(summary = "메뉴 삭제")
-    @DeleteMapping("/menu/{menuId}")
-    public ResponseEntity<MenuResponseDto> deleteMenu(@PathVariable Long menuId){
-        MenuResponseDto menuResponseDto = menuService.deleteMenu(menuId);
+    @DeleteMapping("/headquarters/{headquarterId}/menus/{menuId}")
+    public ResponseEntity<String> deleteMenu(
+            @PathVariable Long headquarterId,
+            @PathVariable Long menuId) {
 
-        return ResponseEntity.ok(menuResponseDto);
+        menuService.deleteMenu(menuId, headquarterId);
+        return ResponseEntity.status(HttpStatus.OK).body("메뉴가 삭제되었습니다.");
     }
 
 

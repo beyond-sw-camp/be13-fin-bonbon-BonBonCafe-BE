@@ -7,6 +7,7 @@ import com.beyond.Team3.bonbon.auth.service.AuthService;
 import com.beyond.Team3.bonbon.auth.service.AuthServiceImpl;
 import com.beyond.Team3.bonbon.user.dto.PasswordModifyDto;
 import com.beyond.Team3.bonbon.user.dto.UserInfoDto;
+import com.beyond.Team3.bonbon.user.dto.UserModifyDto;
 import com.beyond.Team3.bonbon.user.dto.UserRegisterDto;
 import com.beyond.Team3.bonbon.user.entity.User;
 import com.beyond.Team3.bonbon.user.service.UserService;
@@ -15,6 +16,8 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -25,9 +28,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.security.Principal;
+import java.util.List;
 
 @Slf4j
 @RestController
@@ -71,11 +76,11 @@ public class UserController {
     @PostMapping("/join")
     @PreAuthorize("hasRole('ROLE_HEADQUARTER')")
     @Operation(summary = "계정 등록", description = "Headquarter만 사용자 계정 등록")
-    public ResponseEntity<Void> join(
-        @RequestBody UserRegisterDto userRegisterDto
+    public ResponseEntity<String> join(
+        @RequestBody UserRegisterDto userRegisterDto, Principal principal
     ){
-        userService.join(userRegisterDto);
-        return ResponseEntity.status(HttpStatus.CREATED).build();
+        userService.join(userRegisterDto, principal);
+        return ResponseEntity.ok("계정 생성이 완료되었습니다.");
     }
 
     @GetMapping("/")
@@ -96,5 +101,25 @@ public class UserController {
     ){
         userService.modifyPassword(principal, passwordModifyDto);
         return ResponseEntity.ok("비밀번호가 변경되었습니다.");
+    }
+
+    @PostMapping("/")
+    @Operation(summary = "회원 정보 수정", description = "회원의 전화번호, 이름, (사진) 수정 가능")
+    public ResponseEntity<String> userModify(
+            Principal principal,
+            @RequestBody UserModifyDto userModifyDto){
+
+        userService.update(principal, userModifyDto);
+        return ResponseEntity.ok("회원 정보 수정이 완료되었습니다.");
+    }
+
+    @GetMapping("/accounts")
+    @Operation(summary = "등록한 계정 조회", description = "Headquarter에서 등록한 계정들을 관리한다.")
+    public ResponseEntity<List<UserInfoDto>> accounts(
+            @RequestParam(name = "page", defaultValue = "0") int page,
+            @RequestParam(name = "size", defaultValue = "10") int size,
+            Principal principal){
+        Page<UserInfoDto> accounts = userService.getAccounts(page, size, principal);
+        return ResponseEntity.ok(accounts.getContent());
     }
 }

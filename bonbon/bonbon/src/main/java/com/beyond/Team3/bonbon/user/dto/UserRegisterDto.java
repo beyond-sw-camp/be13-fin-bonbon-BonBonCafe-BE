@@ -1,6 +1,7 @@
 package com.beyond.Team3.bonbon.user.dto;
 
 import com.beyond.Team3.bonbon.common.enums.Role;
+import com.beyond.Team3.bonbon.headquarter.entity.Headquarter;
 import com.beyond.Team3.bonbon.user.entity.User;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;

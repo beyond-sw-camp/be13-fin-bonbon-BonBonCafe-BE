@@ -27,17 +27,13 @@ public class Headquarter {
 
     private String name;
 
-    private String email;
-
-    private String password;
-
     private String headquarterTel;
 
     private String roadAddress;
 
     private String detailAddress;
 
-    @OneToOne
-    @JoinColumn(name = "user_id")
-    private User userId;
+//    @OneToOne
+//    @JoinColumn(name = "user_id")
+//    private User userId;
 }

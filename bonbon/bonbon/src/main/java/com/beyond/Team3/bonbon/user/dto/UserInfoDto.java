@@ -9,7 +9,7 @@ public class UserInfoDto {
 
     private String email;
 
-    private String password; // 비밀번호
+//    private String password; // 비밀번호
 
     private String name;
 
@@ -19,7 +19,7 @@ public class UserInfoDto {
 
     public UserInfoDto(User user) {
         this.email = user.getEmail();
-        this.password = user.getPassword();
+//        this.password = user.getPassword();
         this.name = user.getName();
         this.role = user.getUserType();
         this.phone = user.getPhone();

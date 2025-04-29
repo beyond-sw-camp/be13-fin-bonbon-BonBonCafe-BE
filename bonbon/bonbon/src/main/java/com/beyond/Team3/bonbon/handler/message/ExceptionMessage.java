@@ -13,7 +13,9 @@ public enum ExceptionMessage {
     INVALID_ACCESS_TOKEN("유효하지 않은 토큰입니다.", HttpStatus.UNAUTHORIZED),
     INVALID_REFRESH_TOKEN("유효하지 않은 토큰입니다.", HttpStatus.UNAUTHORIZED),
     EMAIL_ALREADY_EXIST("이미 존재하는 이메일입니다.", HttpStatus.CONFLICT),
-    PASSWORD_NOT_MATCH("비밀번호와 비밀번호 확인이 일치하지 않습니다.", HttpStatus.BAD_REQUEST),;
+    PASSWORD_NOT_MATCH("비밀번호와 비밀번호 확인이 일치하지 않습니다.", HttpStatus.BAD_REQUEST),
+
+    INVALID_PAGE_PARAMETER("유효한 값이 아닙니다.",  HttpStatus.BAD_REQUEST),;
 
     private final String message;
     private final HttpStatus status;

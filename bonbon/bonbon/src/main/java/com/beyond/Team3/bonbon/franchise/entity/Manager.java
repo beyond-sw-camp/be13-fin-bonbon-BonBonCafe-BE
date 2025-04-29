@@ -32,4 +32,6 @@ public class Manager {
     @JoinColumn(name = "user_id")
     private User userId;
 
+    private String region;
+
 }

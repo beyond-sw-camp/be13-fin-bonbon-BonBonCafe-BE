@@ -33,8 +33,8 @@ public class Menu extends EntityDate {
     @JoinColumn(name = "headquarter_id")
     private Headquarter headquarter;
 
-    @Column(nullable = false) //ProductThumbnail 클래스 생성하기
-    private String image;
+    @Column(name = "menu_image", nullable = false) //ProductThumbnail 클래스 생성하기
+    private String menuImage;
 
     @Column(nullable = false)
     private String name;
@@ -50,7 +50,7 @@ public class Menu extends EntityDate {
     public static Menu createMenu(MenuRequestDto dto, Headquarter headquarter) {
         return Menu.builder()
                 .headquarter(headquarter)
-                .image(dto.getImage())
+                .menuImage(dto.getImage())
                 .name(dto.getName())
                 .description(dto.getDescription())
                 .price(dto.getPrice())
@@ -59,7 +59,7 @@ public class Menu extends EntityDate {
     }
 
     public void updateMenu(MenuRequestDto dto) {
-        this.image = dto.getImage();
+        this.menuImage = dto.getImage();
         this.name = dto.getName();
         this.description = dto.getDescription();
         this.price = dto.getPrice();

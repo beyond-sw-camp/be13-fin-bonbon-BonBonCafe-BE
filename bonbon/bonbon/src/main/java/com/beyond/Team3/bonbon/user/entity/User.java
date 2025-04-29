@@ -49,6 +49,7 @@ public class User {
 
     private String name;
 
+    @Enumerated(EnumType.STRING)
     private AccountStatus status;
 
     @ManyToOne(fetch = FetchType.LAZY)

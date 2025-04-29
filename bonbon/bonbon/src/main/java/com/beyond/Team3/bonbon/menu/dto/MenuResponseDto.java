@@ -27,7 +27,7 @@ public class MenuResponseDto {
         return new MenuResponseDto(
                 menu.getMenuId(),
                 menu.getHeadquarter().getHeadquarterId(),
-                menu.getImage(),
+                menu.getMenuImage(),
                 menu.getName(),
                 menu.getDescription(),
                 menu.getPrice(),

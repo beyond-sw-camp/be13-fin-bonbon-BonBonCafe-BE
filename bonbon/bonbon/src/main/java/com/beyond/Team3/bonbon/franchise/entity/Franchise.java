@@ -29,10 +29,6 @@ public class Franchise {
     @JoinColumn(name = "manager_id")
     private Manager managerId;
 
-    @OneToOne
-    @JoinColumn(name = "franchisee_id")
-    private Franchisee franchiseeId;
-
     @ManyToOne
     @JoinColumn(name = "headquarter_id")
     private Headquarter headquarterId;

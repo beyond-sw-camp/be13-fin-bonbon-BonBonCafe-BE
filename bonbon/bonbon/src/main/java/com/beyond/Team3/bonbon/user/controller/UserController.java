@@ -5,6 +5,8 @@ import com.beyond.Team3.bonbon.auth.dto.JwtToken;
 import com.beyond.Team3.bonbon.auth.dto.UserLoginDto;
 import com.beyond.Team3.bonbon.auth.service.AuthService;
 import com.beyond.Team3.bonbon.auth.service.AuthServiceImpl;
+import com.beyond.Team3.bonbon.user.dto.FranchiseeRegisterDto;
+import com.beyond.Team3.bonbon.user.dto.ManagerRegisterDto;
 import com.beyond.Team3.bonbon.user.dto.PasswordModifyDto;
 import com.beyond.Team3.bonbon.user.dto.UserInfoDto;
 import com.beyond.Team3.bonbon.user.dto.UserModifyDto;
@@ -73,14 +75,24 @@ public class UserController {
         return ResponseEntity.ok(refreshToken);
     }
 
-    @PostMapping("/join")
+    @PostMapping("/manager")
     @PreAuthorize("hasRole('ROLE_HEADQUARTER')")
-    @Operation(summary = "계정 등록", description = "Headquarter만 사용자 계정 등록")
+    @Operation(summary = "MANAGER 계정 등록", description = "Headquarter만 MANAGER 계정 등록")
     public ResponseEntity<String> join(
-        @RequestBody UserRegisterDto userRegisterDto, Principal principal
+            @RequestBody ManagerRegisterDto managerRegisterDto, Principal principal
     ){
-        userService.join(userRegisterDto, principal);
-        return ResponseEntity.ok("계정 생성이 완료되었습니다.");
+        userService.joinManager(managerRegisterDto, principal);
+        return ResponseEntity.ok("Manager 계정 생성이 완료되었습니다.");
+    }
+
+    @PostMapping("/franchisee")
+    @PreAuthorize("hasRole('ROLE_HEADQUARTER')")
+    @Operation(summary = "FRANCHISEE 계정 등록", description = "Headquarter만 FRANCHISEE 계정 등록")
+    public ResponseEntity<String> join(
+            @RequestBody FranchiseeRegisterDto franchiseeRegisterDto, Principal principal
+    ){
+        userService.joinFranchisee(franchiseeRegisterDto, principal);
+        return ResponseEntity.ok("Manager 계정 생성이 완료되었습니다.");
     }
 
     @GetMapping("/")

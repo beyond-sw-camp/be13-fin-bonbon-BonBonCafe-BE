@@ -1,6 +1,8 @@
 package com.beyond.Team3.bonbon.user.service;
 
 import com.beyond.Team3.bonbon.auth.dto.JwtToken;
+import com.beyond.Team3.bonbon.user.dto.FranchiseeRegisterDto;
+import com.beyond.Team3.bonbon.user.dto.ManagerRegisterDto;
 import com.beyond.Team3.bonbon.user.dto.PasswordModifyDto;
 import com.beyond.Team3.bonbon.user.dto.UserInfoDto;
 import com.beyond.Team3.bonbon.user.dto.UserModifyDto;
@@ -14,7 +16,9 @@ import java.util.List;
 
 public interface UserService {
 
-    void join(UserRegisterDto userRegisterDto, Principal principal);
+    void joinManager(ManagerRegisterDto managerRegisterDto, Principal principal);
+
+    void joinFranchisee(FranchiseeRegisterDto franchiseeRegisterDto, Principal principal);
 
     UserInfoDto getUser(Principal principal);
 

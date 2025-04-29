@@ -57,4 +57,16 @@ public class Menu extends EntityDate {
                 .status(dto.getStatus())
                 .build();
     }
+
+    public void updateMenu(MenuRequestDto dto) {
+        this.image = dto.getImage();
+        this.name = dto.getName();
+        this.description = dto.getDescription();
+        this.price = dto.getPrice();
+        this.status = dto.getStatus();
+    }
+
+    public boolean hasSameHeadquarter(Long headquarterId) {
+        return this.headquarter != null && this.headquarter.getHeadquarterId().equals(headquarterId);
+    }
 }

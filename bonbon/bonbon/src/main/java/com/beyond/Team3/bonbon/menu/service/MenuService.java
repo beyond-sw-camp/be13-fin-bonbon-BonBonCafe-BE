@@ -6,6 +6,9 @@ import com.beyond.Team3.bonbon.menu.dto.MenuRequestDto;
 import com.beyond.Team3.bonbon.menu.dto.MenuResponseDto;
 import com.beyond.Team3.bonbon.menu.entity.Menu;
 import com.beyond.Team3.bonbon.menu.repository.MenuRepository;
+import com.beyond.Team3.bonbon.menuCategory.entity.Category;
+import com.beyond.Team3.bonbon.menuCategory.entity.MenuCategory;
+import com.beyond.Team3.bonbon.menuCategory.repository.CategoryRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -16,19 +19,23 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class MenuService {
     private final MenuRepository menuRepository;
+    private final CategoryRepository categoryRepository;
     private final HeadquarterRepository headquarterRepository;
 
     // 메뉴 전체 조회
-    public Page<MenuResponseDto> getAllMenu(Pageable pageable, Long headquarterId) {
-        Page<Menu> menu = menuRepository.findAllMenu(pageable, headquarterId);
-        return menu.map(MenuResponseDto::menuResponseDto);
+    public Page<MenuResponseDto> getAllMenu(Pageable pageable, Long headquarterId, String search) {
+//        if(!headquarterId.equals(path로받은본사아이디) {
+//            throw new AccessDeniedException("접근할 수 없습니다.");
+//        }
+        Page<Menu> menu = menuRepository.findAllMenu(pageable, headquarterId, search);
+        return menu.map(MenuResponseDto::from);
     }
 
     // 메뉴 단일 조회
     public MenuResponseDto getMenu(Long menuId, Long headquarterId) {
         Menu menu = findMenuWithHeadquarterValidation(menuId, headquarterId);
 
-        return MenuResponseDto.menuResponseDto(menu);
+        return MenuResponseDto.from(menu);
     }
 
     // 메뉴 등록
@@ -39,7 +46,17 @@ public class MenuService {
 
         Menu menu = Menu.createMenu(menuRequestDto, headquarter);
         menuRepository.save(menu);
-        return MenuResponseDto.menuResponseDto(menu);
+
+        if (menuRequestDto.getCategoryIds() != null) {
+            for (Long categoryId : menuRequestDto.getCategoryIds()) {
+                Category category = categoryRepository.findById(categoryId)
+                        .orElseThrow(() -> new IllegalArgumentException("해당 카테고리가 없습니다. id=" + categoryId));
+
+                MenuCategory menuCategory = new MenuCategory(menu, category);
+                menu.addCategory(menuCategory);
+            }
+        }
+        return MenuResponseDto.from(menu);
     }
 
     // 메뉴 수정
@@ -47,7 +64,7 @@ public class MenuService {
     public MenuResponseDto updateMenu(Long menuId, Long headquarterId, MenuRequestDto menuRequestDto) {
         Menu menu = findMenuWithHeadquarterValidation(menuId, headquarterId);
         menu.updateMenu(menuRequestDto);
-        return MenuResponseDto.menuResponseDto(menu);
+        return MenuResponseDto.from(menu);
     }
 
     // 메뉴 삭제

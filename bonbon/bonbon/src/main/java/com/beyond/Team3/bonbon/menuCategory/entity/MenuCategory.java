@@ -1,17 +1,13 @@
 package com.beyond.Team3.bonbon.menuCategory.entity;
 
 import com.beyond.Team3.bonbon.menu.entity.Menu;
-import jakarta.persistence.EmbeddedId;
-import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.MapsId;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+@Getter
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -24,10 +20,16 @@ public class MenuCategory {
     @MapsId("menuId")
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "menu_id")
-    private Menu menuId;
+    private Menu menu;
 
     @MapsId("categoryId")
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "category_id")
-    private Category categoryId;
+    private Category category;
+
+    public MenuCategory(Menu menu, Category category) {
+        this.menu = menu;
+        this.category = category;
+        this.id = new MenuCategoryId(menu.getMenuId(), category.getCategoryId());
+    }
 }

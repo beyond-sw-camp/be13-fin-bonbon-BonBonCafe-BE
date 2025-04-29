@@ -3,12 +3,12 @@ package com.beyond.Team3.bonbon.menu.dto;
 import com.beyond.Team3.bonbon.common.enums.MenuStatus;
 import com.beyond.Team3.bonbon.menu.entity.Menu;
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
-@Data
+@Getter
 @NoArgsConstructor
 @AllArgsConstructor
 public class MenuResponseDto {
@@ -23,7 +23,7 @@ public class MenuResponseDto {
     private LocalDateTime createTime;
     private LocalDateTime modifyAt;
 
-    public static MenuResponseDto menuResponseDto(Menu menu) {
+    public static MenuResponseDto from(Menu menu) {
         return new MenuResponseDto(
                 menu.getMenuId(),
                 menu.getHeadquarter().getHeadquarterId(),

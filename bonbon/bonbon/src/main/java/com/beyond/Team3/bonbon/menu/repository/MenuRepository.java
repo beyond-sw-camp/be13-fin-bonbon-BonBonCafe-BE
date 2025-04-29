@@ -6,6 +6,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface MenuRepository extends JpaRepository<Menu, Long>, MenuRepositoryCustom {
-    Page<Menu> findAllMenu(Pageable pageable, Long headquarterId);
+    Page<Menu> findAllMenu(Pageable pageable, Long headquarterId, String search);
 
 }

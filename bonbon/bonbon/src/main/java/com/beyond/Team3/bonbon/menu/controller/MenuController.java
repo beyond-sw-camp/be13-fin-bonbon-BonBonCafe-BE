@@ -4,7 +4,6 @@ import com.beyond.Team3.bonbon.menu.dto.MenuRequestDto;
 import com.beyond.Team3.bonbon.menu.dto.MenuResponseDto;
 import com.beyond.Team3.bonbon.menu.service.MenuService;
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -20,14 +19,14 @@ import org.springframework.web.bind.annotation.*;
 public class MenuController {
     private final MenuService menuService;
 
-    @Operation(summary = "메뉴 전체 조회", description = "본사 번호 입력")
+    @Operation(summary = "메뉴 전체 조회 + 검색", description = "본사 번호 입력")
     @GetMapping("/headquarters/{headquarterId}/menus")
     public ResponseEntity<Page<MenuResponseDto>> getAllMenu(
             @PageableDefault(size = 10, page = 0) Pageable pageable,
-            @PathVariable Long headquarterId
-            ){
-        Page<MenuResponseDto> menuResponseDto = menuService.getAllMenu(pageable, headquarterId);
-
+            @PathVariable Long headquarterId,
+            @RequestParam(required = false) String search
+    ) {
+        Page<MenuResponseDto> menuResponseDto = menuService.getAllMenu(pageable, headquarterId, search);
         return ResponseEntity.ok(menuResponseDto);
     }
 
@@ -36,9 +35,8 @@ public class MenuController {
     public ResponseEntity<MenuResponseDto> getMenu(
             @PathVariable Long headquarterId,
             @PathVariable Long menuId
-    ){
+    ) {
         MenuResponseDto menuResponseDto = menuService.getMenu(menuId, headquarterId);
-
         return ResponseEntity.status(HttpStatus.OK).body(menuResponseDto);
     }
 
@@ -47,7 +45,7 @@ public class MenuController {
     public ResponseEntity<MenuResponseDto> createMenu(
             @RequestBody MenuRequestDto menuRequestDto,
             @PathVariable Long headquarterId
-            ){
+    ) {
         MenuResponseDto menuResponseDto = menuService.createMenu(menuRequestDto, headquarterId);
 
         return ResponseEntity.ok(menuResponseDto);
@@ -73,6 +71,5 @@ public class MenuController {
         menuService.deleteMenu(menuId, headquarterId);
         return ResponseEntity.status(HttpStatus.OK).body("메뉴가 삭제되었습니다.");
     }
-
 
 }

@@ -5,5 +5,5 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 public interface MenuRepositoryCustom {
-    Page<Menu> findAllMenu(Pageable pageable, Long headquarterId);
+    Page<Menu> findAllMenu(Pageable pageable, Long headquarterId, String search);
 }

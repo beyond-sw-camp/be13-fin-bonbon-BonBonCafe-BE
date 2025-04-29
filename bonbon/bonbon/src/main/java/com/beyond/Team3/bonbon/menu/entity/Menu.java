@@ -4,25 +4,21 @@ import com.beyond.Team3.bonbon.common.base.EntityDate;
 import com.beyond.Team3.bonbon.common.enums.MenuStatus;
 import com.beyond.Team3.bonbon.headquarter.entity.Headquarter;
 import com.beyond.Team3.bonbon.menu.dto.MenuRequestDto;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
+import com.beyond.Team3.bonbon.menuCategory.entity.MenuCategory;
+import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Builder
+@Getter
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "menu")
-@Getter
 public class Menu extends EntityDate {
 
     @Id
@@ -31,6 +27,7 @@ public class Menu extends EntityDate {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "headquarter_id")
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Headquarter headquarter;
 
     @Column(name = "menu_image", nullable = false) //ProductThumbnail 클래스 생성하기
@@ -46,6 +43,10 @@ public class Menu extends EntityDate {
 
     @Enumerated(EnumType.STRING)
     private MenuStatus status = MenuStatus.ACTIVE;
+
+    @Builder.Default
+    @OneToMany(mappedBy = "menu", orphanRemoval = true, cascade = CascadeType.ALL)
+    private List<MenuCategory> categories = new ArrayList<>();
 
     public static Menu createMenu(MenuRequestDto dto, Headquarter headquarter) {
         return Menu.builder()
@@ -68,5 +69,9 @@ public class Menu extends EntityDate {
 
     public boolean hasSameHeadquarter(Long headquarterId) {
         return this.headquarter != null && this.headquarter.getHeadquarterId().equals(headquarterId);
+    }
+
+    public void addCategory(MenuCategory menuCategory) {
+        this.categories.add(menuCategory);
     }
 }

@@ -4,6 +4,8 @@ import com.beyond.Team3.bonbon.common.enums.MenuStatus;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
+import java.util.List;
+
 @Getter
 @AllArgsConstructor
 public class MenuRequestDto {
@@ -17,4 +19,7 @@ public class MenuRequestDto {
     private int price;
 
     private MenuStatus status;
+
+    private List<Long> categoryIds;
+
 }

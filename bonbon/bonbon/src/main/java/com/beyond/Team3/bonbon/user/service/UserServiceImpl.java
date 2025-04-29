@@ -1,8 +1,18 @@
 package com.beyond.Team3.bonbon.user.service;
 
+import com.beyond.Team3.bonbon.common.enums.Role;
+import com.beyond.Team3.bonbon.franchise.entity.Franchise;
+import com.beyond.Team3.bonbon.franchise.entity.Franchisee;
+import com.beyond.Team3.bonbon.franchise.entity.Manager;
+import com.beyond.Team3.bonbon.franchise.repository.FranchiseRepository;
+import com.beyond.Team3.bonbon.handler.exception.FranchiseException;
+import com.beyond.Team3.bonbon.user.repository.FranchiseeRepository;
+import com.beyond.Team3.bonbon.user.repository.ManagerRepository;
 import com.beyond.Team3.bonbon.handler.exception.PageException;
 import com.beyond.Team3.bonbon.handler.exception.UserException;
 import com.beyond.Team3.bonbon.handler.message.ExceptionMessage;
+import com.beyond.Team3.bonbon.user.dto.FranchiseeRegisterDto;
+import com.beyond.Team3.bonbon.user.dto.ManagerRegisterDto;
 import com.beyond.Team3.bonbon.user.dto.PasswordModifyDto;
 import com.beyond.Team3.bonbon.user.dto.UserInfoDto;
 import com.beyond.Team3.bonbon.user.dto.UserModifyDto;
@@ -18,9 +28,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.security.Principal;
-import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -29,10 +37,43 @@ public class UserServiceImpl implements UserService {
 
     private final PasswordEncoder passwordEncoder;
     private final UserRepository userRepository;
+    private final ManagerRepository managerRepository;
+    private final FranchiseeRepository franchiseeRepository;
+    private final FranchiseRepository franchiseRepository;
 
     // 계정 생성 -> only HEADQUARTER만
     @Transactional
-    public void join(UserRegisterDto userRegisterDto, Principal principal) {
+    public void joinManager(ManagerRegisterDto managerRegisterDto, Principal principal) {
+
+        User registUser = join(managerRegisterDto, principal, Role.MANAGER);
+
+        // manager 테이블에 담당자 추가
+        Manager manager = Manager.builder()
+                .userId(registUser)
+                .headquarterId(registUser.getHeadquarterId())
+                .region(managerRegisterDto.getRegion())
+                .build();
+
+        managerRepository.save(manager);
+    }
+
+    @Transactional
+    public void joinFranchisee(FranchiseeRegisterDto franchiseeRegisterDto, Principal principal) {
+
+        User registUser = join(franchiseeRegisterDto, principal, Role.FRANCHISEE);
+
+        Franchise franchise = franchiseRepository.findById(franchiseeRegisterDto.getFranchiseId())
+                .orElseThrow(() -> new FranchiseException(ExceptionMessage.FRANCHISE_NOT_FOUND));
+
+        Franchisee franchisee = Franchisee.builder()
+                .userId(registUser)
+                .franchise(franchise)
+                .build();
+
+        franchiseeRepository.save(franchisee);
+    }
+
+    public User join(UserRegisterDto userRegisterDto, Principal principal, Role role) {
 
         String headquarterEmail = principal.getName();
         User headquarter = userRepository.findByEmail(headquarterEmail)
@@ -53,8 +94,10 @@ public class UserServiceImpl implements UserService {
         user.setParentId(headquarter);
         // 본사 ID
         user.setHeadquarterId(headquarter.getHeadquarterId());
-
+        user.setUserType(role);
         userRepository.save(user);
+
+        return user;
     }
 
     // 사용자 정보 조회
@@ -114,6 +157,7 @@ public class UserServiceImpl implements UserService {
         Page<UserInfoDto> result =  users.map(UserInfoDto::new);
         return result;
     }
+
 
     // 가입하려는 email이 이미 존재하는 이메일인지 확인
     public void checkEmailDuplication(String email){

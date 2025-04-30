@@ -20,6 +20,13 @@ public class CategoryController {
     private final CategoryService categoryService;
 
     @Operation(summary = "카테고리 전체 조회")
+    @GetMapping
+    public ResponseEntity<List<CategoryResponseDto>> getAllCategories() {
+        List<CategoryResponseDto> categories = categoryService.getAllCategories();
+        return ResponseEntity.ok(categories);
+    }
+
+    @Operation(summary = "카테고리의 메뉴 조회")
     @GetMapping("/{categoryId}/menus")
     public ResponseEntity<List<MenuResponseDto>> getMenusByCategory(@PathVariable Long categoryId) {
         List<MenuResponseDto> menus = categoryService.getMenusByCategory(categoryId);
@@ -32,4 +39,22 @@ public class CategoryController {
         CategoryResponseDto responseDto = categoryService.createCategory(requestDto);
         return ResponseEntity.ok(responseDto);
     }
+
+    @Operation(summary = "카테고리 수정")
+    @PutMapping("/{categoryId}")
+    public ResponseEntity<CategoryResponseDto> updateCategory(
+            @PathVariable Long categoryId,
+            @RequestBody CategoryRequestDto requestDto
+    ) {
+        CategoryResponseDto responseDto = categoryService.updateCategory(categoryId, requestDto);
+        return ResponseEntity.ok(responseDto);
+    }
+
+    @Operation(summary = "카테고리 삭제")
+    @DeleteMapping("/{categoryId}")
+    public ResponseEntity<Void> deleteCategory(@PathVariable Long categoryId) {
+        categoryService.deleteCategory(categoryId);
+        return ResponseEntity.noContent().build();
+    }
+
 }

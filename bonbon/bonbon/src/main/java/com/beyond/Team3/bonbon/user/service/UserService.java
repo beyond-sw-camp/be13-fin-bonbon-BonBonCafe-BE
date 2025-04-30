@@ -1,18 +1,14 @@
 package com.beyond.Team3.bonbon.user.service;
 
-import com.beyond.Team3.bonbon.auth.dto.JwtToken;
+import com.beyond.Team3.bonbon.common.enums.Role;
 import com.beyond.Team3.bonbon.user.dto.FranchiseeRegisterDto;
 import com.beyond.Team3.bonbon.user.dto.ManagerRegisterDto;
 import com.beyond.Team3.bonbon.user.dto.PasswordModifyDto;
 import com.beyond.Team3.bonbon.user.dto.UserInfoDto;
 import com.beyond.Team3.bonbon.user.dto.UserModifyDto;
-import com.beyond.Team3.bonbon.user.dto.UserRegisterDto;
-import com.beyond.Team3.bonbon.user.entity.User;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 
 import java.security.Principal;
-import java.util.List;
 
 public interface UserService {
 
@@ -26,5 +22,11 @@ public interface UserService {
 
     void update(Principal principal, UserModifyDto userModifyDto);
 
-    Page<UserInfoDto> getAccounts(int page, int size, Principal principal);
+    void registUserUpdate(Long userId, UserModifyDto userModifyDto, Principal principal);
+
+    void deleteUser(Long userId, Principal principal);
+
+    UserInfoDto getAccountDetail(Long userId, Principal principal);
+
+    Page<UserInfoDto> getAccountsByRole(int page, int size, Role role, Principal principal);
 }

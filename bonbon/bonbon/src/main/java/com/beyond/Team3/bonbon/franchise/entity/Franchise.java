@@ -1,6 +1,7 @@
 package com.beyond.Team3.bonbon.franchise.entity;
 
 import com.beyond.Team3.bonbon.headquarter.entity.Headquarter;
+import com.beyond.Team3.bonbon.region.Region;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -28,16 +29,14 @@ public class Franchise {
     private Long franchiseId;
 
     @ManyToOne
-    @JoinColumn(name = "manager_id")
-    private Manager managerId;
+    @JoinColumn(name = "region_code")
+    private Region regionCode;
 
     @ManyToOne
     @JoinColumn(name = "headquarter_id")
     private Headquarter headquarterId;
 
     private String name;
-
-    private String region;
 
     private String franchiseTel;
 

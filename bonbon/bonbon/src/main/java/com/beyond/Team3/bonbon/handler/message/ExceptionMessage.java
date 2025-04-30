@@ -17,7 +17,9 @@ public enum ExceptionMessage {
 
     INVALID_PAGE_PARAMETER("유효한 값이 아닙니다.",  HttpStatus.BAD_REQUEST),
 
-    FRANCHISE_NOT_FOUND("해당 가맹점을 찾을 수 없습니다.", HttpStatus.NOT_FOUND ),;
+    FRANCHISE_NOT_FOUND("해당 가맹점을 찾을 수 없습니다.", HttpStatus.NOT_FOUND ),
+
+    UNAUTHORIZED_ACCOUNT_ACCESS("계정에 대한 수정 권한이 없습니다.", HttpStatus.UNAUTHORIZED),;
 
     private final String message;
     private final HttpStatus status;

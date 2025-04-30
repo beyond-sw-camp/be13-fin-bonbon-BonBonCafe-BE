@@ -2,12 +2,12 @@ package com.beyond.Team3.bonbon.menu.dto;
 
 import com.beyond.Team3.bonbon.common.enums.MenuStatus;
 import com.beyond.Team3.bonbon.menu.entity.Menu;
+import com.beyond.Team3.bonbon.menuDetail.dto.MenuDetailResponseDto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -25,10 +25,15 @@ public class MenuResponseDto {
     private LocalDateTime createTime;
     private LocalDateTime modifyAt;
     private List<Long> categoryIds;
+    private List<MenuDetailResponseDto> menuDetails;
 
     public static MenuResponseDto from(Menu menu) {
         List<Long> categoryIds = menu.getCategories().stream()
                 .map(mc -> mc.getCategory().getCategoryId())
+                .toList();
+
+        List<MenuDetailResponseDto> detailDtos = menu.getDetails().stream()
+                .map(MenuDetailResponseDto::from)
                 .toList();
 
         return new MenuResponseDto(
@@ -41,7 +46,8 @@ public class MenuResponseDto {
                 menu.getStatus(),
                 menu.getCreatedAt(),
                 menu.getModifiedAt(),
-                menu.getCategories() != null ? categoryIds : new ArrayList<>()
+                categoryIds,
+                detailDtos
         );
     }
 }

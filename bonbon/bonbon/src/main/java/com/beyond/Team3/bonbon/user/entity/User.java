@@ -22,6 +22,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -52,6 +53,10 @@ public class User {
     @Enumerated(EnumType.STRING)
     private AccountStatus status;
 
+    private LocalDateTime deletedAt;
+
+    private String userImage;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "parent_id", nullable = true)
     private User parentId;
@@ -66,5 +71,6 @@ public class User {
     public void userInfoUpdate(UserModifyDto userModifyDto){
         this.name = userModifyDto.getName();
         this.phone = userModifyDto.getPhone();
+//        this.status = userModifyDto.getStatus();
     }
 }

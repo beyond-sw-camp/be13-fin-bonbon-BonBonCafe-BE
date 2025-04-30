@@ -13,6 +13,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @Tag(name = "메뉴", description = "메뉴")
 @RestController
 @RequiredArgsConstructor
@@ -28,6 +30,16 @@ public class MenuController {
     ) {
         Page<MenuResponseDto> menuResponseDto = menuService.getAllMenu(pageable, headquarterId, search);
         return ResponseEntity.ok(menuResponseDto);
+    }
+
+    @Operation(summary = "본사가 본인들의 카테고리로 메뉴 확인")
+    @GetMapping("/headquarters/{headquarterId}/categories/{categoryId}/menus")
+    public ResponseEntity<List<MenuResponseDto>> getMenusByCategoryInHeadquarter(
+            @PathVariable Long headquarterId,
+            @PathVariable Long categoryId
+    ) {
+        List<MenuResponseDto> menus = menuService.getMenusByCategoryAndHeadquarter(categoryId, headquarterId);
+        return ResponseEntity.ok(menus);
     }
 
     @Operation(summary = "메뉴 단일 조회", description = "본사 번호 입력")

@@ -7,6 +7,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @NoArgsConstructor
@@ -22,8 +24,13 @@ public class MenuResponseDto {
     private MenuStatus status;
     private LocalDateTime createTime;
     private LocalDateTime modifyAt;
+    private List<Long> categoryIds;
 
     public static MenuResponseDto from(Menu menu) {
+        List<Long> categoryIds = menu.getCategories().stream()
+                .map(mc -> mc.getCategory().getCategoryId())
+                .toList();
+
         return new MenuResponseDto(
                 menu.getMenuId(),
                 menu.getHeadquarter().getHeadquarterId(),
@@ -33,7 +40,8 @@ public class MenuResponseDto {
                 menu.getPrice(),
                 menu.getStatus(),
                 menu.getCreatedAt(),
-                menu.getModifiedAt()
+                menu.getModifiedAt(),
+                menu.getCategories() != null ? categoryIds : new ArrayList<>()
         );
     }
 }

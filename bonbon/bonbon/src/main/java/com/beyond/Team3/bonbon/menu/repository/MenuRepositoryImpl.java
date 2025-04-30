@@ -2,6 +2,7 @@ package com.beyond.Team3.bonbon.menu.repository;
 
 import com.beyond.Team3.bonbon.menu.entity.Menu;
 import com.beyond.Team3.bonbon.menu.entity.QMenu;
+import com.beyond.Team3.bonbon.menuCategory.entity.QMenuCategory;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -40,5 +41,19 @@ public class MenuRepositoryImpl implements MenuRepositoryCustom {
         return new PageImpl<>(content, pageable, total);
     }
 
+    @Override
+    public List<Menu> findMenusByCategoryAndHeadquarter(Long categoryId, Long headquarterId) {
+        QMenu menu = QMenu.menu;
+        QMenuCategory menuCategory = QMenuCategory.menuCategory;
 
+        return queryFactory
+                .select(menu)
+                .from(menuCategory)
+                .join(menuCategory.menu, menu)
+                .where(
+                        menuCategory.category.categoryId.eq(categoryId),
+                        menu.headquarter.headquarterId.eq(headquarterId)
+                )
+                .fetch();
+    }
 }

@@ -15,6 +15,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 @RequiredArgsConstructor
 public class MenuService {
@@ -72,6 +75,15 @@ public class MenuService {
     public void deleteMenu(Long menuId, Long headquarterId) {
         findMenuWithHeadquarterValidation(menuId, headquarterId);
         menuRepository.deleteById(menuId);
+    }
+
+    @Transactional(readOnly = true)
+    public List<MenuResponseDto> getMenusByCategoryAndHeadquarter(Long categoryId, Long headquarterId) {
+        List<Menu> menus = menuRepository.findMenusByCategoryAndHeadquarter(categoryId, headquarterId);
+
+        return menus.stream()
+                .map(MenuResponseDto::from)
+                .collect(Collectors.toList());
     }
 
     /**

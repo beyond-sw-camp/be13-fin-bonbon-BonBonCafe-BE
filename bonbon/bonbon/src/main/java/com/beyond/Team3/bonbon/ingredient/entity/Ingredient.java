@@ -1,16 +1,17 @@
 package com.beyond.Team3.bonbon.ingredient.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import com.beyond.Team3.bonbon.menuDetail.entity.MenuDetail;
+import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
+@Getter
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -29,4 +30,6 @@ public class Ingredient {
 
     private BigDecimal retailPrice;
 
+    @OneToMany(mappedBy = "ingredient")
+    private List<MenuDetail> details = new ArrayList<>();
 }

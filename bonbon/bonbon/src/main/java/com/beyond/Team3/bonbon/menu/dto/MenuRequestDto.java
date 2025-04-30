@@ -1,6 +1,7 @@
 package com.beyond.Team3.bonbon.menu.dto;
 
 import com.beyond.Team3.bonbon.common.enums.MenuStatus;
+import com.beyond.Team3.bonbon.menuDetail.dto.MenuDetailRequestDto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -22,4 +23,5 @@ public class MenuRequestDto {
 
     private List<Long> categoryIds;
 
+    private List<MenuDetailRequestDto> menuDetails;
 }

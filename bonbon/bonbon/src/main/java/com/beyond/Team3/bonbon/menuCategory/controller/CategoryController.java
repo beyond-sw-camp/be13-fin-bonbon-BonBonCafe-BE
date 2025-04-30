@@ -33,14 +33,14 @@ public class CategoryController {
         return ResponseEntity.ok(menus);
     }
 
-    @Operation(summary = "카테고리 등록")
+    @Operation(summary = "카테고리 등록 - sql문 더미")
     @PostMapping
     public ResponseEntity<CategoryResponseDto> createCategory(@RequestBody CategoryRequestDto requestDto) {
         CategoryResponseDto responseDto = categoryService.createCategory(requestDto);
         return ResponseEntity.ok(responseDto);
     }
 
-    @Operation(summary = "카테고리 수정")
+    @Operation(summary = "카테고리 수정 - sql문")
     @PutMapping("/{categoryId}")
     public ResponseEntity<CategoryResponseDto> updateCategory(
             @PathVariable Long categoryId,
@@ -50,7 +50,7 @@ public class CategoryController {
         return ResponseEntity.ok(responseDto);
     }
 
-    @Operation(summary = "카테고리 삭제")
+    @Operation(summary = "카테고리 삭제 - sql문")
     @DeleteMapping("/{categoryId}")
     public ResponseEntity<Void> deleteCategory(@PathVariable Long categoryId) {
         categoryService.deleteCategory(categoryId);

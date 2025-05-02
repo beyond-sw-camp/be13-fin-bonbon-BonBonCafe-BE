@@ -10,9 +10,11 @@ import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.NoArgsConstructor;
 
 @Entity
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "franchisee")
@@ -25,5 +27,9 @@ public class Franchisee {
     @OneToOne
     @JoinColumn(name = "user_id")
     private User userId;
+
+    @OneToOne
+    @JoinColumn(name = "franchise_id")
+    private Franchise franchise;
 }
 

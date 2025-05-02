@@ -1,6 +1,7 @@
 package com.beyond.Team3.bonbon.franchise.entity;
 
 import com.beyond.Team3.bonbon.headquarter.entity.Headquarter;
+import com.beyond.Team3.bonbon.region.Region;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -11,11 +12,13 @@ import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 
 @Entity
+@Getter
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "franchise")
@@ -26,20 +29,14 @@ public class Franchise {
     private Long franchiseId;
 
     @ManyToOne
-    @JoinColumn(name = "manager_id")
-    private Manager managerId;
-
-    @OneToOne
-    @JoinColumn(name = "franchisee_id")
-    private Franchisee franchiseeId;
+    @JoinColumn(name = "region_code")
+    private Region regionCode;
 
     @ManyToOne
     @JoinColumn(name = "headquarter_id")
     private Headquarter headquarterId;
 
     private String name;
-
-    private String region;
 
     private String franchiseTel;
 

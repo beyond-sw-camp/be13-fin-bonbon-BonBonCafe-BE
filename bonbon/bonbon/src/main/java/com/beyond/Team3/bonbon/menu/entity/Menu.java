@@ -3,21 +3,19 @@ package com.beyond.Team3.bonbon.menu.entity;
 import com.beyond.Team3.bonbon.common.base.EntityDate;
 import com.beyond.Team3.bonbon.common.enums.MenuStatus;
 import com.beyond.Team3.bonbon.headquarter.entity.Headquarter;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
+import com.beyond.Team3.bonbon.menu.dto.MenuRequestDto;
+import com.beyond.Team3.bonbon.menuCategory.entity.MenuCategory;
+import com.beyond.Team3.bonbon.menuDetail.entity.MenuDetail;
+import jakarta.persistence.*;
+import lombok.*;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
+import java.util.ArrayList;
+import java.util.List;
+
+@Builder
+@Getter
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -30,13 +28,16 @@ public class Menu extends EntityDate {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "headquarter_id")
-    private Headquarter headquarterId;
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    private Headquarter headquarter;
 
+    @Column(name = "menu_image", nullable = false) //ProductThumbnail 클래스 생성하기
     private String menuImage;
 
+    @Column(nullable = false)
     private String name;
 
-    private String decription;
+    private String description;
 
     @Column(nullable = false)
     private int price;
@@ -44,4 +45,42 @@ public class Menu extends EntityDate {
     @Enumerated(EnumType.STRING)
     private MenuStatus status = MenuStatus.ACTIVE;
 
+    @Builder.Default
+    @OneToMany(mappedBy = "menu", orphanRemoval = true, cascade = CascadeType.ALL)
+    private List<MenuCategory> categories = new ArrayList<>();
+
+    @Builder.Default
+    @OneToMany(mappedBy = "menu", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<MenuDetail> details = new ArrayList<>();
+
+    public static Menu createMenu(MenuRequestDto dto, Headquarter headquarter) {
+        return Menu.builder()
+                .headquarter(headquarter)
+                .menuImage(dto.getImage())
+                .name(dto.getName())
+                .description(dto.getDescription())
+                .price(dto.getPrice())
+                .status(dto.getStatus())
+                .build();
+    }
+
+    public void updateMenu(MenuRequestDto dto) {
+        this.menuImage = dto.getImage();
+        this.name = dto.getName();
+        this.description = dto.getDescription();
+        this.price = dto.getPrice();
+        this.status = dto.getStatus();
+    }
+
+    public boolean hasSameHeadquarter(Long headquarterId) {
+        return this.headquarter != null && this.headquarter.getHeadquarterId().equals(headquarterId);
+    }
+
+    public void addCategory(MenuCategory menuCategory) {
+        this.categories.add(menuCategory);
+    }
+
+    public void addDetail(MenuDetail detail) {
+        this.details.add(detail);
+    }
 }

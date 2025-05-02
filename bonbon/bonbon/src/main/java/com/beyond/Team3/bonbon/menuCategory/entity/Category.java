@@ -1,15 +1,13 @@
 package com.beyond.Team3.bonbon.menuCategory.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
+import jakarta.persistence.*;
+import lombok.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
+@Builder
+@Getter
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -22,4 +20,20 @@ public class Category {
 
     @Column(nullable = false)
     private String category;
+
+    @OneToMany(mappedBy = "category", orphanRemoval = true, cascade = CascadeType.ALL)
+    private List<MenuCategory> menuCategories = new ArrayList<>();
+
+    public static Category createCategory(String categoryName) {
+        return new Category(categoryName);
+    }
+
+    public Category(String categoryName) {
+        this.category = categoryName;
+    }
+
+    public void updateCategory(String categoryName) {
+        this.category = categoryName;
+    }
+
 }

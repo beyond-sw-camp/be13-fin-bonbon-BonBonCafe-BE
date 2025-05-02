@@ -1,8 +1,6 @@
 package com.beyond.Team3.bonbon.user.dto;
 
-import com.beyond.Team3.bonbon.region.Region;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import com.beyond.Team3.bonbon.region.entity.Region;
 import lombok.Getter;
 import lombok.Setter;
 

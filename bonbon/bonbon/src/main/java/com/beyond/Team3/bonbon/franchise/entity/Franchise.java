@@ -1,14 +1,16 @@
 package com.beyond.Team3.bonbon.franchise.entity;
 
+import com.beyond.Team3.bonbon.common.enums.FranchiseStatus;
 import com.beyond.Team3.bonbon.headquarter.entity.Headquarter;
-import com.beyond.Team3.bonbon.region.Region;
+import com.beyond.Team3.bonbon.region.entity.Region;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -54,7 +56,8 @@ public class Franchise {
 
     private boolean parkingAvailability;    // 주차 가능 여부
 
-    private String status;          // 운영 상태 - 폐점 / 휴점 / 정상 운영
+    @Enumerated(EnumType.STRING)
+    private FranchiseStatus status;          // 운영 상태 - 폐점 / 휴점 / 정상 운영
 
     private String openHours;       // 운영 시간
 }

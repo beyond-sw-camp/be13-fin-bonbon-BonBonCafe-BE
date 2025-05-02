@@ -7,6 +7,9 @@ import com.beyond.Team3.bonbon.franchise.entity.Franchisee;
 import com.beyond.Team3.bonbon.franchise.entity.Manager;
 import com.beyond.Team3.bonbon.franchise.repository.FranchiseRepository;
 import com.beyond.Team3.bonbon.handler.exception.FranchiseException;
+import com.beyond.Team3.bonbon.region.repository.RegionRepository;
+import com.beyond.Team3.bonbon.user.dto.ManagerInfoDto;
+import com.beyond.Team3.bonbon.user.dto.UserInfoDto;
 import com.beyond.Team3.bonbon.user.repository.FranchiseeRepository;
 import com.beyond.Team3.bonbon.user.repository.ManagerRepository;
 import com.beyond.Team3.bonbon.handler.exception.PageException;
@@ -15,7 +18,7 @@ import com.beyond.Team3.bonbon.handler.message.ExceptionMessage;
 import com.beyond.Team3.bonbon.user.dto.FranchiseeRegisterDto;
 import com.beyond.Team3.bonbon.user.dto.ManagerRegisterDto;
 import com.beyond.Team3.bonbon.user.dto.PasswordModifyDto;
-import com.beyond.Team3.bonbon.user.dto.UserInfoDto;
+import com.beyond.Team3.bonbon.user.dto.UserInfo;
 import com.beyond.Team3.bonbon.user.dto.UserModifyDto;
 import com.beyond.Team3.bonbon.user.dto.UserRegisterDto;
 import com.beyond.Team3.bonbon.user.entity.User;
@@ -30,6 +33,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.security.Principal;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -42,6 +46,7 @@ public class UserServiceImpl implements UserService {
     private final ManagerRepository managerRepository;
     private final FranchiseeRepository franchiseeRepository;
     private final FranchiseRepository franchiseRepository;
+    private final RegionRepository regionRepository;
 
     // Manger 계정 생성
     @Override
@@ -107,9 +112,7 @@ public class UserServiceImpl implements UserService {
     public UserInfoDto getUser(Principal principal) {
 
         User user = getCurrentUser(principal);
-        UserInfoDto userInfoDto = new UserInfoDto(user);
-
-        return userInfoDto;
+        return new UserInfoDto(user);
     }
 
     // 비밀번호 변경
@@ -141,14 +144,7 @@ public class UserServiceImpl implements UserService {
     @Transactional
     public void registUserUpdate(Long userId, UserModifyDto userModifyDto, Principal principal) {
 
-        User headquarter = getCurrentUser(principal);
-
-        User user = userRepository.findById(userId)
-                .orElseThrow(() -> new UserException(ExceptionMessage.USER_NOT_FOUND));
-
-        if(!user.getHeadquarterId().equals(headquarter.getHeadquarterId())){
-            throw new UserException(ExceptionMessage.UNAUTHORIZED_ACCOUNT_ACCESS);
-        }
+        User user = checkAuthorization(userId, principal);
 
         user.userInfoUpdate(userModifyDto);
     }
@@ -168,24 +164,51 @@ public class UserServiceImpl implements UserService {
 
         // role 입력 -> 조회
         Page<User> users = userRepository.findByParentIdAndUserType(parent, role, pageable);
-        Page<UserInfoDto> result =  users.map(UserInfoDto::new);
-        return result;
+        return users.map(UserInfoDto::new);
+    }
+
+    @Override
+    @Transactional
+    public ManagerInfoDto getManagerDetail(Long userId, Principal principal) {
+        // 본사 확인 -> 접근 권한 있는지 확인
+        User user = checkAuthorization(userId, principal);
+
+        // 매니저인지 확인
+        if(!user.getUserType().equals(Role.MANAGER)){
+            throw new UserException(ExceptionMessage.INVALID_USER_ROLE);
+        }
+
+        // MangerInfoDto로 변환
+        ManagerInfoDto managerInfoDto = new ManagerInfoDto(user);
+
+        // manager 테이블에서 먼저 찾고
+        Manager manager = managerRepository.findByUserId(user)
+                .orElseThrow(() -> new UserException(ExceptionMessage.USER_NOT_FOUND));
+
+        managerInfoDto.setRegion(manager.getRegionCode().getRegion_name());
+
+        return managerInfoDto;
+    }
+
+    @Override
+    @Transactional
+    public ManagerInfoDto getFranchiseeDetail(Long userId, Principal principal) {
+        // 본사 확인 -> 접근 권한 있는지 확인
+        User user = checkAuthorization(userId, principal);
+
+        // 매니저인지 확인
+        if(!user.getUserType().equals(Role.FRANCHISEE)){
+            throw new UserException(ExceptionMessage.INVALID_USER_ROLE);
+        }
+        return null;
     }
 
     @Override
     @Transactional
     public void deleteUser(Long userId, Principal principal) {
-        // 본사 확인
-        User headquarter = getCurrentUser(principal);
 
         // 지우려는 사용자 확인
-        User user = userRepository.findById(userId)
-                .orElseThrow(() -> new UserException(ExceptionMessage.USER_NOT_FOUND));
-
-        // 사용자에 대한 권한이 일치하는지 확인
-        if(!user.getHeadquarterId().equals(headquarter.getHeadquarterId())){
-            throw new UserException(ExceptionMessage.UNAUTHORIZED_ACCOUNT_ACCESS);
-        }
+        User user = checkAuthorization(userId, principal);
 
         // 계정 상태 -> DELETED로 변경
         user.setStatus(AccountStatus.DELETED);
@@ -196,6 +219,14 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public UserInfoDto getAccountDetail(Long userId, Principal principal) {
+
+        User user = checkAuthorization(userId, principal);
+        return new UserInfoDto(user);
+    }
+
+    // 사용자가 headquarter인지 확인
+    private User checkAuthorization(Long userId, Principal principal) {
+
         User headquarter = getCurrentUser(principal);
 
         User user = userRepository.findById(userId)
@@ -205,10 +236,8 @@ public class UserServiceImpl implements UserService {
         if(!user.getHeadquarterId().equals(headquarter.getHeadquarterId())){
             throw new UserException(ExceptionMessage.UNAUTHORIZED_ACCOUNT_ACCESS);
         }
-
-        return new UserInfoDto(user);
+        return user;
     }
-
 
     // 가입하려는 email이 이미 존재하는 이메일인지 확인
     public void checkEmailDuplication(String email){
@@ -219,6 +248,7 @@ public class UserServiceImpl implements UserService {
         }
     }
 
+    // 현재 사용자 확인
     public User getCurrentUser(Principal principal) {
         String userEmail = principal.getName();
         return userRepository.findByEmail(userEmail)

@@ -31,6 +31,7 @@ public class ForecastDetail {
     private SalesForecast forecastId;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "menu_id")
     private Menu menuId;
 
     @Column(name = "product_count", nullable = false)

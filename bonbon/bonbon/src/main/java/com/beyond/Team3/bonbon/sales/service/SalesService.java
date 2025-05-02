@@ -7,5 +7,5 @@ import java.time.LocalDate;
 public interface SalesService {
 
     // 가맹점 일 매출 조회
-     DailySalesDto getDailySales(Long franchiseId, LocalDate salesDate);
+//     DailySalesDto getDailySales(Long franchiseId, LocalDate salesDate);
 }

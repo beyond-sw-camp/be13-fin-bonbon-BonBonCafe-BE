@@ -9,5 +9,5 @@ import java.util.List;
 
 public interface SalesDetailRepository extends JpaRepository<SalesDetail, Long> {
 
-    List<SalesDetail> findBySalesRecordAndSalesDate(SalesRecord salesRecord, LocalDate salesDate);
+//    List<SalesDetail> findBySalesRecordAndSalesDate(SalesRecord salesRecord, LocalDate salesDate);
 }

@@ -4,29 +4,23 @@ package com.beyond.Team3.bonbon.user.controller;
 import com.beyond.Team3.bonbon.auth.dto.JwtToken;
 import com.beyond.Team3.bonbon.auth.dto.UserLoginDto;
 import com.beyond.Team3.bonbon.auth.service.AuthService;
-import com.beyond.Team3.bonbon.auth.service.AuthServiceImpl;
 import com.beyond.Team3.bonbon.common.enums.Role;
 import com.beyond.Team3.bonbon.user.dto.FranchiseeRegisterDto;
+import com.beyond.Team3.bonbon.user.dto.ManagerInfoDto;
 import com.beyond.Team3.bonbon.user.dto.ManagerRegisterDto;
 import com.beyond.Team3.bonbon.user.dto.PasswordModifyDto;
+import com.beyond.Team3.bonbon.user.dto.UserInfo;
 import com.beyond.Team3.bonbon.user.dto.UserInfoDto;
 import com.beyond.Team3.bonbon.user.dto.UserModifyDto;
-import com.beyond.Team3.bonbon.user.dto.UserRegisterDto;
-import com.beyond.Team3.bonbon.user.entity.User;
 import com.beyond.Team3.bonbon.user.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.coyote.Request;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -121,12 +115,36 @@ public class UserController {
         return ResponseEntity.ok(accounts.getContent());
     }
 
+    @GetMapping("/mamager/{userId}")
+    @PreAuthorize("hasRole('ROLE_HEADQUARTER')")
+    @Operation(summary = "등록한 MANAGER 계정 단일 조회", description = "Headquarter에서 등록한 MANAGER 계정 정보를 확인한다.")
+    public ResponseEntity<ManagerInfoDto> managerAccountDetail(
+            @PathVariable("userId") Long userId,
+            Principal principal){
+
+        ManagerInfoDto managerDetail = userService.getManagerDetail(userId, principal);
+
+        return ResponseEntity.ok(managerDetail);
+    }
+
+    @GetMapping("/franchisee/{userId}")
+    @PreAuthorize("hasRole('ROLE_HEADQUARTER')")
+    @Operation(summary = "등록한 FRANCHISEE 계정 단일 조회", description = "Headquarter에서 등록한 FRANCHISEE 계정 정보를 확인한다.")
+    public ResponseEntity<ManagerInfoDto> franchiseeAccountDetail(
+            @PathVariable("userId") Long userId,
+            Principal principal){
+
+        ManagerInfoDto managerDetail = userService.getFranchiseeDetail(userId, principal);
+
+        return ResponseEntity.ok(managerDetail);
+    }
+
     @GetMapping("/")
     @Operation(summary = "계정 정보 조회", description = "인증이 완료된 회원 개인의 정보를 조회한다.")
-    public ResponseEntity<UserInfoDto> userInfo(Principal principal) {
+    public ResponseEntity<UserInfo> userInfo(Principal principal) {
 
         // 토큰이 유효하다면 해당 토큰에서 사용자를 추출
-        UserInfoDto userInfo = userService.getUser(principal);
+        UserInfo userInfo = userService.getUser(principal);
 
         return ResponseEntity.ok(userInfo);
     }
@@ -166,11 +184,11 @@ public class UserController {
     @GetMapping("/accounts/{userId}")
     @PreAuthorize("hasRole('ROLE_HEADQUARTER')")
     @Operation(summary = "등록한 특정 계정 조회", description = "Headquarter에서 등록한 단일 계정 정보를 조회한다.")
-    public ResponseEntity<UserInfoDto> accountsDetails(
+    public ResponseEntity<UserInfo> accountsDetails(
             @PathVariable("userId") Long userId,
             Principal principal) {
 
-        UserInfoDto userInfoDto = userService.getAccountDetail(userId, principal);
+        UserInfo userInfoDto = userService.getAccountDetail(userId, principal);
 
         return ResponseEntity.ok(userInfoDto);
     }

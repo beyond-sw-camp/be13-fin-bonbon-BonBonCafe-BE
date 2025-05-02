@@ -20,18 +20,18 @@ import java.time.LocalDate;
 public class SalesController {
 
     private final SalesService salesService;
-
-    @GetMapping("sales/{franchiseId}")
-    @Operation(summary = "가맹점 일 매출 조회", description = "가맹점별 일 매출을 조회한다.")
-    public ResponseEntity<DailySalesDto> getDailySales(
-            @PathVariable("franchiseId") Long franchiseId,
-            @RequestParam("salesDate")
-            @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
-            LocalDate salesDate
-    ) {
-        DailySalesDto dailySales = salesService.getDailySales(franchiseId, salesDate);
-        return  ResponseEntity.ok(dailySales);
-    }
+//
+//    @GetMapping("sales/{franchiseId}")
+//    @Operation(summary = "가맹점 일 매출 조회", description = "가맹점별 일 매출을 조회한다.")
+//    public ResponseEntity<DailySalesDto> getDailySales(
+//            @PathVariable("franchiseId") Long franchiseId,
+//            @RequestParam("salesDate")
+//            @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+//            LocalDate salesDate
+//    ) {
+//        DailySalesDto dailySales = salesService.getDailySales(franchiseId, salesDate);
+//        return  ResponseEntity.ok(dailySales);
+//    }
 
 
 

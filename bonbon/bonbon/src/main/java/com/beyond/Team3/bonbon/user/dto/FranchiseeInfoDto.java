@@ -6,9 +6,11 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class UserInfoDto extends UserInfo{
+public class FranchiseeInfoDto extends UserInfo {
 
-    public UserInfoDto(User user) {
+
+
+    public FranchiseeInfoDto(User user) {
         super(user);
     }
 }

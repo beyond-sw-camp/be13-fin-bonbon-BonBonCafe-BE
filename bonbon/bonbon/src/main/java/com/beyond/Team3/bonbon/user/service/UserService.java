@@ -2,8 +2,10 @@ package com.beyond.Team3.bonbon.user.service;
 
 import com.beyond.Team3.bonbon.common.enums.Role;
 import com.beyond.Team3.bonbon.user.dto.FranchiseeRegisterDto;
+import com.beyond.Team3.bonbon.user.dto.ManagerInfoDto;
 import com.beyond.Team3.bonbon.user.dto.ManagerRegisterDto;
 import com.beyond.Team3.bonbon.user.dto.PasswordModifyDto;
+import com.beyond.Team3.bonbon.user.dto.UserInfo;
 import com.beyond.Team3.bonbon.user.dto.UserInfoDto;
 import com.beyond.Team3.bonbon.user.dto.UserModifyDto;
 import org.springframework.data.domain.Page;
@@ -16,7 +18,7 @@ public interface UserService {
 
     void joinFranchisee(FranchiseeRegisterDto franchiseeRegisterDto, Principal principal);
 
-    UserInfoDto getUser(Principal principal);
+    UserInfo getUser(Principal principal);
 
     void modifyPassword(Principal principal, PasswordModifyDto passwordModifyDto);
 
@@ -26,7 +28,11 @@ public interface UserService {
 
     void deleteUser(Long userId, Principal principal);
 
-    UserInfoDto getAccountDetail(Long userId, Principal principal);
+    UserInfo getAccountDetail(Long userId, Principal principal);
 
     Page<UserInfoDto> getAccountsByRole(int page, int size, Role role, Principal principal);
+
+    ManagerInfoDto getManagerDetail(Long userId, Principal principal);
+
+    ManagerInfoDto getFranchiseeDetail(Long userId, Principal principal);
 }

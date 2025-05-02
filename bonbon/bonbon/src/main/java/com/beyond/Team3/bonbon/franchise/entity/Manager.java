@@ -1,8 +1,7 @@
 package com.beyond.Team3.bonbon.franchise.entity;
 
 
-import com.beyond.Team3.bonbon.headquarter.entity.Headquarter;
-import com.beyond.Team3.bonbon.region.Region;
+import com.beyond.Team3.bonbon.region.entity.Region;
 import com.beyond.Team3.bonbon.user.entity.User;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -15,8 +14,10 @@ import jakarta.persistence.Table;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+@Getter
 @Entity
 @Builder
 @AllArgsConstructor
@@ -34,6 +35,5 @@ public class Manager {
     @OneToOne
     @JoinColumn(name = "user_id")
     private User userId;
-
 
 }

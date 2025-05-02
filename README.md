@@ -33,7 +33,8 @@
 <details>
 <summary><strong>📌 ERD</strong></summary>
 
-- (작성 예정)
+- 링크 : [ERD](https://www.erdcloud.com/d/58wZNJdygPpztALBK)
+![Image](https://github.com/user-attachments/assets/98309944-4798-45b6-9d0a-58ad90039bf6)
 
 </details>
 

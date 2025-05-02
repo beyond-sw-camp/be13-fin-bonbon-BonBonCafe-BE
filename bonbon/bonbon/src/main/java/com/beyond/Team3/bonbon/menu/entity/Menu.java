@@ -5,6 +5,7 @@ import com.beyond.Team3.bonbon.common.enums.MenuStatus;
 import com.beyond.Team3.bonbon.headquarter.entity.Headquarter;
 import com.beyond.Team3.bonbon.menu.dto.MenuRequestDto;
 import com.beyond.Team3.bonbon.menuCategory.entity.MenuCategory;
+import com.beyond.Team3.bonbon.menuDetail.entity.MenuDetail;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.OnDelete;
@@ -48,6 +49,10 @@ public class Menu extends EntityDate {
     @OneToMany(mappedBy = "menu", orphanRemoval = true, cascade = CascadeType.ALL)
     private List<MenuCategory> categories = new ArrayList<>();
 
+    @Builder.Default
+    @OneToMany(mappedBy = "menu", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<MenuDetail> details = new ArrayList<>();
+
     public static Menu createMenu(MenuRequestDto dto, Headquarter headquarter) {
         return Menu.builder()
                 .headquarter(headquarter)
@@ -73,5 +78,9 @@ public class Menu extends EntityDate {
 
     public void addCategory(MenuCategory menuCategory) {
         this.categories.add(menuCategory);
+    }
+
+    public void addDetail(MenuDetail detail) {
+        this.details.add(detail);
     }
 }

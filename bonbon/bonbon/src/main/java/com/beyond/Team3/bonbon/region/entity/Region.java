@@ -10,17 +10,19 @@ import jakarta.persistence.Id;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import lombok.ToString;
 
 @Getter
 @Entity
+@ToString
 @AllArgsConstructor
 @RequiredArgsConstructor
 public class Region {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int region_code;
+    private int regionCode;
 
     @Enumerated(EnumType.STRING)
-    private RegionName region_name;
+    private RegionName regionName;
 }

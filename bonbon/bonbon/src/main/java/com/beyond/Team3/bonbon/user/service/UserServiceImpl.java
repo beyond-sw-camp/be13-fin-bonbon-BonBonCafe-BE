@@ -185,7 +185,7 @@ public class UserServiceImpl implements UserService {
         Manager manager = managerRepository.findByUserId(user)
                 .orElseThrow(() -> new UserException(ExceptionMessage.USER_NOT_FOUND));
 
-        managerInfoDto.setRegion(manager.getRegionCode().getRegion_name());
+        managerInfoDto.setRegion(manager.getRegionCode().getRegionName());
 
         return managerInfoDto;
     }

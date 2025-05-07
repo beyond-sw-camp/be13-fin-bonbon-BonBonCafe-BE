@@ -1,6 +1,7 @@
 package com.beyond.Team3.bonbon.headquarter.entity;
 
 
+
 import com.beyond.Team3.bonbon.common.base.EntityDate;
 import com.beyond.Team3.bonbon.headquarter.dto.HeadquarterRequestDto;
 import com.beyond.Team3.bonbon.headquaterStock.entity.HeadquarterStock;
@@ -8,7 +9,6 @@ import com.beyond.Team3.bonbon.notice.entity.Notice;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.DynamicUpdate;
-
 import java.util.ArrayList;
 import java.util.List;
 

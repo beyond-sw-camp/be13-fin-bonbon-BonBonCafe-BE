@@ -85,7 +85,7 @@ public class SalesRecordRepositoryImpl implements SalesRecordRepositoryCustom{
 
     // 헬퍼 메소드
     private BooleanExpression regionEq(Integer regionCode) {
-        return regionCode != null ? salesRecord.franchise.regionCode.region_code.eq(regionCode) : null;
+        return regionCode != null ? salesRecord.franchise.regionCode.regionCode.eq(regionCode) : null;
     }
 
     private BooleanExpression yearEq(Integer year) {

@@ -18,12 +18,12 @@ import com.beyond.Team3.bonbon.handler.message.ExceptionMessage;
 import com.beyond.Team3.bonbon.user.dto.FranchiseeRegisterDto;
 import com.beyond.Team3.bonbon.user.dto.ManagerRegisterDto;
 import com.beyond.Team3.bonbon.user.dto.PasswordModifyDto;
-import com.beyond.Team3.bonbon.user.dto.UserInfo;
 import com.beyond.Team3.bonbon.user.dto.UserModifyDto;
 import com.beyond.Team3.bonbon.user.dto.UserRegisterDto;
 import com.beyond.Team3.bonbon.user.entity.User;
 import com.beyond.Team3.bonbon.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -33,9 +33,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.security.Principal;
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.Optional;
 
+@Slf4j
 @Service
 @Transactional
 @RequiredArgsConstructor
@@ -60,53 +60,43 @@ public class UserServiceImpl implements UserService {
                 .userId(registUser)
                 .regionCode(managerRegisterDto.getRegionCode())
                 .build();
-
         managerRepository.save(manager);
     }
 
+    // 가맹점주 등록
     @Override
     @Transactional
     public void joinFranchisee(FranchiseeRegisterDto franchiseeRegisterDto, Principal principal) {
 
         User registUser = join(franchiseeRegisterDto, principal, Role.FRANCHISEE);
 
-        Franchise franchise = franchiseRepository.findById(franchiseeRegisterDto.getFranchiseId())
-                .orElseThrow(() -> new FranchiseException(ExceptionMessage.FRANCHISE_NOT_FOUND));
+        // 가맹점 등록까지 같이 하는 경우
+        if(franchiseeRegisterDto.getFranchiseId() != null){
 
-        Franchisee franchisee = Franchisee.builder()
-                .userId(registUser)
-                .franchise(franchise)
-                .build();
+            // 가맹점 ID 유효성 확인
+            Franchise franchise = franchiseRepository.findById(franchiseeRegisterDto.getFranchiseId())
+                    .orElseThrow(() -> new FranchiseException(ExceptionMessage.FRANCHISE_NOT_FOUND));
 
-        franchiseeRepository.save(franchisee);
-    }
+            Franchisee franchisee = Franchisee.builder()
+                    .userId(registUser)
+                    .franchise(franchise)
+                    .build();
+            franchiseeRepository.save(franchisee);
 
-    public User join(UserRegisterDto userRegisterDto, Principal principal, Role role) {
-
-        User headquarter = getCurrentUser(principal);
-
-        // email 중복 확인
-        checkEmailDuplication(userRegisterDto.getEmail());
-
-        // 비밀번호, 비밀번호 확인 일치
-        if (!userRegisterDto.passwordMatching()) {
-            throw new UserException(ExceptionMessage.PASSWORD_NOT_MATCH);
+        } else {
+            // 가맹점 등록 없이 가맹점주만 등록하는 경우
+            Franchisee franchisee = Franchisee.builder()
+                    .userId(registUser)
+                    .franchise(null)
+                    .build();
+            franchiseeRepository.save(franchisee);
         }
-
-        // 사용자 생성, 비밀번호 encoding
-        User user = userRegisterDto.toEntity();
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
-        // 계정 생성자 ID
-        user.setParentId(headquarter);
-        // 본사 ID
-        user.setHeadquarterId(headquarter.getHeadquarterId());
-        user.setUserType(role);
-        userRepository.save(user);
-
-        return user;
     }
 
-    // 사용자 정보 조회
+    // 가맹점주
+
+
+    // 현재 로그인한 사용자 본인 정보 조회
     @Override
     @Transactional
     public UserInfoDto getUser(Principal principal) {
@@ -132,7 +122,7 @@ public class UserServiceImpl implements UserService {
         user.setPassword(passwordEncoder.encode(passwordModifyDto.getNewPassword()));
     }
 
-    // 사용자 정보 업데이트
+    // 사용자 본인 정보 업데이트
     @Override
     @Transactional
     public void update(Principal principal, UserModifyDto userModifyDto) {
@@ -140,6 +130,7 @@ public class UserServiceImpl implements UserService {
         user.userInfoUpdate(userModifyDto);
     }
 
+    // 본사에서 등록 사용자 정보 수정
     @Override
     @Transactional
     public void registUserUpdate(Long userId, UserModifyDto userModifyDto, Principal principal) {
@@ -167,6 +158,7 @@ public class UserServiceImpl implements UserService {
         return users.map(UserInfoDto::new);
     }
 
+    // 특정 매니저 계정 정보 확인
     @Override
     @Transactional
     public ManagerInfoDto getManagerDetail(Long userId, Principal principal) {
@@ -190,6 +182,7 @@ public class UserServiceImpl implements UserService {
         return managerInfoDto;
     }
 
+    // 특정 가맹점주 정보 조회
     @Override
     @Transactional
     public ManagerInfoDto getFranchiseeDetail(Long userId, Principal principal) {
@@ -205,10 +198,31 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public void deleteUser(Long userId, Principal principal) {
+    public void deleteFranchisee(Long userId, Principal principal) {
 
         // 지우려는 사용자 확인
-        User user = checkAuthorization(userId, principal);
+        User deleteUser = checkAuthorization(userId, principal);
+
+        // Franchisee 테이블에서 데이터 먼저 삭제 후 Account 삭제
+        franchiseeRepository.deleteByUserId(deleteUser);
+
+        // 사용자 계정 삭제 스케줄링
+        deleteUser(deleteUser);
+    }
+
+    @Override
+    @Transactional
+    public void deleteManager(Long userId, Principal principal) {
+        // 지우려는 사용자 확인
+        User deleteUser = checkAuthorization(userId, principal);
+
+        managerRepository.deleteByUserId(deleteUser);
+
+        deleteUser(deleteUser);
+    }
+
+    // 사용자 계정 삭제
+    public void deleteUser(User user) {
 
         // 계정 상태 -> DELETED로 변경
         user.setStatus(AccountStatus.DELETED);
@@ -216,6 +230,7 @@ public class UserServiceImpl implements UserService {
         user.setDeletedAt(LocalDateTime.now().plusDays(3));
     }
 
+    // 사용자 정보 조회
     @Override
     @Transactional
     public UserInfoDto getAccountDetail(Long userId, Principal principal) {
@@ -224,10 +239,15 @@ public class UserServiceImpl implements UserService {
         return new UserInfoDto(user);
     }
 
-    // 사용자가 headquarter인지 확인
+    // 사용자가 headquarter인지 확인 ->
     private User checkAuthorization(Long userId, Principal principal) {
 
         User headquarter = getCurrentUser(principal);
+
+        // 찾은 사용자 role이 Headquarter가 아니면 에러 던지기
+        if(!headquarter.getUserType().equals(Role.HEADQUARTER)){
+            throw new UserException(ExceptionMessage.UNAUTHORIZED_ACCOUNT_ACCESS);
+        }
 
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new UserException(ExceptionMessage.USER_NOT_FOUND));
@@ -253,5 +273,36 @@ public class UserServiceImpl implements UserService {
         String userEmail = principal.getName();
         return userRepository.findByEmail(userEmail)
                 .orElseThrow(() -> new UserException(ExceptionMessage.USER_NOT_FOUND));
+    }
+
+    // 사용자 게정 등록
+    public User join(UserRegisterDto userRegisterDto, Principal principal, Role role) {
+
+        // 본사 확인
+        User headquarter = getCurrentUser(principal);
+
+        if(!headquarter.getUserType().equals(Role.HEADQUARTER)){
+            throw new UserException(ExceptionMessage.INVALID_USER_ROLE);
+        }
+
+        // 등록하려는 email 중복 확인
+        checkEmailDuplication(userRegisterDto.getEmail());
+
+        // 비밀번호, 비밀번호 확인 일치
+        if (!userRegisterDto.passwordMatching()) {
+            throw new UserException(ExceptionMessage.PASSWORD_NOT_MATCH);
+        }
+
+        // 사용자 생성, 비밀번호 encoding
+        User user = userRegisterDto.toEntity();
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        // 계정 생성자 ID
+        user.setParentId(headquarter);
+        // 본사 ID
+        user.setHeadquarterId(headquarter.getHeadquarterId());
+        user.setUserType(role);
+        userRepository.save(user);
+
+        return user;
     }
 }

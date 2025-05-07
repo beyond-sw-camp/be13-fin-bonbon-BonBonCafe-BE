@@ -19,7 +19,7 @@ public class Category {
     private Long categoryId;
 
     @Column(nullable = false)
-    private String category;
+    private String categoryName;
 
     @OneToMany(mappedBy = "category", orphanRemoval = true, cascade = CascadeType.ALL)
     private List<MenuCategory> menuCategories = new ArrayList<>();
@@ -29,11 +29,11 @@ public class Category {
     }
 
     public Category(String categoryName) {
-        this.category = categoryName;
+        this.categoryName = categoryName;
     }
 
     public void updateCategory(String categoryName) {
-        this.category = categoryName;
+        this.categoryName = categoryName;
     }
 
 }

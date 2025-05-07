@@ -1,21 +1,15 @@
 package com.beyond.Team3.bonbon.headquaterStock.entity;
 
-import com.beyond.Team3.bonbon.ingredient.entity.Ingredient;
 import com.beyond.Team3.bonbon.headquarter.entity.Headquarter;
-import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
+import com.beyond.Team3.bonbon.headquaterStock.dto.HeadquarterStockRequestDto;
+import com.beyond.Team3.bonbon.ingredient.entity.Ingredient;
+import jakarta.persistence.*;
+import lombok.*;
 
 import java.math.BigDecimal;
 
+@Builder
+@Getter
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -30,10 +24,22 @@ public class HeadquarterStock {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "headquarter_id")
-    private Headquarter headquarterId;
+    private Headquarter headquarter;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ingredient_id")
-    private Ingredient ingredientId;
+    private Ingredient ingredient;
 
+    public static HeadquarterStock createHeadquarterStock(Headquarter headquarter, Ingredient ingredient, HeadquarterStockRequestDto dto) {
+        return HeadquarterStock.builder()
+                .quantity(dto.getQuantity())
+                .headquarter(headquarter)
+                .ingredient(ingredient)
+                .build();
+    }
+
+    public void updateStock(Ingredient ingredient, BigDecimal quantity) {
+        this.ingredient = ingredient;
+        this.quantity = quantity;
+    }
 }

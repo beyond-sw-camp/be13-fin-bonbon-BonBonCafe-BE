@@ -64,12 +64,19 @@ public class NoticeController {
         return ResponseEntity.ok(noticeResponseDto);
     }
 
-    @Operation
+    @Operation(summary = "게시글 삭제")
     @DeleteMapping("/notice/{noticeId}/{headquarterId}")
     public ResponseEntity<String> deleteNotice(
             @PathVariable Long noticeId,
             @PathVariable Long headquarterId) {
         noticeService.deleteNotice(noticeId, headquarterId);
         return ResponseEntity.status(HttpStatus.OK).body("게시글이 삭제되었습니다.");
+    }
+
+    @Operation(summary = "문자 일괄 전송")
+    @PostMapping("/notices/{noticeId}/send-sms")
+    public ResponseEntity<Void> sendSmsNotice(@PathVariable Long noticeId) {
+        noticeService.sendSmsToFranchises(noticeId);
+        return ResponseEntity.ok().build();
     }
 }

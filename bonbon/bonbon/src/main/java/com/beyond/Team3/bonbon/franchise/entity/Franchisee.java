@@ -29,7 +29,7 @@ public class Franchisee {
     private User userId;
 
     @OneToOne
-    @JoinColumn(name = "franchise_id")
+    @JoinColumn(name = "franchise_id", nullable = true)
     private Franchise franchise;
 }
 

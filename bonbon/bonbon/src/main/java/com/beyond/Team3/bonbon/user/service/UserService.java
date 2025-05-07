@@ -26,8 +26,6 @@ public interface UserService {
 
     void registUserUpdate(Long userId, UserModifyDto userModifyDto, Principal principal);
 
-    void deleteUser(Long userId, Principal principal);
-
     UserInfo getAccountDetail(Long userId, Principal principal);
 
     Page<UserInfoDto> getAccountsByRole(int page, int size, Role role, Principal principal);
@@ -35,4 +33,8 @@ public interface UserService {
     ManagerInfoDto getManagerDetail(Long userId, Principal principal);
 
     ManagerInfoDto getFranchiseeDetail(Long userId, Principal principal);
+
+    void deleteFranchisee(Long userId, Principal principal);
+
+    void deleteManager(Long userId, Principal principal);
 }

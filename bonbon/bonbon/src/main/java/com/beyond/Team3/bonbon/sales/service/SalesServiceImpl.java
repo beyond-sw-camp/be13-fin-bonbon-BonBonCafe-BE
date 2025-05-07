@@ -135,7 +135,7 @@ public class SalesServiceImpl implements SalesService {
             throw new UserException(ExceptionMessage.INVALID_USER_ROLE);
         }
         // 가맹점 확인
-        Franchise franchise = franchiseRepository.findByFranchiseId(franchiseId)
+        franchiseRepository.findByFranchiseId(franchiseId)
                 .orElseThrow(() -> new FranchiseException(ExceptionMessage.FRANCHISE_NOT_FOUND));
 
         return salesDetailRepository.findMenuRanking(franchiseId, startDate, endDate, 5);

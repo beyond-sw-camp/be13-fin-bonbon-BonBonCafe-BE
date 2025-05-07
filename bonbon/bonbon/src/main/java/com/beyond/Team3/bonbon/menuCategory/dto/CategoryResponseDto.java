@@ -10,12 +10,12 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class CategoryResponseDto {
     private Long id;
-    private String name;
+    private String categoryName;
 
     public static CategoryResponseDto from(Category category) {
         return new CategoryResponseDto(
                 category.getCategoryId(),
-                category.getCategory()
+                category.getCategoryName()
         );
     }
 }

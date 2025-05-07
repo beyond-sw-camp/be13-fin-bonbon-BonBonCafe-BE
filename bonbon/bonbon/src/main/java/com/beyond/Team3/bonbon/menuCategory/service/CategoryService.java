@@ -37,7 +37,6 @@ public class CategoryService {
     public CategoryResponseDto updateCategory(Long categoryId, CategoryRequestDto requestDto) {
         Category category = findCategoryById(categoryId);
         category.updateCategory(requestDto.getName());
-
         return CategoryResponseDto.from(category);
     }
 

@@ -1,5 +1,6 @@
 package com.beyond.Team3.bonbon.ingredient.entity;
 
+import com.beyond.Team3.bonbon.headquaterStock.entity.HeadquarterStock;
 import com.beyond.Team3.bonbon.menuDetail.entity.MenuDetail;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
@@ -32,4 +33,7 @@ public class Ingredient {
 
     @OneToMany(mappedBy = "ingredient")
     private List<MenuDetail> details = new ArrayList<>();
+
+    @OneToMany(mappedBy = "ingredient")
+    private List<HeadquarterStock> stocks = new ArrayList<>();
 }

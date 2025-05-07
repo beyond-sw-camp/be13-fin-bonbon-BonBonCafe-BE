@@ -3,21 +3,12 @@ package com.beyond.Team3.bonbon.notice.entity;
 import com.beyond.Team3.bonbon.common.base.EntityDate;
 import com.beyond.Team3.bonbon.common.enums.PostType;
 import com.beyond.Team3.bonbon.headquarter.entity.Headquarter;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
+import com.beyond.Team3.bonbon.notice.dto.NoticeRequestDto;
+import jakarta.persistence.*;
+import lombok.*;
 
+@Builder
+@Getter
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -41,4 +32,26 @@ public class Notice extends EntityDate {
     private PostType postType = PostType.NOTICE;
 
     private String author;
+
+    public static Notice createNotice(Headquarter headquarter, NoticeRequestDto noticeRequestdto) {
+
+        return Notice.builder()
+                .headquarterId(headquarter)
+                .title(noticeRequestdto.getTitle())
+                .content(noticeRequestdto.getContent())
+                .postType(noticeRequestdto.getPostType())
+                .author(noticeRequestdto.getAuthor())
+                .build();
+    }
+
+    public void updateNotice(NoticeRequestDto dto) {
+        this.title = dto.getTitle();
+        this.content = dto.getContent();
+        this.postType = dto.getPostType();
+        this.author = dto.getAuthor();
+    }
+
+    public boolean hasPermission(Long headquarterId) {
+        return this.headquarterId != null && this.headquarterId.getHeadquarterId().equals(headquarterId);
+    }
 }

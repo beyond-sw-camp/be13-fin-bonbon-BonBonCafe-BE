@@ -6,10 +6,12 @@ import com.beyond.Team3.bonbon.headquarter.entity.Headquarter;
 import com.beyond.Team3.bonbon.notice.dto.NoticeRequestDto;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.DynamicUpdate;
 
 @Builder
 @Getter
 @Entity
+@DynamicUpdate // 업데이터 할 때 변경된 필드만
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "notice")
@@ -32,6 +34,13 @@ public class Notice extends EntityDate {
     private PostType postType = PostType.NOTICE;
 
     private String author;
+
+    @Column(nullable = false)
+    private boolean isSent = false;
+
+    public void markAsSent() {
+        this.isSent = true;
+    }
 
     public static Notice createNotice(Headquarter headquarter, NoticeRequestDto noticeRequestdto) {
 

@@ -2,23 +2,21 @@ package com.beyond.Team3.bonbon.sales.dto;
 
 import com.querydsl.core.annotations.QueryProjection;
 import lombok.AllArgsConstructor;
-import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.springframework.cglib.core.Local;
 
-import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
-@Data
+@Getter
 @NoArgsConstructor
-public class DailySalesDto {
-    private LocalDate salesDate;
-
+public class DailyTotalDto {
+    private long franchiseId;
     private int totalAmount;
 
     @QueryProjection
-    public DailySalesDto(LocalDate salesDate, int totalAmount) {
-        this.salesDate = salesDate;
+    public DailyTotalDto(long franchiseId, int totalAmount) {
+        this.franchiseId = franchiseId;
         this.totalAmount = totalAmount;
     }
 }

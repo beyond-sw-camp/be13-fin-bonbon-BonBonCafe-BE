@@ -6,6 +6,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Entity
 @Getter
@@ -34,11 +35,11 @@ public class SalesRecord {
     private LocalDate salesDate;
 
     // 가맹점 등록 시 생성하도록
-    public static SalesRecord createSalesRecord(Franchise franchise) {
-        return SalesRecord.builder()
-                .franchise(franchise)
-                .build();
-    }
+//    public static SalesRecord createSalesRecord(Franchise franchise) {
+//        return SalesRecord.builder()
+//                .franchise(franchise)
+//                .build();
+//    }
 
     public void updateSalesAmount(int salesAmount) {
         this.salesAmount = salesAmount;

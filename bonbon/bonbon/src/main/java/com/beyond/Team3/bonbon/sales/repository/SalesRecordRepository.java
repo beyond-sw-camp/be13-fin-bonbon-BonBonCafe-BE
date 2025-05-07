@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Optional;
 
 
-public interface SalesRecordRepository extends JpaRepository<SalesRecord, Long> {
+public interface SalesRecordRepository extends JpaRepository<SalesRecord, Long>, SalesRecordRepositoryCustom {
 
     Optional<SalesRecord> findByFranchiseAndSalesDate(Franchise franchise, LocalDate salesDate);
 

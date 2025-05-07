@@ -33,8 +33,9 @@ public class SalesDetail {
 
     private int amount = 0;         // 메뉴 판매 금액
 
-//    @Column(name = "sales_date", insertable = false, updatable = false)
-//    private LocalDate salesDate;
+    public LocalDate getSalesDate() {
+        return this.salesDetailId.getSalesDate();
+    }
 
     // 더미데이터로 우리가 직접 넣는 형식이라 필요는 없을 듯함
 //    public static SalesDetail createSalesDetail(SalesRecord salesRecord, Menu menu, int productCount) {

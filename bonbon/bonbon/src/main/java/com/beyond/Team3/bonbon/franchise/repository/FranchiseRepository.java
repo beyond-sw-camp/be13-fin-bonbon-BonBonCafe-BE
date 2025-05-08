@@ -18,4 +18,6 @@ public interface FranchiseRepository extends JpaRepository<Franchise, Long> {
             "left JOIN  f.franchisee fe " +
             "where fe is null ")
     List<Franchise> findWithoutOwner();
+
+    List<Franchise> findByHeadquarterId_HeadquarterId(Long headquarterId);
 }

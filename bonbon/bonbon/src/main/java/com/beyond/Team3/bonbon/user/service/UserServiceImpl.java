@@ -2,11 +2,13 @@ package com.beyond.Team3.bonbon.user.service;
 
 import com.beyond.Team3.bonbon.common.enums.AccountStatus;
 import com.beyond.Team3.bonbon.common.enums.Role;
+import com.beyond.Team3.bonbon.franchise.dto.FranchiseResponseDto;
 import com.beyond.Team3.bonbon.franchise.entity.Franchise;
 import com.beyond.Team3.bonbon.franchise.entity.Franchisee;
 import com.beyond.Team3.bonbon.franchise.entity.Manager;
 import com.beyond.Team3.bonbon.franchise.repository.FranchiseRepository;
 import com.beyond.Team3.bonbon.handler.exception.FranchiseException;
+import com.beyond.Team3.bonbon.region.entity.Region;
 import com.beyond.Team3.bonbon.region.repository.RegionRepository;
 import com.beyond.Team3.bonbon.user.dto.ManagerInfoDto;
 import com.beyond.Team3.bonbon.user.dto.UserInfoDto;
@@ -33,6 +35,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.security.Principal;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 @Slf4j
@@ -55,10 +58,12 @@ public class UserServiceImpl implements UserService {
 
         User registUser = join(managerRegisterDto, principal, Role.MANAGER);
 
+        Region byRegionCode = regionRepository.findByRegionCode(managerRegisterDto.getRegionCode());
+
         // manager 테이블에 담당자 추가
         Manager manager = Manager.builder()
                 .userId(registUser)
-                .regionCode(managerRegisterDto.getRegionCode())
+                .regionCode(byRegionCode)
                 .build();
         managerRepository.save(manager);
     }
@@ -203,8 +208,14 @@ public class UserServiceImpl implements UserService {
         // 지우려는 사용자 확인
         User deleteUser = checkAuthorization(userId, principal);
 
+        Franchisee byUserId = franchiseeRepository.findByUserId(deleteUser)
+                .orElseThrow(() -> new UserException(ExceptionMessage.USER_NOT_FOUND));
+
+        // 연관관계 사전 삭제
+        byUserId.getFranchise().disconnectFranchisee();
+
         // Franchisee 테이블에서 데이터 먼저 삭제 후 Account 삭제
-        franchiseeRepository.deleteByUserId(deleteUser);
+        franchiseeRepository.deleteByFranchiseeId(byUserId.getFranchiseeId());
 
         // 사용자 계정 삭제 스케줄링
         deleteUser(deleteUser);
@@ -219,6 +230,15 @@ public class UserServiceImpl implements UserService {
         managerRepository.deleteByUserId(deleteUser);
 
         deleteUser(deleteUser);
+    }
+
+    @Override
+    @Transactional
+    public List<FranchiseResponseDto> findFranchiseWithoutOwner() {
+        // 가맹점주가 없는 가맹점 리스트업
+        List<Franchise> withoutOwner = franchiseRepository.findWithoutOwner();
+
+        return withoutOwner.stream().map(FranchiseResponseDto::new).toList();
     }
 
     // 사용자 계정 삭제

@@ -74,7 +74,7 @@ public class NoticeController {
     }
 
     @Operation(summary = "문자 일괄 전송")
-    @PostMapping("/notices/{noticeId}/send-sms")
+    @PostMapping("/notice/{noticeId}/send-sms")
     public ResponseEntity<Void> sendSmsNotice(@PathVariable Long noticeId) {
         noticeService.sendSmsToFranchises(noticeId);
         return ResponseEntity.ok().build();

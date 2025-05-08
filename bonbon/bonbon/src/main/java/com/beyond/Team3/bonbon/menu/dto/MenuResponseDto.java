@@ -31,6 +31,7 @@ public class MenuResponseDto {
     public static MenuResponseDto from(Menu menu) {
         List<CategoryResponseDto> categories = menu.getCategories().stream()
                 .map(mc -> CategoryResponseDto.from(mc.getCategory()))
+                .distinct()
                 .toList();
 
         List<MenuDetailResponseDto> detailDtos = menu.getDetails().stream()

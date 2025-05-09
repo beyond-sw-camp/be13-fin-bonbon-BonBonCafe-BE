@@ -13,6 +13,4 @@ public class NoticeRequestDto {
     private String content;
 
     private PostType postType = PostType.NOTICE;
-
-    private String author;
 }

@@ -49,7 +49,7 @@ public class Notice extends EntityDate {
                 .title(noticeRequestdto.getTitle())
                 .content(noticeRequestdto.getContent())
                 .postType(noticeRequestdto.getPostType())
-                .author(noticeRequestdto.getAuthor())
+                .author(headquarter.getName())
                 .build();
     }
 
@@ -57,7 +57,6 @@ public class Notice extends EntityDate {
         this.title = dto.getTitle();
         this.content = dto.getContent();
         this.postType = dto.getPostType();
-        this.author = dto.getAuthor();
     }
 
     public boolean hasPermission(Long headquarterId) {

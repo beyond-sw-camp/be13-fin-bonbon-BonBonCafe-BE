@@ -20,6 +20,7 @@ public class NoticeResponseDto {
     private String author;
     private LocalDateTime createTime;
     private LocalDateTime modifyAt;
+    private boolean isSent;
 
     public static NoticeResponseDto from(Notice notice) {
         return new NoticeResponseDto(
@@ -31,7 +32,8 @@ public class NoticeResponseDto {
                 notice.getPostType(),
                 notice.getAuthor(),
                 notice.getCreatedAt(),
-                notice.getModifiedAt()
+                notice.getModifiedAt(),
+                notice.isSent()
         );
     }
 }

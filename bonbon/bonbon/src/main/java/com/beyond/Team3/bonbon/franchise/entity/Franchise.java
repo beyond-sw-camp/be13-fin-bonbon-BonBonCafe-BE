@@ -1,17 +1,21 @@
 package com.beyond.Team3.bonbon.franchise.entity;
 
+import com.beyond.Team3.bonbon.common.enums.FranchiseStatus;
+import com.beyond.Team3.bonbon.franchise.dto.FranchiseUpdateRequestDto;
 import com.beyond.Team3.bonbon.headquarter.entity.Headquarter;
-import com.beyond.Team3.bonbon.region.Region;
+import com.beyond.Team3.bonbon.region.entity.Region;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -19,6 +23,7 @@ import java.time.LocalDate;
 
 @Entity
 @Getter
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "franchise")
@@ -54,7 +59,18 @@ public class Franchise {
 
     private boolean parkingAvailability;    // 주차 가능 여부
 
-    private String status;          // 운영 상태 - 폐점 / 휴점 / 정상 운영
+    @Enumerated(EnumType.STRING)
+    private FranchiseStatus status;          // 운영 상태 - 폐점 / 휴점 / 정상 운영
 
     private String openHours;       // 운영 시간
+
+    public void update(FranchiseUpdateRequestDto requestDto) {
+        this.name = requestDto.getName();
+        this.franchiseTel = requestDto.getFranchiseTel();
+        this.franchiseImage = requestDto.getFranchiseImage();
+        this.storeSize = requestDto.getStoreSize();
+        this.seatingCapacity = requestDto.getSeatingCapacity();
+        this.parkingAvailability = requestDto.isParkingAvailability();
+        this.openHours = requestDto.getOpenHours();
+    }
 }

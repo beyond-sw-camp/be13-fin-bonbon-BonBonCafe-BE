@@ -19,7 +19,7 @@
 <details>
 <summary><strong>📌 시스템 아키텍처</strong></summary>
 
-- (작성 예정)
+![Image](https://github.com/user-attachments/assets/eb46fcf7-f32c-4a81-92bf-62812368c142)
 
 </details>
 

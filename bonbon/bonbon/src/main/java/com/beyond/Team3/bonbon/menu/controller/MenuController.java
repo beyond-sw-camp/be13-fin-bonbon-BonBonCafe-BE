@@ -24,7 +24,7 @@ public class MenuController {
     @Operation(summary = "메뉴 전체 조회 + 검색", description = "본사 번호 입력")
     @GetMapping("/headquarters/{headquarterId}/menus")
     public ResponseEntity<Page<MenuResponseDto>> getAllMenu(
-            @PageableDefault(size = 10, page = 0) Pageable pageable,
+            @PageableDefault(size = 12, page = 0) Pageable pageable,
             @PathVariable Long headquarterId,
             @RequestParam(required = false) String search
     ) {

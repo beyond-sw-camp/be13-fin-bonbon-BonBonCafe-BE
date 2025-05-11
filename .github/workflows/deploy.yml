@@ -46,7 +46,7 @@ jobs:
       - name: Build and Test
         run: |
           cd ./bonbon/bonbon
-          ./gradlew clean build test
+          ./gradlew clean build test --info
 
 
       - name: Make deployment zip

@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+chmod +x /home/ec2-user/app/scripts/start.sh
+
 # 프로젝트 루트 디렉토리 설정
 PROJECT_ROOT="/home/ec2-user/app"
 JAR_FILE="$PROJECT_ROOT/spring-webapp.jar"
@@ -12,15 +14,14 @@ DEPLOY_LOG="$PROJECT_ROOT/deploy.log"
 # 현재 시간 저장
 TIME_NOW=$(date '+%Y-%m-%d %H:%M:%S')
 
-# build 파일 복사
-echo "$TIME_NOW > JAR 파일 복사 시작" >> $DEPLOY_LOG
-if [ -d "$PROJECT_ROOT/build/libs" ] && [ "$(ls -A $PROJECT_ROOT/build/libs)" ]; then
-  cp $PROJECT_ROOT/build/libs/*.jar $JAR_FILE
-  echo "$TIME_NOW > JAR 파일 복사 완료" >> $DEPLOY_LOG
-else
-  echo "$TIME_NOW > 오류: 빌드 파일이 존재하지 않음" >> $DEPLOY_LOG
+# JAR 파일 다운로드 (S3에서)
+echo "$TIME_NOW > S3에서 JAR 파일 다운로드 시작" >> $DEPLOY_LOG
+aws s3 cp s3://bonbon-back-end-bucket/spring-webapp.jar $JAR_FILE >> $DEPLOY_LOG 2>&1
+if [ $? -ne 0 ]; then
+  echo "$TIME_NOW > 오류: S3에서 JAR 파일 다운로드 실패" >> $DEPLOY_LOG
   exit 1
 fi
+echo "$TIME_NOW > JAR 파일 다운로드 완료" >> $DEPLOY_LOG
 
 # 기존 프로세스 종료 (있을 경우)
 EXISTING_PID=$(pgrep -f "$JAR_FILE")

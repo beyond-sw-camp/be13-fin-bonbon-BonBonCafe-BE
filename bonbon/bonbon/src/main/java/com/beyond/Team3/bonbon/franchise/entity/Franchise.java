@@ -12,6 +12,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -64,6 +65,9 @@ public class Franchise {
 
     private String openHours;       // 운영 시간
 
+    @OneToOne(mappedBy = "franchise")
+    private Franchisee franchisee;
+
     public void update(FranchiseUpdateRequestDto requestDto) {
         this.name = requestDto.getName();
         this.franchiseTel = requestDto.getFranchiseTel();
@@ -72,5 +76,12 @@ public class Franchise {
         this.seatingCapacity = requestDto.getSeatingCapacity();
         this.parkingAvailability = requestDto.isParkingAvailability();
         this.openHours = requestDto.getOpenHours();
+    }
+
+    public void disconnectFranchisee() {
+        if (this.franchisee != null) {
+            this.franchisee.setFranchise(null);
+            this.franchisee = null;
+        }
     }
 }

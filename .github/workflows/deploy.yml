@@ -1,4 +1,4 @@
-# This is a basic workflow to help you get started with Actions
+# This is a basic workflow to help you get started with Actions(1)
 
 name: BonBon Back-end CI&CD
 
@@ -19,7 +19,7 @@ jobs:
   # This workflow contains a single job called "build"
   build:
     # The type of runner that the job will run on
-    runs-on: linux-latest
+    runs-on: ubuntu-latest
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
@@ -27,6 +27,10 @@ jobs:
       # (1) 기본 체크아웃
       - name: Checkout
         uses: actions/checkout@v3
+
+      # resources 디렉토리 생성
+      - name: Create resources directory (for ignored files)
+        run: mkdir -p ./bonbon/bonbon/src/main/resources
 
       # properties들 생성
       - name: Set application.properties
@@ -37,7 +41,7 @@ jobs:
 
       # gradlew 권한 추가
       - name: Make gradlew executable
-        run: chmod +x ./gradlew
+        run: chmod +x ./bonbon/bonbon/gradlew
 
       # JDK 11 세팅
       - name: Set up JDK 23
@@ -51,7 +55,7 @@ jobs:
         uses: aws-actions/configure-aws-credentials@v1
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_KEY_ID }}
           aws-region: ${{ env.AWS_REGION }}
       # 빌드 결과물을 S3에 업로드
       - name: Upload to S3
@@ -60,7 +64,7 @@ jobs:
             --application-name ${{ env.CODE_DEPLOY_APPLICATION_NAME }} \
             --ignore-hidden-files \
             --s3-location s3://${{ env.S3_BUCKET_NAME }}/${{ github.sha }}.zip \
-            --source .
+            --source ./bonbon/bonbon
 
       # CodeDeploy로 배포 실행
       - name: Deploy to EC2

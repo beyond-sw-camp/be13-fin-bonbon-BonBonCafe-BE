@@ -41,7 +41,7 @@ jobs:
 
       # gradlew 권한 추가
       - name: Make gradlew executable
-        run: chmod +x ./gradlew
+        run: chmod +x ./bonbon/bonbon/gradlew
 
       # JDK 11 세팅
       - name: Set up JDK 23

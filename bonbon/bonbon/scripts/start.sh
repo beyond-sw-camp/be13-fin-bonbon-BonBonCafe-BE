@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+chmod +x /home/ec2-user/app/scripts/start.sh
+
 # 프로젝트 루트 디렉토리 설정
 PROJECT_ROOT="/home/ec2-user/app"
 JAR_FILE="$PROJECT_ROOT/spring-webapp.jar"

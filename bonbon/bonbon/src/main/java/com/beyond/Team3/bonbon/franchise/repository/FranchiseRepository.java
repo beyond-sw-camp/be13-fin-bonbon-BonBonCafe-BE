@@ -13,4 +13,6 @@ public interface FranchiseRepository extends JpaRepository<Franchise, Long> {
     Optional<Franchise> findByFranchiseId(Long franchiseId);
 
     List<Franchise> findByHeadquarterId_HeadquarterId(Long headquarterId);
+
+
 }

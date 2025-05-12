@@ -31,7 +31,7 @@ echo "$TIME_NOW > ZIP 파일 다운로드 완료" >> $DEPLOY_LOG
 
 # ZIP 파일 압축 해제
 echo "$TIME_NOW > ZIP 파일 압축 해제 시작" >> $DEPLOY_LOG
-unzip $PROJECT_ROOT/${SHA}.zipE -d $PROJECT_ROOT >> $DEPLOY_LOG 2>&1
+unzip $PROJECT_ROOT/${SHA}.zip -d $PROJECT_ROOT >> $DEPLOY_LOG 2>&1
 if [ $? -ne 0 ]; then
   echo "$TIME_NOW > 오류: ZIP 파일 압축 해제 실패" >> $DEPLOY_LOG
   exit 1

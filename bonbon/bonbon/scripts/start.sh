@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # 프로젝트 루트 디렉토리 설정
-PROJECT_ROOT="/home/ec2-user/app"
+PROJECT_ROOT="/home/ec2-user/app/build/libs"
 JAR_NAME="bonbon-0.0.1-SNAPSHOT.jar"
 JAR_FILE="$PROJECT_ROOT/$JAR_NAME"
 

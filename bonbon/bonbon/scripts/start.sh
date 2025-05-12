@@ -49,10 +49,10 @@ fi
 echo "$TIME_NOW > $JAR_FILE 파일 실행 시작" >> $DEPLOY_LOG
 nohup java -jar $JAR_FILE > $APP_LOG 2> $ERROR_LOG &
 
-CURRENT_PID=$(pgrep -f $JAR_FILE)
-if [ -z "$CURRENT_PID" ]; then
-  echo "$TIME_NOW > 애플리케이션 실행 실패" >> $DEPLOY_LOG
-  exit 1
-fi
+# CURRENT_PID=$(pgrep -f $JAR_FILE)
+# if [ -z "$CURRENT_PID" ]; then
+#   echo "$TIME_NOW > 애플리케이션 실행 실패" >> $DEPLOY_LOG
+#   exit 1
+# fi
 
 echo "$TIME_NOW > 실행된 프로세스 아이디 $CURRENT_PID 입니다." >> $DEPLOY_LOG

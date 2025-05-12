@@ -15,7 +15,7 @@ TIME_NOW=$(date '+%Y-%m-%d %H:%M:%S')
 
 # JAR 파일 다운로드 (S3에서)
 echo "$TIME_NOW > S3에서 JAR 파일 다운로드 시작" >> $DEPLOY_LOG
-aws s3 cp s3://bonbon-back-end-bucket/build/libs/$JAR_NAME $JAR_FILE>> $DEPLOY_LOG 2>&1
+aws s3 cp s3://bonbon-back-end-bucket/bonbon.jar $JAR_FILE>> $DEPLOY_LOG 2>&1
 if [ $? -ne 0 ]; then
   echo "$TIME_NOW > 오류: S3에서 JAR 파일 다운로드 실패" >> $DEPLOY_LOG
   exit 1

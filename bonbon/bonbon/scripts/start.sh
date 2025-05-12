@@ -13,12 +13,16 @@ DEPLOY_LOG="$PROJECT_ROOT/deploy.log"
 # 현재 시간 저장
 TIME_NOW=$(date '+%Y-%m-%d %H:%M:%S')
 
-# GitHub SHA 값 가져오기 (GitHub Actions에서 사용되는 값)
-GITHUB_SHA=$1 
+
+# sha.txt에서 SHA 읽기
+SHA=$(cat /home/ec2-user/app/scripts/sha.txt)
+
+# 다운로드
+aws s3 cp s3://bonbon-back-end-bucket/${SHA}.zip /home/ec2-user/app/${SHA}.zip
 
 # S3에서 ZIP 파일 다운로드
 echo "$TIME_NOW > S3에서 ZIP 파일 다운로드 시작" >> $DEPLOY_LOG
-aws s3 cp s3://bonbon-back-end-bucket/$GITHUB_SHA.zip $PROJECT_ROOT/$GITHUB_SHA.zip >> $DEPLOY_LOG 2>&1
+aws s3 cp s3://bonbon-back-end-bucket/${SHA}A.zip $PROJECT_ROOT/${SHA}.zip >> $DEPLOY_LOG 2>&1
 if [ $? -ne 0 ]; then
   echo "$TIME_NOW > 오류: S3에서 ZIP 파일 다운로드 실패" >> $DEPLOY_LOG
   exit 1
@@ -27,7 +31,7 @@ echo "$TIME_NOW > ZIP 파일 다운로드 완료" >> $DEPLOY_LOG
 
 # ZIP 파일 압축 해제
 echo "$TIME_NOW > ZIP 파일 압축 해제 시작" >> $DEPLOY_LOG
-unzip $PROJECT_ROOT/$ZIP_FILE -d $PROJECT_ROOT >> $DEPLOY_LOG 2>&1
+unzip $PROJECT_ROOT/${SHA}.zipE -d $PROJECT_ROOT >> $DEPLOY_LOG 2>&1
 if [ $? -ne 0 ]; then
   echo "$TIME_NOW > 오류: ZIP 파일 압축 해제 실패" >> $DEPLOY_LOG
   exit 1

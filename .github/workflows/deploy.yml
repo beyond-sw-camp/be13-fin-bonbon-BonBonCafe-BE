@@ -48,10 +48,13 @@ jobs:
           cd ./bonbon/bonbon
           ./gradlew clean build test --info
 
+      - name: Save SHA to file
+        run: echo $GITHUB_SHA > ./bonbon/bonbon/scripts/sha.txt
 
       - name: Make deployment zip
         run: |
           cd ./bonbon/bonbon
+          echo $GITHUB_SHA > scripts/sha.txt
           zip -r $GITHUB_SHA.zip build appspec.yml scripts
           mv $GITHUB_SHA.zip ../../
       

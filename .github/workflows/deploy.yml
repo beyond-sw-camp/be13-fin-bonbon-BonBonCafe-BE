@@ -70,9 +70,14 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_KEY_ID }}
           aws-region: ${{ env.AWS_REGION }}
           
-      - name: Upload to S3
+      # - name: Upload to S3
+      #   run: |
+      #     aws s3 cp --region ap-northeast-2 ./$GITHUB_SHA.zip s3://${{ env.S3_BUCKET_NAME }}/$GITHUB_SHA.zip
+
+      - name: Upload JAR to S3
         run: |
-          aws s3 cp --region ap-northeast-2 ./$GITHUB_SHA.zip s3://${{ env.S3_BUCKET_NAME }}/$GITHUB_SHA.zip
+          aws s3 cp --region ap-northeast-2 ./bonbon/bonbon/build/libs/bonbon-0.0.1-SNAPSHOT.jar s3://${{ env.S3_BUCKET_NAME }}/bonbon.jar
+      
 
       # CodeDeploy로 배포 실행
       - name: Deploy to EC2

@@ -8,5 +8,5 @@ import lombok.Setter;
 @Setter
 public class ManagerRegisterDto extends UserRegisterDto {
 
-    private Region regionCode;
+    private int regionCode;
 }

@@ -31,7 +31,7 @@ public class FlaskService {
     private final RestTemplate restTemplate = new RestTemplate();
     private final String url = "http://127.0.0.1:8082/forecast";
 
-    public List<ForecastResponseDto> forecast(Principal principal, List<DailySalesDto> history, int periods) throws JsonProcessingException
+    public List<ForecastResponseDto> weeklyForecast(Principal principal, List<DailySalesDto> history, int periods) throws JsonProcessingException
     {
         // 해당 사용자 확인
         User user = userRepository.findByEmail(principal.getName())

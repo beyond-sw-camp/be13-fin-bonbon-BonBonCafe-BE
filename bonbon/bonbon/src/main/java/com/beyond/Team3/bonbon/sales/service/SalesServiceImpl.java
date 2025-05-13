@@ -1,6 +1,7 @@
 package com.beyond.Team3.bonbon.sales.service;
 
 import com.beyond.Team3.bonbon.common.enums.Role;
+import com.beyond.Team3.bonbon.franchise.dto.FranchiseDto;
 import com.beyond.Team3.bonbon.franchise.entity.Franchise;
 import com.beyond.Team3.bonbon.franchise.repository.FranchiseRepository;
 import com.beyond.Team3.bonbon.handler.exception.FranchiseException;
@@ -27,6 +28,7 @@ import java.security.Principal;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -108,7 +110,6 @@ public class SalesServiceImpl implements SalesService {
         userRepository.findByEmail(principal.getName())
                 .orElseThrow(() -> new UserException(ExceptionMessage.USER_NOT_FOUND));
 
-
         Pageable pageable = PageRequest.of(page, size);
         Page<SalesRankingDto> result = salesRecordRepository.getFranchiseRanking(regionCode, year, month, pageable);
 
@@ -140,6 +141,7 @@ public class SalesServiceImpl implements SalesService {
 
         return salesDetailRepository.findMenuRanking(franchiseId, startDate, endDate, 5);
     }
+
 
 
 }

@@ -1,7 +1,6 @@
 package com.beyond.Team3.bonbon.sales.controller;
 
 import com.beyond.Team3.bonbon.Python.dto.ForecastResponseDto;
-import com.beyond.Team3.bonbon.Python.dto.ForecastResultDto;
 import com.beyond.Team3.bonbon.Python.service.FlaskService;
 import com.beyond.Team3.bonbon.sales.dto.DailySalesDto;
 import com.beyond.Team3.bonbon.sales.dto.MenuRankingDto;
@@ -19,10 +18,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
 import java.time.LocalDate;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.stream.Collectors;
+
 
 @Slf4j
 @RestController
@@ -85,22 +83,23 @@ public class SalesController {
         return ResponseEntity.ok(results);
     }
 
-    @GetMapping("/forecast/{franchiseId}")
-    @Operation(summary = "가맹점 기간별 예상매출 조회", description = "가맹점별 기간을 설정해서 예상매출을 조회한다.")
-    public ResponseEntity<ForecastResultDto> getForecast(
+    @GetMapping("/forecast/weekly/{franchiseId}")
+    @Operation(summary = "가맹점 기간별 예상매출 조회", description = "일주일 단위로 예상매출을 조회한다.")
+    public ResponseEntity<List<ForecastResponseDto>> getWeeklyForecast(
             Principal principal,
             @PathVariable("franchiseId") Long franchiseId,
-            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
-            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate,
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate expectationStartDate,
             @RequestParam(defaultValue = "7") int periods) throws JsonProcessingException {
-        // 과거 데이터 조회
-        List<DailySalesDto> history = salesService.getPeriodSales(principal,franchiseId,startDate,endDate);
+        // 과거 데이터 조회(2년 치)
+        LocalDate pastYear = expectationStartDate.minusYears(2);
+        List<DailySalesDto> history = salesService.getPeriodSales(principal,franchiseId, pastYear, expectationStartDate)
+                .stream()
+                .filter(date -> date.getTotalAmount() > 0) // 매출 없으면 필터링
+                .collect(Collectors.toList());
 
-        List<ForecastResponseDto> forecast = flaskService.forecast(principal, history,periods);
 
-        // 과거 + 예측 매출 반환
-        ForecastResultDto results = new ForecastResultDto(history, forecast);
-        return ResponseEntity.ok(results);
+        List<ForecastResponseDto> forecast = flaskService.weeklyForecast(principal, history,periods);
+        return ResponseEntity.ok(forecast);
     }
 
 

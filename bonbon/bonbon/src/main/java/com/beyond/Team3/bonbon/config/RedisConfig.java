@@ -20,17 +20,17 @@ public class RedisConfig {
     @Value("${spring.data.redis.port}")
     private int port;
 
-    @Value("${spring.data.redis.password}")
-    private String password;
+//    @Value("${spring.data.redis.password}")
+//    private String password;
 
     @Bean
     public RedisConnectionFactory redisConnectionFactory() {
         // Redis 연결 객체 생성
         LettuceConnectionFactory factory = new LettuceConnectionFactory(host, port);
         // 패스워드가 설정되어 있으면, Redis 서버에 패스워드 인증을 추가
-        if (password != null && !password.isEmpty()) {
-            factory.setPassword(password);
-        }
+//        if (password != null && !password.isEmpty()) {
+//            factory.setPassword(password);
+//        }
         return factory;
     }
 

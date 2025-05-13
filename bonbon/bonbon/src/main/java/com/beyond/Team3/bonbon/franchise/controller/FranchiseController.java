@@ -6,6 +6,7 @@ import com.beyond.Team3.bonbon.franchise.dto.FranchiseRequestDto;
 import com.beyond.Team3.bonbon.franchise.dto.FranchiseResponseDto;
 import com.beyond.Team3.bonbon.franchise.dto.FranchiseUpdateRequestDto;
 import com.beyond.Team3.bonbon.franchise.entity.Franchise;
+import com.beyond.Team3.bonbon.franchise.dto.*;
 import com.beyond.Team3.bonbon.franchise.service.FranchiseService;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -35,7 +36,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class FranchiseController {
 
-    @Value("${kakao.map.api.key}")
+//    @Value("${kakao.map.api.key}")
     private String kakaoApiKey;
 
     private final FranchiseService franchiseService;
@@ -75,6 +76,7 @@ public class FranchiseController {
         franchiseService.updateFranchiseInfo(franciseId, requestDto);
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
 
 
 //    @GetMapping("/test/{region}")

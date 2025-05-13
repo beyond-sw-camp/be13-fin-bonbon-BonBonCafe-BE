@@ -1,6 +1,7 @@
 package com.beyond.Team3.bonbon.user.service;
 
 import com.beyond.Team3.bonbon.common.enums.Role;
+import com.beyond.Team3.bonbon.franchise.dto.FranchiseResponseDto;
 import com.beyond.Team3.bonbon.user.dto.FranchiseeRegisterDto;
 import com.beyond.Team3.bonbon.user.dto.ManagerInfoDto;
 import com.beyond.Team3.bonbon.user.dto.ManagerRegisterDto;
@@ -11,6 +12,7 @@ import com.beyond.Team3.bonbon.user.dto.UserModifyDto;
 import org.springframework.data.domain.Page;
 
 import java.security.Principal;
+import java.util.List;
 
 public interface UserService {
 
@@ -37,4 +39,6 @@ public interface UserService {
     void deleteFranchisee(Long userId, Principal principal);
 
     void deleteManager(Long userId, Principal principal);
+
+    List<FranchiseResponseDto> findFranchiseWithoutOwner();
 }

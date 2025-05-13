@@ -63,13 +63,17 @@ public class MenuService {
         Menu menu = findMenuWithHeadquarterValidation(menuId, headquarterId);
         menu.updateMenu(dto);
 
-        menu.getCategories().clear();
-        menuCategoryRepository.deleteByMenu(menu);
-        applyCategories(menu, dto.getCategoryIds());
+        if (dto.getCategoryIds() != null) {
+            menu.getCategories().clear();
+            menuCategoryRepository.deleteByMenu(menu);
+            applyCategories(menu, dto.getCategoryIds());
+        }
 
-        menu.getDetails().clear();
-        menuDetailRepository.deleteByMenu(menu);
-        applyIngredients(menu, dto.getMenuDetails());
+        if (dto.getMenuDetails() != null) {
+            menu.getDetails().clear();
+            menuDetailRepository.deleteByMenu(menu);
+            applyIngredients(menu, dto.getMenuDetails());
+        }
 
         return MenuResponseDto.from(menu);
     }

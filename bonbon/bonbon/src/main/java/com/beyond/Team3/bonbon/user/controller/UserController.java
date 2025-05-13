@@ -1,6 +1,7 @@
 package com.beyond.Team3.bonbon.user.controller;
 
 import com.beyond.Team3.bonbon.common.enums.Role;
+import com.beyond.Team3.bonbon.franchise.dto.FranchiseResponseDto;
 import com.beyond.Team3.bonbon.user.dto.FranchiseeRegisterDto;
 import com.beyond.Team3.bonbon.user.dto.ManagerInfoDto;
 import com.beyond.Team3.bonbon.user.dto.ManagerRegisterDto;
@@ -30,7 +31,7 @@ import java.util.List;
 
 @Slf4j
 @RestController
-@RequestMapping("/bonbon/user")
+@RequestMapping("/user")
 @RequiredArgsConstructor
 @Tag(name = "User", description = "회원 관리")
 public class UserController {
@@ -130,18 +131,15 @@ public class UserController {
     }
 
 
-//    // 가맹점주가 없는 가맹점 검색
-//    @GetMapping("/franchisee/without-owner")
-//    @PreAuthorize("hasRole('ROLE_HEADQUARTER')")
-//    @Operation(summary = "가맹점주가 없는 가맹점 확인", description = "가맹점주가 없는 가맹점 리스트를 조회한다.")
-//    public ResponseEntity<List<String>> getFranchisesWithoutOwner(
-//            @PathVariable("userId") Long userId,
-//            Principal principal) {
-//
-//
-//        return ResponseEntity.ok("FRANCHISEE 계정이 삭제되었습니다.");
-//
-//    }
+    // 가맹점주가 없는 가맹점 검색
+    @GetMapping("/franchisee/without-owner")
+    @PreAuthorize("hasRole('ROLE_HEADQUARTER')")
+    @Operation(summary = "가맹점주가 없는 가맹점 확인", description = "가맹점주가 없는 가맹점 리스트를 조회한다.")
+    public ResponseEntity<List<FranchiseResponseDto>> getFranchisesWithoutOwner(Principal principal) {
+        List<FranchiseResponseDto> franchiseWithoutOwner = userService.findFranchiseWithoutOwner();
+
+        return ResponseEntity.ok(franchiseWithoutOwner);
+    }
 
 
 

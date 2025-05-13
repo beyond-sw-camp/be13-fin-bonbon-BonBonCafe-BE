@@ -1,17 +1,21 @@
 package com.beyond.Team3.bonbon.notice.service;
 
 import com.beyond.Team3.bonbon.common.enums.PostType;
+import com.beyond.Team3.bonbon.franchise.repository.FranchiseRepository;
 import com.beyond.Team3.bonbon.headquarter.entity.Headquarter;
 import com.beyond.Team3.bonbon.headquarter.repository.HeadquarterRepository;
 import com.beyond.Team3.bonbon.notice.dto.NoticeRequestDto;
 import com.beyond.Team3.bonbon.notice.dto.NoticeResponseDto;
 import com.beyond.Team3.bonbon.notice.entity.Notice;
 import com.beyond.Team3.bonbon.notice.repository.NoticeRepository;
+import com.beyond.Team3.bonbon.sms.CoolSmsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -19,6 +23,8 @@ public class NoticeService {
 
     private final HeadquarterRepository headquarterRepository;
     private final NoticeRepository noticeRepository;
+    private final FranchiseRepository franchiseRepository;
+    private final CoolSmsService coolSmsService;
 
     public NoticeResponseDto getNotice(Long noticeId, Long headquarterId) {
         Notice notice = getVerifiedNotice(noticeId, headquarterId);
@@ -35,6 +41,7 @@ public class NoticeService {
         Headquarter headquarter = getVerifiedHeadquarter(headquarterId);
         Notice notice = Notice.createNotice(headquarter, noticeRequestdto);
         noticeRepository.save(notice);
+
         return NoticeResponseDto.from(notice);
     }
 
@@ -64,5 +71,26 @@ public class NoticeService {
             throw new IllegalArgumentException("다른 본사의 게시글입니다.");
         }
         return notice;
+    }
+
+    @Transactional
+    public void sendSmsToFranchises(Long noticeId) {
+        Notice notice = noticeRepository.findById(noticeId)
+                .orElseThrow(() -> new IllegalArgumentException("해당 게시글이 없습니다."));
+
+        List<String> phoneNumbers = franchiseRepository
+                .findByHeadquarterId_HeadquarterId(notice.getHeadquarterId().getHeadquarterId())
+                .stream()
+                .map(f -> f.getFranchiseTel().replaceAll("[^0-9]", ""))
+                .distinct()
+                .toList();
+
+        String prefix = switch (notice.getPostType()) {
+            case NOTICE -> "[공지] ";
+            case EVENT -> "[이벤트] ";
+        };
+        coolSmsService.sendBulkMessage(phoneNumbers, prefix + notice.getTitle());
+
+        noticeRepository.markAsSentOnly(noticeId);
     }
 }

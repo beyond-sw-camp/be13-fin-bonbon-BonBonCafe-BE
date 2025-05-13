@@ -78,4 +78,5 @@ public class NoticeRepositoryImpl implements NoticeRepositoryCustom {
 
         return orders;
     }
+
 }

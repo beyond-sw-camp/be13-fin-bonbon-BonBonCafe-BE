@@ -11,7 +11,9 @@ import lombok.*;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Builder
@@ -47,10 +49,12 @@ public class Menu extends EntityDate {
 
     @Builder.Default
     @OneToMany(mappedBy = "menu", orphanRemoval = true, cascade = CascadeType.ALL)
-    private Set<MenuCategory> categories = new HashSet<>();
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    private List<MenuCategory> categories = new ArrayList<>();
 
     @Builder.Default
     @OneToMany(mappedBy = "menu", orphanRemoval = true, cascade = CascadeType.ALL)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Set<MenuDetail> details = new HashSet<>();
 
     public static Menu createMenu(MenuRequestDto dto, Headquarter headquarter) {

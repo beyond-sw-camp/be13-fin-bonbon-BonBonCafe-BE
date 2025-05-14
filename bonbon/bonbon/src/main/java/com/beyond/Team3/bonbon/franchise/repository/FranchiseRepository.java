@@ -22,4 +22,5 @@ public interface FranchiseRepository extends JpaRepository<Franchise, Long> {
     List<Franchise> findByHeadquarterId_HeadquarterId(Long headquarterId);
 
 
+    Franchise findByName(String name);
 }

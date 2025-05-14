@@ -23,4 +23,6 @@ public interface UserRepository extends JpaRepository<User, Long> {
     Page<User> findByParentIdAndUserType(User parentId, Role userType, Pageable pageable);
 
     List<User> findByStatusAndDeletedAtBefore(AccountStatus status, LocalDateTime deletedAtBefore);
+
+    User findByUserId(Long userId);
 }

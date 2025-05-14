@@ -1,0 +1,17 @@
+package com.beyond.Team3.bonbon.franchise.controller;
+
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
+
+@Getter
+@ToString
+@AllArgsConstructor
+@NoArgsConstructor
+public class FranchiseSummaryDto {
+    private Long franchiseId;
+    private String franchiseTel;
+    private String ManagerName;
+    private String ManagerTel;
+}

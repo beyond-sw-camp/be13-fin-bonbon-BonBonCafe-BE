@@ -35,7 +35,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class FranchiseController {
 
-    @Value("${kakao.map.api.key}")
+//    @Value("${kakao.map.api.key}")
     private String kakaoApiKey;
 
     private final FranchiseService franchiseService;
@@ -58,6 +58,13 @@ public class FranchiseController {
 
         return ResponseEntity.ok(responseDto);
 
+    }
+
+
+    @GetMapping("/summary/{name}")
+    public ResponseEntity<FranchiseSummaryDto> findByFranchiseName(@PathVariable String name){
+        FranchiseSummaryDto summaryDto = franchiseService.findByFranchiseNam(name);
+        return ResponseEntity.ok(summaryDto);
     }
 
 
@@ -102,18 +109,18 @@ public class FranchiseController {
 //        System.out.println(response.getBody());
 //
 //    }
-    @GetMapping("/search")
-    public String sarch(String query){
-        Mono<String> mono = WebClient.builder().baseUrl("https://dapi.kakao.com")
-                .build().get()
-                .uri(builder -> builder.path("/v2/local/search/address.json")
-                        .queryParam("query", query)
-                        .build()
-                )
-                .header("Authorization", "KakaoAK " + kakaoApiKey)
-                .exchangeToMono(response -> response.bodyToMono(String.class));
-        return mono.block();
-    }
+//    @GetMapping("/search")
+//    public String sarch(String query){
+//        Mono<String> mono = WebClient.builder().baseUrl("https://dapi.kakao.com")
+//                .build().get()
+//                .uri(builder -> builder.path("/v2/local/search/address.json")
+//                        .queryParam("query", query)
+//                        .build()
+//                )
+//                .header("Authorization", "KakaoAK " + kakaoApiKey)
+//                .exchangeToMono(response -> response.bodyToMono(String.class));
+//        return mono.block();
+//    }
 
 
     @GetMapping("/locations")

@@ -1,21 +1,15 @@
 package com.beyond.Team3.bonbon.franchiseStock.entity;
 
-import com.beyond.Team3.bonbon.ingredient.entity.Ingredient;
 import com.beyond.Team3.bonbon.franchise.entity.Franchise;
-import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
+import com.beyond.Team3.bonbon.franchiseStockHistory.dto.FranchiseStockHistoryRequestDto;
+import com.beyond.Team3.bonbon.ingredient.entity.Ingredient;
+import jakarta.persistence.*;
+import lombok.*;
 
 import java.math.BigDecimal;
 
+@Builder
+@Getter
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -38,4 +32,24 @@ public class FranchiseStock {
     //      -> 소수점 저장 타입인 float, double 타입은 소수점의 정밀도가 완벽하지 않아 오차가 생길 수 있음.
     private BigDecimal quantity;    // 가맹점 재고 수량
 
+    public static FranchiseStock createFranchiseStock(Franchise franchise, Ingredient ingredient, FranchiseStockHistoryRequestDto dto) {
+        return FranchiseStock.builder()
+                .quantity(BigDecimal.ZERO)
+                .franchiseId(franchise)
+                .ingredientId(ingredient)
+                .build();
+    }
+
+    public void updateStock(Ingredient ingredient, BigDecimal quantity) {
+        this.ingredientId = ingredient;
+        this.quantity = quantity;
+    }
+
+    public void addQuantity(BigDecimal quantity) {
+        this.quantity = this.quantity.add(quantity);
+    }
+
+    public void subtractQuantity(BigDecimal quantity) {
+        this.quantity = this.quantity.subtract(quantity);
+    }
 }

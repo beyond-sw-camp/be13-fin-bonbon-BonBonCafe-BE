@@ -1,25 +1,16 @@
 package com.beyond.Team3.bonbon.franchiseStockHistory.entity;
 
-import com.beyond.Team3.bonbon.ingredient.entity.Ingredient;
 import com.beyond.Team3.bonbon.common.enums.HistoryStatus;
 import com.beyond.Team3.bonbon.franchise.entity.Franchise;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
+import com.beyond.Team3.bonbon.ingredient.entity.Ingredient;
+import jakarta.persistence.*;
+import lombok.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
+@Builder
+@Getter
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -44,4 +35,16 @@ public class FranchiseStockHistory {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "franchise_id")
     private Franchise franchiseId;
+
+    public void updateHistory(BigDecimal quantity, HistoryStatus status) {
+        this.quantity = quantity;
+        this.date = LocalDate.now();
+        this.historyStatus = status;
+    }
+
+    public void validateFranchise(Long franchiseId) {
+        if (!this.franchiseId.getFranchiseId().equals(franchiseId)) {
+            throw new IllegalArgumentException("해당 가맹점의 내역이 아닙니다.");
+        }
+    }
 }

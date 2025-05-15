@@ -1,7 +1,6 @@
 package com.beyond.Team3.bonbon.headquaterStock.entity;
 
 import com.beyond.Team3.bonbon.headquarter.entity.Headquarter;
-import com.beyond.Team3.bonbon.headquaterStock.dto.HeadquarterStockRequestDto;
 import com.beyond.Team3.bonbon.ingredient.entity.Ingredient;
 import jakarta.persistence.*;
 import lombok.*;
@@ -30,16 +29,16 @@ public class HeadquarterStock {
     @JoinColumn(name = "ingredient_id")
     private Ingredient ingredient;
 
-    public static HeadquarterStock createHeadquarterStock(Headquarter headquarter, Ingredient ingredient, HeadquarterStockRequestDto dto) {
-        return HeadquarterStock.builder()
-                .quantity(dto.getQuantity())
-                .headquarter(headquarter)
-                .ingredient(ingredient)
-                .build();
-    }
-
     public void updateStock(Ingredient ingredient, BigDecimal quantity) {
         this.ingredient = ingredient;
         this.quantity = quantity;
+    }
+
+    public void subtractQuantity(BigDecimal quantity) {
+        this.quantity = this.quantity.subtract(quantity);
+    }
+
+    public void addQuantity(BigDecimal quantity) {
+        this.quantity = this.quantity.add(quantity);
     }
 }

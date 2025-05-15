@@ -6,6 +6,7 @@ import com.beyond.Team3.bonbon.franchise.dto.FranchisePageResponseDto;
 import com.beyond.Team3.bonbon.franchise.dto.FranchiseRequestDto;
 import com.beyond.Team3.bonbon.franchise.dto.FranchiseResponseDto;
 import com.beyond.Team3.bonbon.franchise.dto.FranchiseUpdateRequestDto;
+import com.beyond.Team3.bonbon.franchise.dto.*;
 import jakarta.validation.Valid;
 
 import java.security.Principal;

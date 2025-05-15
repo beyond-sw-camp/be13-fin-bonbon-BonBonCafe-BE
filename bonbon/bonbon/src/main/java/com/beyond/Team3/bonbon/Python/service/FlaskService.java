@@ -1,6 +1,13 @@
 package com.beyond.Team3.bonbon.Python.service;
 
-import com.beyond.Team3.bonbon.Python.dto.RequestSendToFlaskDto;
+import com.beyond.Team3.bonbon.Python.dto.ForecastRequestDto;
+import com.beyond.Team3.bonbon.Python.dto.ForecastResponseDto;
+import com.beyond.Team3.bonbon.common.enums.Role;
+import com.beyond.Team3.bonbon.handler.exception.UserException;
+import com.beyond.Team3.bonbon.handler.message.ExceptionMessage;
+import com.beyond.Team3.bonbon.sales.dto.DailySalesDto;
+import com.beyond.Team3.bonbon.user.entity.User;
+import com.beyond.Team3.bonbon.user.repository.UserRepository;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
@@ -8,34 +15,47 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
+
+import java.security.Principal;
+import java.util.Arrays;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
 public class FlaskService {
 
+    private final UserRepository userRepository;
     //데이터를 JSON 객체로 변환하기 위해서 사용
     private final ObjectMapper objectMapper;
+    private final RestTemplate restTemplate = new RestTemplate();
+    private final String url = "http://127.0.0.1:8082/forecast";
 
-    @Transactional
-    public String sendToFlask(RequestSendToFlaskDto dto) throws JsonProcessingException {
-        RestTemplate restTemplate = new RestTemplate();
+    public List<ForecastResponseDto> weeklyForecast(Principal principal, List<DailySalesDto> history, int periods) throws JsonProcessingException
+    {
+        // 해당 사용자 확인
+        User user = userRepository.findByEmail(principal.getName())
+                .orElseThrow(() -> new UserException(ExceptionMessage.USER_NOT_FOUND));
 
-        //헤더를 JSON으로 설정함
+        // 본사, 매니저만 접근 가능하게(매니저도 자기 지역만 조회하도록 해야 하나?)
+        if (user.getUserType() == Role.FRANCHISEE) {
+            throw new UserException(ExceptionMessage.INVALID_USER_ROLE);
+        }
+
+        // 헤더 객체 생성
         HttpHeaders headers = new HttpHeaders();
-
-        //파라미터로 들어온 dto를 JSON 객체로 변환
         headers.setContentType(MediaType.APPLICATION_JSON);
 
-        String param = objectMapper.writeValueAsString(dto);
+        // 바디 객체 생성
+        ForecastRequestDto requestDto = new ForecastRequestDto(history, periods);
+        // 자바 객체 -> JSON 문자열로 변환
+        String body = objectMapper.writeValueAsString(requestDto);
 
-        HttpEntity<String> entity = new HttpEntity<String>(param , headers);
+        HttpEntity<String> entity = new HttpEntity<>(body,headers);
 
-        //실제 Flask 서버랑 연결하기 위한 URL
-        String url = "http://127.0.0.1:8082/receive_string";
+        ForecastResponseDto[] arr =
+                restTemplate.postForObject(url, entity, ForecastResponseDto[].class);
 
-        //Flask 서버로 데이터를 전송하고 받은 응답 값을 return
-        return restTemplate.postForObject(url, entity, String.class);
+        return Arrays.asList(arr);
     }
 }

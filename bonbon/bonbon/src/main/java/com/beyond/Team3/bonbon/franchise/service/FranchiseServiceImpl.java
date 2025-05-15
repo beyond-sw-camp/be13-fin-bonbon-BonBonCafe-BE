@@ -2,6 +2,7 @@
 package com.beyond.Team3.bonbon.franchise.service;
 
 
+import com.beyond.Team3.bonbon.common.enums.RegionName;
 import com.beyond.Team3.bonbon.franchise.dto.FranchiseSummaryDto;
 import com.beyond.Team3.bonbon.franchise.dto.FranchiseLocationDto;
 import com.beyond.Team3.bonbon.franchise.dto.FranchisePageResponseDto;
@@ -69,14 +70,31 @@ public class FranchiseServiceImpl implements FranchiseService {
 
         Page<Franchise> franchisePage = franchiseRepository.findAll(pageable);
 
-        List<FranchiseResponseDto> responseDto = franchisePage.stream().map(FranchiseResponseDto::new).toList();
-        FranchisePageResponseDto pageResponseDto = new FranchisePageResponseDto(responseDto, franchisePage.getTotalElements());
-
-        if (franchisePage.isEmpty()){
+        if (franchisePage.isEmpty()) {
             throw new IllegalArgumentException("franchise is empty");
         }
-        return pageResponseDto;
 
+        List<FranchiseResponseDto> responseDto = franchisePage.getContent().stream()
+                .map(franchise -> {
+                    // 매니저 조회 (regionCode로)
+                    Manager manager = managerRepository.findByRegionCode(franchise.getRegionCode());
+
+                    String managerName = manager != null && manager.getUserId() != null
+                            ? manager.getUserId().getName()
+                            : "";
+
+                    // 지역 이름 조회 (RegionName enum)
+                    RegionName regionName = franchise.getRegionCode() != null
+                            ? franchise.getRegionCode().getRegionName()
+                            : null;
+
+                    return new FranchiseResponseDto(franchise, managerName, regionName);
+                })
+                .toList();
+
+        FranchisePageResponseDto pageResponseDto = new FranchisePageResponseDto(responseDto, franchisePage.getTotalElements());
+
+        return pageResponseDto;
     }
 
     @Override
@@ -87,11 +105,16 @@ public class FranchiseServiceImpl implements FranchiseService {
         if (franchise.isEmpty()){
             throw new FranchiseException(ExceptionMessage.FRANCHISE_NOT_FOUND);
         }
+        Manager manager = managerRepository.findByRegionCode(franchise.get().getRegionCode());
+
+        User managerId = userRepository.findByUserId(manager.getUserId().getUserId());
+        String managerName = managerId.getName();
+        RegionName regionName = franchise.get().getRegionCode().getRegionName();
 
         log.info("Franchise found: " + franchise.get().getFranchiseId());
 
 
-        return new FranchiseResponseDto(franchise.get());
+        return new FranchiseResponseDto( franchise.get(), managerName, regionName);
     }
 
     @Override

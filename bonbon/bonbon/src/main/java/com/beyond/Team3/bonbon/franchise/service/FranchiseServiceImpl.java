@@ -2,10 +2,12 @@
 package com.beyond.Team3.bonbon.franchise.service;
 
 
+import com.beyond.Team3.bonbon.franchise.dto.FranchiseLocationDto;
 import com.beyond.Team3.bonbon.franchise.dto.FranchisePageResponseDto;
 import com.beyond.Team3.bonbon.franchise.dto.FranchiseRequestDto;
 import com.beyond.Team3.bonbon.franchise.dto.FranchiseResponseDto;
 import com.beyond.Team3.bonbon.franchise.dto.FranchiseUpdateRequestDto;
+import com.beyond.Team3.bonbon.franchise.dto.*;
 import com.beyond.Team3.bonbon.franchise.entity.Franchise;
 import com.beyond.Team3.bonbon.franchise.repository.FranchiseRepository;
 import com.beyond.Team3.bonbon.handler.exception.FranchiseException;
@@ -18,18 +20,24 @@ import com.beyond.Team3.bonbon.region.entity.Region;
 import com.beyond.Team3.bonbon.region.repository.RegionRepository;
 import com.beyond.Team3.bonbon.user.entity.User;
 import com.beyond.Team3.bonbon.user.repository.UserRepository;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.reactive.function.client.WebClient;
 
 import java.security.Principal;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -41,6 +49,10 @@ public class FranchiseServiceImpl implements FranchiseService {
     private final UserRepository userRepository;
     private final RegionRepository regionRepository;
     private final HeadquarterRepository headquarterRepository;
+    private final WebClient.Builder webClientBuilder;
+
+//    @Value("${kakao.map.api.key}")
+    private String kakaoApiKey;
 
 
     @Override
@@ -109,6 +121,51 @@ public class FranchiseServiceImpl implements FranchiseService {
         Franchise franchise = optionalFranchise.get();
         franchise.update(requestDto);
         franchiseRepository.save(franchise);
+    }
+
+    @Override
+    public List<FranchiseLocationDto> getFranchiseLocations() {
+        WebClient webClient = webClientBuilder
+                .baseUrl("https://dapi.kakao.com")
+                .defaultHeader("Authorization", "KakaoAK " + kakaoApiKey)
+                .build();
+
+        List<Franchise> franchises = franchiseRepository.findAll();
+
+        return franchises.stream()
+                .map(franchise -> {
+                    String address = franchise.getRoadAddress();
+                    String name = franchise.getName();
+
+                    String response = webClient.get()
+                            .uri(uriBuilder -> uriBuilder
+                                    .path("/v2/local/search/address.json")
+                                    .queryParam("query", address)
+                                    .build())
+                            .retrieve()
+                            .bodyToMono(String.class)
+                            .block();
+
+                    try {
+                        ObjectMapper mapper = new ObjectMapper();
+                        JsonNode root = mapper.readTree(response);
+                        JsonNode documents = root.path("documents");
+
+                        if (!documents.isEmpty()) {
+                            JsonNode first = documents.get(0);
+                            double lat = first.path("y").asDouble();
+                            double lng = first.path("x").asDouble();
+
+                            return new FranchiseLocationDto(name, lat, lng);
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+
+                    return null;
+                })
+                .filter(Objects::nonNull)
+                .collect(Collectors.toList());
     }
 
 }

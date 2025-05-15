@@ -1,9 +1,12 @@
 package com.beyond.Team3.bonbon.sales.controller;
 
+import com.beyond.Team3.bonbon.Python.dto.ForecastResponseDto;
+import com.beyond.Team3.bonbon.Python.service.FlaskService;
 import com.beyond.Team3.bonbon.sales.dto.DailySalesDto;
 import com.beyond.Team3.bonbon.sales.dto.MenuRankingDto;
 import com.beyond.Team3.bonbon.sales.dto.SalesRankingDto;
 import com.beyond.Team3.bonbon.sales.service.SalesService;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -16,6 +19,8 @@ import org.springframework.web.bind.annotation.*;
 import java.security.Principal;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.stream.Collectors;
+
 
 @Slf4j
 @RestController
@@ -25,6 +30,7 @@ import java.util.List;
 public class SalesController {
 
     private final SalesService salesService;
+    private final FlaskService flaskService;
 
     @GetMapping("sales/{franchiseId}")
     @Operation(summary = "가맹점 일 매출 조회", description = "가맹점별 일 매출을 조회한다.")
@@ -39,7 +45,7 @@ public class SalesController {
     }
 
     @GetMapping("sales/period/{franchiseId}")
-    @Operation(summary = "가맹점 기간별 매출 조회", description = "가맹점별 기간을 설정해서 일 매출을 조회한다.")
+    @Operation(summary = "가맹점 기간별 매출 조회", description = "가맹점별 기간을 설정해서 매출을 조회한다.")
     public ResponseEntity<List<DailySalesDto>> getPeriodSales(
             Principal principal,
             @PathVariable("franchiseId") Long franchiseId,
@@ -76,6 +82,27 @@ public class SalesController {
         List<MenuRankingDto> results = salesService.getMenuSalesRanking(principal, franchiseId, startDate, endDate);
         return ResponseEntity.ok(results);
     }
+
+    @GetMapping("/forecast/weekly/{franchiseId}")
+    @Operation(summary = "가맹점 기간별 예상매출 조회", description = "일주일 단위로 예상매출을 조회한다.")
+    public ResponseEntity<List<ForecastResponseDto>> getWeeklyForecast(
+            Principal principal,
+            @PathVariable("franchiseId") Long franchiseId,
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate expectationStartDate,
+            @RequestParam(defaultValue = "7") int periods) throws JsonProcessingException {
+        // 과거 데이터 조회(2년 치)
+        LocalDate pastYear = expectationStartDate.minusYears(2);
+        List<DailySalesDto> history = salesService.getPeriodSales(principal,franchiseId, pastYear, expectationStartDate)
+                .stream()
+                .filter(date -> date.getTotalAmount() > 0) // 매출 없으면 필터링
+                .collect(Collectors.toList());
+
+
+        List<ForecastResponseDto> forecast = flaskService.weeklyForecast(principal, history,periods);
+        return ResponseEntity.ok(forecast);
+    }
+
+
 
 
 

@@ -2,13 +2,14 @@
 package com.beyond.Team3.bonbon.franchise.service;
 
 
+import com.beyond.Team3.bonbon.franchise.dto.FranchiseSummaryDto;
 import com.beyond.Team3.bonbon.franchise.dto.FranchiseLocationDto;
 import com.beyond.Team3.bonbon.franchise.dto.FranchisePageResponseDto;
 import com.beyond.Team3.bonbon.franchise.dto.FranchiseRequestDto;
 import com.beyond.Team3.bonbon.franchise.dto.FranchiseResponseDto;
 import com.beyond.Team3.bonbon.franchise.dto.FranchiseUpdateRequestDto;
-import com.beyond.Team3.bonbon.franchise.dto.*;
 import com.beyond.Team3.bonbon.franchise.entity.Franchise;
+import com.beyond.Team3.bonbon.franchise.entity.Manager;
 import com.beyond.Team3.bonbon.franchise.repository.FranchiseRepository;
 import com.beyond.Team3.bonbon.handler.exception.FranchiseException;
 import com.beyond.Team3.bonbon.handler.exception.PageException;
@@ -20,6 +21,7 @@ import com.beyond.Team3.bonbon.region.entity.Region;
 import com.beyond.Team3.bonbon.region.repository.RegionRepository;
 import com.beyond.Team3.bonbon.user.entity.User;
 import com.beyond.Team3.bonbon.user.repository.UserRepository;
+import com.beyond.Team3.bonbon.user.repository.ManagerRepository;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
@@ -50,8 +52,9 @@ public class FranchiseServiceImpl implements FranchiseService {
     private final RegionRepository regionRepository;
     private final HeadquarterRepository headquarterRepository;
     private final WebClient.Builder webClientBuilder;
+    private final ManagerRepository managerRepository;
 
-//    @Value("${kakao.map.api.key}")
+    @Value("${kakao.map.api.key}")
     private String kakaoApiKey;
 
 
@@ -166,6 +169,27 @@ public class FranchiseServiceImpl implements FranchiseService {
                 })
                 .filter(Objects::nonNull)
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public FranchiseSummaryDto findByFranchiseNam(String name) {
+        // franchiseId, franchiseTel
+        Franchise franchise = franchiseRepository.findByName(name);
+        log.info("Franchise found: " + franchise.getFranchiseId());
+        log.info("Franchise found: " + franchise.getFranchiseTel());
+
+        // 지역 코드로 담당자 찾기
+        Region region = franchise.getRegionCode();
+
+        Manager manager = managerRepository.findByRegionCode(region);
+
+        // 담당자의 유저 아이디로 이름, 전화번호 찾기
+        User managerInfo = userRepository.findByUserId(manager.getUserId().getUserId());
+
+        log.info("User found: " + managerInfo.getName());
+        log.info("User found: " + managerInfo.getPhone());
+
+        return new FranchiseSummaryDto(franchise.getFranchiseId(), franchise.getFranchiseTel(), managerInfo.getName(), managerInfo.getPhone());
     }
 
 }

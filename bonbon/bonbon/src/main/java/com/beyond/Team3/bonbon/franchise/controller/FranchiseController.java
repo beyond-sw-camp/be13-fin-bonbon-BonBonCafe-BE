@@ -5,28 +5,19 @@ import com.beyond.Team3.bonbon.franchise.dto.FranchisePageResponseDto;
 import com.beyond.Team3.bonbon.franchise.dto.FranchiseRequestDto;
 import com.beyond.Team3.bonbon.franchise.dto.FranchiseResponseDto;
 import com.beyond.Team3.bonbon.franchise.dto.FranchiseUpdateRequestDto;
-import com.beyond.Team3.bonbon.franchise.entity.Franchise;
 import com.beyond.Team3.bonbon.franchise.dto.*;
 import com.beyond.Team3.bonbon.franchise.service.FranchiseService;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.client.RestTemplate;
-import org.springframework.web.reactive.function.client.WebClient;
-import reactor.core.publisher.Mono;
 
 import java.security.Principal;
 import java.util.List;
-import java.util.Objects;
-import java.util.stream.Collectors;
 
 
 @Tag(name = "Franchise", description = "가맹점 관리")
@@ -59,6 +50,13 @@ public class FranchiseController {
 
         return ResponseEntity.ok(responseDto);
 
+    }
+
+
+    @GetMapping("/summary/{name}")
+    public ResponseEntity<FranchiseSummaryDto> findByFranchiseName(@PathVariable String name){
+        FranchiseSummaryDto summaryDto = franchiseService.findByFranchiseNam(name);
+        return ResponseEntity.ok(summaryDto);
     }
 
 
@@ -104,18 +102,18 @@ public class FranchiseController {
 //        System.out.println(response.getBody());
 //
 //    }
-    @GetMapping("/search")
-    public String sarch(String query){
-        Mono<String> mono = WebClient.builder().baseUrl("https://dapi.kakao.com")
-                .build().get()
-                .uri(builder -> builder.path("/v2/local/search/address.json")
-                        .queryParam("query", query)
-                        .build()
-                )
-                .header("Authorization", "KakaoAK " + kakaoApiKey)
-                .exchangeToMono(response -> response.bodyToMono(String.class));
-        return mono.block();
-    }
+//    @GetMapping("/search")
+//    public String sarch(String query){
+//        Mono<String> mono = WebClient.builder().baseUrl("https://dapi.kakao.com")
+//                .build().get()
+//                .uri(builder -> builder.path("/v2/local/search/address.json")
+//                        .queryParam("query", query)
+//                        .build()
+//                )
+//                .header("Authorization", "KakaoAK " + kakaoApiKey)
+//                .exchangeToMono(response -> response.bodyToMono(String.class));
+//        return mono.block();
+//    }
 
 
     @GetMapping("/locations")

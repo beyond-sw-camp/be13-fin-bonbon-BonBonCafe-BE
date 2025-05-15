@@ -2,13 +2,12 @@
 package com.beyond.Team3.bonbon.franchise.service;
 
 
-import com.beyond.Team3.bonbon.franchise.controller.FranchiseSummaryDto;
+import com.beyond.Team3.bonbon.franchise.dto.FranchiseSummaryDto;
 import com.beyond.Team3.bonbon.franchise.dto.FranchiseLocationDto;
 import com.beyond.Team3.bonbon.franchise.dto.FranchisePageResponseDto;
 import com.beyond.Team3.bonbon.franchise.dto.FranchiseRequestDto;
 import com.beyond.Team3.bonbon.franchise.dto.FranchiseResponseDto;
 import com.beyond.Team3.bonbon.franchise.dto.FranchiseUpdateRequestDto;
-import com.beyond.Team3.bonbon.franchise.dto.*;
 import com.beyond.Team3.bonbon.franchise.entity.Franchise;
 import com.beyond.Team3.bonbon.franchise.entity.Manager;
 import com.beyond.Team3.bonbon.franchise.repository.FranchiseRepository;
@@ -178,12 +177,12 @@ public class FranchiseServiceImpl implements FranchiseService {
         Franchise franchise = franchiseRepository.findByName(name);
         log.info("Franchise found: " + franchise.getFranchiseId());
         log.info("Franchise found: " + franchise.getFranchiseTel());
-        
+
         // 지역 코드로 담당자 찾기
         Region region = franchise.getRegionCode();
 
         Manager manager = managerRepository.findByRegionCode(region);
-        
+
         // 담당자의 유저 아이디로 이름, 전화번호 찾기
         User managerInfo = userRepository.findByUserId(manager.getUserId().getUserId());
 

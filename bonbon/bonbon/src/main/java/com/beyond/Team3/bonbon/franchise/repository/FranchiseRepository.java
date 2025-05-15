@@ -23,4 +23,6 @@ public interface FranchiseRepository extends JpaRepository<Franchise, Long> {
 
 
     List<Franchise> findByRegionCode_RegionCode(int regionCode);
+
+    Franchise findByName(String name);
 }

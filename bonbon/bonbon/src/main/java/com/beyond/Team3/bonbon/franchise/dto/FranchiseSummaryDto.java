@@ -1,4 +1,4 @@
-package com.beyond.Team3.bonbon.franchise.controller;
+package com.beyond.Team3.bonbon.franchise.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

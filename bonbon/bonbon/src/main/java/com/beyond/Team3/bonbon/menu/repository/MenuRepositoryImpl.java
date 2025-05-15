@@ -1,7 +1,9 @@
 package com.beyond.Team3.bonbon.menu.repository;
 
+import com.beyond.Team3.bonbon.ingredient.entity.QIngredient;
 import com.beyond.Team3.bonbon.menu.entity.Menu;
 import com.beyond.Team3.bonbon.menu.entity.QMenu;
+import com.beyond.Team3.bonbon.menuCategory.entity.QCategory;
 import com.beyond.Team3.bonbon.menuCategory.entity.QMenuCategory;
 import com.beyond.Team3.bonbon.menuDetail.entity.QMenuDetail;
 import com.querydsl.core.BooleanBuilder;
@@ -55,11 +57,19 @@ public class MenuRepositoryImpl implements MenuRepositoryCustom {
     public List<Menu> findMenusByCategoryAndHeadquarter(Long categoryId, Long headquarterId) {
         QMenu menu = QMenu.menu;
         QMenuCategory menuCategory = QMenuCategory.menuCategory;
+        QMenuCategory menuCategory2 = new QMenuCategory("menuCategory2");
+        QMenuDetail menuDetail = QMenuDetail.menuDetail;
+        QIngredient ingredient = QIngredient.ingredient;
+        QCategory category = QCategory.category;
 
         return queryFactory
-                .select(menu)
+                .selectDistinct(menu)
                 .from(menuCategory)
                 .join(menuCategory.menu, menu)
+                .leftJoin(menu.categories, menuCategory2).fetchJoin()
+                .leftJoin(menuCategory2.category, category).fetchJoin()
+                .leftJoin(menu.details, menuDetail).fetchJoin()
+                .leftJoin(menuDetail.ingredient, ingredient).fetchJoin()
                 .where(
                         menuCategory.category.categoryId.eq(categoryId),
                         menu.headquarter.headquarterId.eq(headquarterId)

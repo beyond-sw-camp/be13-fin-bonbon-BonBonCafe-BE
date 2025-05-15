@@ -38,6 +38,7 @@ public class NoticeService {
 
     @Transactional
     public NoticeResponseDto createNotice(Long headquarterId, NoticeRequestDto noticeRequestdto) {
+        // if(!본사 권한) throw 작성권한이없습니다.
         Headquarter headquarter = getVerifiedHeadquarter(headquarterId);
         Notice notice = Notice.createNotice(headquarter, noticeRequestdto);
         noticeRepository.save(notice);

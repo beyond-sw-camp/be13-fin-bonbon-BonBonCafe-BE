@@ -49,7 +49,7 @@ public class MenuService {
         Headquarter headquarter = headquarterRepository.findById(headquarterId)
                 .orElseThrow(() -> new IllegalArgumentException("해당 본사가 없습니다."));
 
-        Menu menu = Menu.createMenu(dto, headquarter);
+        Menu menu = dto.toEntity(headquarter);
         menuRepository.save(menu);
 
         applyCategories(menu, dto.getCategoryIds());

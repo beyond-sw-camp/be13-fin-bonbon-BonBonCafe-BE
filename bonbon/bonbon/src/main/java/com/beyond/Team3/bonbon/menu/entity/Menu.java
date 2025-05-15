@@ -57,17 +57,6 @@ public class Menu extends EntityDate {
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Set<MenuDetail> details = new HashSet<>();
 
-    public static Menu createMenu(MenuRequestDto dto, Headquarter headquarter) {
-        return Menu.builder()
-                .headquarter(headquarter)
-                .menuImage(dto.getImage())
-                .name(dto.getName())
-                .description(dto.getDescription())
-                .price(dto.getPrice())
-                .status(dto.getStatus())
-                .build();
-    }
-
     public void updateMenu(MenuRequestDto dto) {
         this.menuImage = dto.getImage();
         this.name = dto.getName();

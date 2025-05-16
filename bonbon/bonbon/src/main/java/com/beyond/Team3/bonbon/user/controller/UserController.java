@@ -131,15 +131,15 @@ public class UserController {
     }
 
 
-    // 가맹점주가 없는 가맹점 검색
-    @GetMapping("/franchisee/without-owner")
-    @PreAuthorize("hasRole('ROLE_HEADQUARTER')")
-    @Operation(summary = "가맹점주가 없는 가맹점 확인", description = "가맹점주가 없는 가맹점 리스트를 조회한다.")
-    public ResponseEntity<List<FranchiseResponseDto>> getFranchisesWithoutOwner(Principal principal) {
-        List<FranchiseResponseDto> franchiseWithoutOwner = userService.findFranchiseWithoutOwner();
-
-        return ResponseEntity.ok(franchiseWithoutOwner);
-    }
+//    // 가맹점주가 없는 가맹점 검색
+//    @GetMapping("/franchisee/without-owner")
+//    @PreAuthorize("hasRole('ROLE_HEADQUARTER')")
+//    @Operation(summary = "가맹점주가 없는 가맹점 확인", description = "가맹점주가 없는 가맹점 리스트를 조회한다.")
+//    public ResponseEntity<List<FranchiseResponseDto>> getFranchisesWithoutOwner(Principal principal) {
+//        List<FranchiseResponseDto> franchiseWithoutOwner = userService.findFranchiseWithoutOwner();
+//
+//        return ResponseEntity.ok(franchiseWithoutOwner);
+//    }
 
 
 

@@ -7,8 +7,16 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import java.util.List;
+import java.util.Optional;
+
 public interface HeadquarterStockRepository extends JpaRepository<HeadquarterStock, Long>, HeadquarterStockRepositoryCustom {
-    Page<HeadquarterStock> getAllStock(Pageable pageable, Long headquarterId);
+    Page<HeadquarterStock> getAllStock(Pageable pageable, Long headquarterId, String search);
 
     boolean existsByHeadquarterAndIngredient(Headquarter headquarter, Ingredient ingredient);
+
+
+    Optional<HeadquarterStock> findByHeadquarter_HeadquarterIdAndIngredient_IngredientId(Long headquarterId, Long ingredientId);
+
+    List<HeadquarterStock> findByHeadquarterIdWithIngredient(Long headquarterId);
 }

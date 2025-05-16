@@ -1,11 +1,9 @@
 package com.beyond.Team3.bonbon.franchise.dto;
 
 import com.beyond.Team3.bonbon.common.enums.FranchiseStatus;
+import com.beyond.Team3.bonbon.common.enums.RegionName;
 import com.beyond.Team3.bonbon.franchise.entity.Franchise;
-import com.beyond.Team3.bonbon.franchise.entity.Manager;
-import com.beyond.Team3.bonbon.headquarter.entity.Headquarter;
-import com.beyond.Team3.bonbon.region.entity.Region;
-import lombok.AllArgsConstructor;
+
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
@@ -15,13 +13,15 @@ import java.time.LocalDate;
 
 @Getter
 @ToString
-//@AllArgsConstructor
 @NoArgsConstructor
 public class FranchiseResponseDto {
 
     private Long franchiseId;
 
-    private int regionCode;
+    private String managerName;
+
+    private String regionName;
+//    private int regionCode;
 
     private Long headquarterId;
 
@@ -47,9 +47,11 @@ public class FranchiseResponseDto {
 
     private String openHours;
 
-    public FranchiseResponseDto(Franchise franchise) {
+    public FranchiseResponseDto(Franchise franchise, String managerName, RegionName regionName ) {
         this.franchiseId = franchise.getFranchiseId();
-        this.regionCode = franchise.getRegionCode().getRegionCode();
+        this.managerName = managerName;
+        this.regionName = regionName != null ? regionName.name() : null;
+//        this.regionCode = franchise.getRegionCode().getRegionCode();
         this.headquarterId = franchise.getHeadquarterId().getHeadquarterId();
         this.name = franchise.getName();
         this.franchiseTel = franchise.getFranchiseTel();

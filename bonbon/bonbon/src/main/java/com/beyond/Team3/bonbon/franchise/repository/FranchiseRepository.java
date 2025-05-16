@@ -20,4 +20,9 @@ public interface FranchiseRepository extends JpaRepository<Franchise, Long> {
     List<Franchise> findWithoutOwner();
 
     List<Franchise> findByHeadquarterId_HeadquarterId(Long headquarterId);
+
+
+    List<Franchise> findByRegionCode_RegionCode(int regionCode);
+
+    Franchise findByName(String name);
 }

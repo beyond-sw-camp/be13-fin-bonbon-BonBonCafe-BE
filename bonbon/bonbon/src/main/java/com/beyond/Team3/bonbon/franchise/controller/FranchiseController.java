@@ -1,9 +1,11 @@
 package com.beyond.Team3.bonbon.franchise.controller;
 
+import com.beyond.Team3.bonbon.franchise.dto.FranchiseLocationDto;
 import com.beyond.Team3.bonbon.franchise.dto.FranchisePageResponseDto;
 import com.beyond.Team3.bonbon.franchise.dto.FranchiseRequestDto;
 import com.beyond.Team3.bonbon.franchise.dto.FranchiseResponseDto;
 import com.beyond.Team3.bonbon.franchise.dto.FranchiseUpdateRequestDto;
+import com.beyond.Team3.bonbon.franchise.dto.*;
 import com.beyond.Team3.bonbon.franchise.service.FranchiseService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -11,11 +13,11 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
+import java.util.List;
 
 
 @Tag(name = "Franchise", description = "가맹점 관리")
@@ -25,8 +27,6 @@ import java.security.Principal;
 @RequiredArgsConstructor
 public class FranchiseController {
 
-//    @Value("${kakao.api.key}")
-//    private String kakaoApiKey;
 
     private final FranchiseService franchiseService;
 
@@ -51,6 +51,13 @@ public class FranchiseController {
     }
 
 
+    @GetMapping("/summary/{name}")
+    public ResponseEntity<FranchiseSummaryDto> findByFranchiseName(@PathVariable String name){
+        FranchiseSummaryDto summaryDto = franchiseService.findByFranchiseNam(name);
+        return ResponseEntity.ok(summaryDto);
+    }
+
+
     // 프렌차이즈 등록
     @PostMapping
     @Operation(summary = "가맹점 등록", description = "본사에서 매니저 역할을 가진 직원이 가맹점을 등록한다.")
@@ -65,6 +72,7 @@ public class FranchiseController {
         franchiseService.updateFranchiseInfo(franciseId, requestDto);
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
 
 
 //    @GetMapping("/test/{region}")
@@ -92,5 +100,24 @@ public class FranchiseController {
 //        System.out.println(response.getBody());
 //
 //    }
+//    @GetMapping("/search")
+//    public String sarch(String query){
+//        Mono<String> mono = WebClient.builder().baseUrl("https://dapi.kakao.com")
+//                .build().get()
+//                .uri(builder -> builder.path("/v2/local/search/address.json")
+//                        .queryParam("query", query)
+//                        .build()
+//                )
+//                .header("Authorization", "KakaoAK " + kakaoApiKey)
+//                .exchangeToMono(response -> response.bodyToMono(String.class));
+//        return mono.block();
+//    }
+
+
+    @GetMapping("/locations")
+    public ResponseEntity<List<FranchiseLocationDto>> getLocations() {
+        List<FranchiseLocationDto> locations = franchiseService.getFranchiseLocations();
+        return ResponseEntity.ok(locations);
+    }
 
 }

@@ -232,14 +232,14 @@ public class UserServiceImpl implements UserService {
         deleteUser(deleteUser);
     }
 
-    @Override
-    @Transactional
-    public List<FranchiseResponseDto> findFranchiseWithoutOwner() {
-        // 가맹점주가 없는 가맹점 리스트업
-        List<Franchise> withoutOwner = franchiseRepository.findWithoutOwner();
-
-        return withoutOwner.stream().map(FranchiseResponseDto::new).toList();
-    }
+//    @Override
+//    @Transactional
+//    public List<FranchiseResponseDto> findFranchiseWithoutOwner() {
+//        // 가맹점주가 없는 가맹점 리스트업
+//        List<Franchise> withoutOwner = franchiseRepository.findWithoutOwner();
+//
+//        return withoutOwner.stream().map(FranchiseResponseDto::new).toList();
+//    }
 
     // 사용자 계정 삭제
     public void deleteUser(User user) {

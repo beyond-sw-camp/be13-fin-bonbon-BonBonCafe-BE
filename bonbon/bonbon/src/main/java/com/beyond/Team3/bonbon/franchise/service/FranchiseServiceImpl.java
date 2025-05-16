@@ -2,11 +2,15 @@
 package com.beyond.Team3.bonbon.franchise.service;
 
 
+import com.beyond.Team3.bonbon.common.enums.RegionName;
+import com.beyond.Team3.bonbon.franchise.dto.FranchiseSummaryDto;
+import com.beyond.Team3.bonbon.franchise.dto.FranchiseLocationDto;
 import com.beyond.Team3.bonbon.franchise.dto.FranchisePageResponseDto;
 import com.beyond.Team3.bonbon.franchise.dto.FranchiseRequestDto;
 import com.beyond.Team3.bonbon.franchise.dto.FranchiseResponseDto;
 import com.beyond.Team3.bonbon.franchise.dto.FranchiseUpdateRequestDto;
 import com.beyond.Team3.bonbon.franchise.entity.Franchise;
+import com.beyond.Team3.bonbon.franchise.entity.Manager;
 import com.beyond.Team3.bonbon.franchise.repository.FranchiseRepository;
 import com.beyond.Team3.bonbon.handler.exception.FranchiseException;
 import com.beyond.Team3.bonbon.handler.exception.PageException;
@@ -18,18 +22,25 @@ import com.beyond.Team3.bonbon.region.entity.Region;
 import com.beyond.Team3.bonbon.region.repository.RegionRepository;
 import com.beyond.Team3.bonbon.user.entity.User;
 import com.beyond.Team3.bonbon.user.repository.UserRepository;
+import com.beyond.Team3.bonbon.user.repository.ManagerRepository;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.reactive.function.client.WebClient;
 
 import java.security.Principal;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -41,6 +52,11 @@ public class FranchiseServiceImpl implements FranchiseService {
     private final UserRepository userRepository;
     private final RegionRepository regionRepository;
     private final HeadquarterRepository headquarterRepository;
+    private final WebClient.Builder webClientBuilder;
+    private final ManagerRepository managerRepository;
+
+    @Value("${kakao.map.api.key}")
+    private String kakaoApiKey;
 
 
     @Override
@@ -54,14 +70,31 @@ public class FranchiseServiceImpl implements FranchiseService {
 
         Page<Franchise> franchisePage = franchiseRepository.findAll(pageable);
 
-        List<FranchiseResponseDto> responseDto = franchisePage.stream().map(FranchiseResponseDto::new).toList();
-        FranchisePageResponseDto pageResponseDto = new FranchisePageResponseDto(responseDto, franchisePage.getTotalElements());
-
-        if (franchisePage.isEmpty()){
+        if (franchisePage.isEmpty()) {
             throw new IllegalArgumentException("franchise is empty");
         }
-        return pageResponseDto;
 
+        List<FranchiseResponseDto> responseDto = franchisePage.getContent().stream()
+                .map(franchise -> {
+                    // 매니저 조회 (regionCode로)
+                    Manager manager = managerRepository.findByRegionCode(franchise.getRegionCode());
+
+                    String managerName = manager != null && manager.getUserId() != null
+                            ? manager.getUserId().getName()
+                            : "";
+
+                    // 지역 이름 조회 (RegionName enum)
+                    RegionName regionName = franchise.getRegionCode() != null
+                            ? franchise.getRegionCode().getRegionName()
+                            : null;
+
+                    return new FranchiseResponseDto(franchise, managerName, regionName);
+                })
+                .toList();
+
+        FranchisePageResponseDto pageResponseDto = new FranchisePageResponseDto(responseDto, franchisePage.getTotalElements());
+
+        return pageResponseDto;
     }
 
     @Override
@@ -72,11 +105,16 @@ public class FranchiseServiceImpl implements FranchiseService {
         if (franchise.isEmpty()){
             throw new FranchiseException(ExceptionMessage.FRANCHISE_NOT_FOUND);
         }
+        Manager manager = managerRepository.findByRegionCode(franchise.get().getRegionCode());
+
+        User managerId = userRepository.findByUserId(manager.getUserId().getUserId());
+        String managerName = managerId.getName();
+        RegionName regionName = franchise.get().getRegionCode().getRegionName();
 
         log.info("Franchise found: " + franchise.get().getFranchiseId());
 
 
-        return new FranchiseResponseDto(franchise.get());
+        return new FranchiseResponseDto( franchise.get(), managerName, regionName);
     }
 
     @Override
@@ -109,6 +147,72 @@ public class FranchiseServiceImpl implements FranchiseService {
         Franchise franchise = optionalFranchise.get();
         franchise.update(requestDto);
         franchiseRepository.save(franchise);
+    }
+
+    @Override
+    public List<FranchiseLocationDto> getFranchiseLocations() {
+        WebClient webClient = webClientBuilder
+                .baseUrl("https://dapi.kakao.com")
+                .defaultHeader("Authorization", "KakaoAK " + kakaoApiKey)
+                .build();
+
+        List<Franchise> franchises = franchiseRepository.findAll();
+
+        return franchises.stream()
+                .map(franchise -> {
+                    String address = franchise.getRoadAddress();
+                    String name = franchise.getName();
+
+                    String response = webClient.get()
+                            .uri(uriBuilder -> uriBuilder
+                                    .path("/v2/local/search/address.json")
+                                    .queryParam("query", address)
+                                    .build())
+                            .retrieve()
+                            .bodyToMono(String.class)
+                            .block();
+
+                    try {
+                        ObjectMapper mapper = new ObjectMapper();
+                        JsonNode root = mapper.readTree(response);
+                        JsonNode documents = root.path("documents");
+
+                        if (!documents.isEmpty()) {
+                            JsonNode first = documents.get(0);
+                            double lat = first.path("y").asDouble();
+                            double lng = first.path("x").asDouble();
+
+                            return new FranchiseLocationDto(name, lat, lng);
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+
+                    return null;
+                })
+                .filter(Objects::nonNull)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public FranchiseSummaryDto findByFranchiseNam(String name) {
+        // franchiseId, franchiseTel
+        Franchise franchise = franchiseRepository.findByName(name);
+        log.info("Franchise found: " + franchise.getFranchiseId());
+        log.info("Franchise found: " + franchise.getFranchiseTel());
+
+        // 지역 코드로 담당자 찾기
+        Region region = franchise.getRegionCode();
+
+        Manager manager = managerRepository.findByRegionCode(region);
+
+        // 담당자의 유저 아이디로 이름, 전화번호 찾기
+        User managerInfo = userRepository.findByUserId(manager.getUserId().getUserId());
+
+        log.info("User found: " + managerInfo.getName());
+        log.info("User found: " + managerInfo.getPhone());
+
+        return new FranchiseSummaryDto(franchise.getFranchiseId(), franchise.getFranchiseTel(), managerInfo.getName(), managerInfo.getPhone());
     }
 
 }

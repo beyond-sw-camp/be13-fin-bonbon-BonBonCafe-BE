@@ -31,16 +31,8 @@ public class FlaskService {
     private final RestTemplate restTemplate = new RestTemplate();
     private final String url = "http://127.0.0.1:8082/forecast";
 
-    public List<ForecastResponseDto> weeklyForecast(Principal principal, List<DailySalesDto> history, int periods) throws JsonProcessingException
+    public List<ForecastResponseDto> weeklyForecast(List<DailySalesDto> history, int periods) throws JsonProcessingException
     {
-        // 해당 사용자 확인
-        User user = userRepository.findByEmail(principal.getName())
-                .orElseThrow(() -> new UserException(ExceptionMessage.USER_NOT_FOUND));
-
-        // 본사, 매니저만 접근 가능하게(매니저도 자기 지역만 조회하도록 해야 하나?)
-        if (user.getUserType() == Role.FRANCHISEE) {
-            throw new UserException(ExceptionMessage.INVALID_USER_ROLE);
-        }
 
         // 헤더 객체 생성
         HttpHeaders headers = new HttpHeaders();

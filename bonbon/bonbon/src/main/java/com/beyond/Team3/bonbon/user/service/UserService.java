@@ -40,5 +40,5 @@ public interface UserService {
 
     void deleteManager(Long userId, Principal principal);
 
-    List<FranchiseResponseDto> findFranchiseWithoutOwner();
+//    List<FranchiseResponseDto> findFranchiseWithoutOwner();
 }

@@ -27,8 +27,6 @@ import java.util.List;
 @RequiredArgsConstructor
 public class FranchiseController {
 
-//    @Value("${kakao.map.api.key}")
-    private String kakaoApiKey;
 
     private final FranchiseService franchiseService;
 

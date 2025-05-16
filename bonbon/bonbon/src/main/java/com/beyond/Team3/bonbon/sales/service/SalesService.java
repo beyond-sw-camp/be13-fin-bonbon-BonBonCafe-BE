@@ -16,7 +16,7 @@ public interface SalesService {
     DailySalesDto getDailySales(Long franchiseId, LocalDate salesDate);
 
     // 가맹점 기간별 매출 조회
-    List<DailySalesDto> getPeriodSales(Principal principal, Long franchiseId, LocalDate startDate, LocalDate endDate);
+    List<DailySalesDto> getPeriodSales(Long franchiseId, LocalDate startDate, LocalDate endDate);
 
     // 매출 순위 조회
     Page<SalesRankingDto> getFranchiseRanking(Principal principal, int regionCode, Integer year, Integer month, int page, int size);
@@ -24,7 +24,8 @@ public interface SalesService {
     // 가맹점 기간별 판매 메뉴 순위 조회
     List<MenuRankingDto> getMenuSalesRanking(Principal principal, Long franchiseId, LocalDate startDate, LocalDate endDate);
 
-
+    // 과거 데이터 조회
+    List<DailySalesDto> getHistory(Long franchiseId, LocalDate startDate, LocalDate endDate);
 
 }
 

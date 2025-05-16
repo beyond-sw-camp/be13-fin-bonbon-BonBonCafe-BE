@@ -55,7 +55,7 @@ public class FranchiseServiceImpl implements FranchiseService {
     private final WebClient.Builder webClientBuilder;
     private final ManagerRepository managerRepository;
 
-    @Value("${kakao.map.api.key}")
+//    @Value("${kakao.map.api.key}")
     private String kakaoApiKey;
 
 

@@ -201,6 +201,7 @@ public class UserServiceImpl implements UserService {
         return null;
     }
 
+    // 가맹점주 계정 삭제
     @Override
     @Transactional
     public void deleteFranchisee(Long userId, Principal principal) {
@@ -221,6 +222,7 @@ public class UserServiceImpl implements UserService {
         deleteUser(deleteUser);
     }
 
+    // 담당자 계정 삭제
     @Override
     @Transactional
     public void deleteManager(Long userId, Principal principal) {

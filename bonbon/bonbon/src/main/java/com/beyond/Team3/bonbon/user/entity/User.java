@@ -5,6 +5,7 @@ import com.beyond.Team3.bonbon.common.enums.Role;
 import com.beyond.Team3.bonbon.headquarter.entity.Headquarter;
 import com.beyond.Team3.bonbon.user.dto.UserModifyDto;
 import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -20,6 +21,7 @@ import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 
 import java.time.LocalDateTime;
@@ -37,6 +39,7 @@ public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "user_id")
     private Long userId;
 
     private String email;
@@ -44,6 +47,7 @@ public class User {
     private String password;
 
     @Enumerated(EnumType.STRING)
+    @Column(name = "user_type")
     private Role userType;
 
     private String phone;

@@ -78,16 +78,8 @@ public class SalesServiceImpl implements SalesService {
 
     @Override
     @Transactional
-    public List<DailySalesDto> getPeriodSales(Principal principal, Long franchiseId, LocalDate startDate, LocalDate endDate) {
+    public List<DailySalesDto> getPeriodSales(Long franchiseId, LocalDate startDate, LocalDate endDate) {
 
-        // 해당 사용자 확인
-        User user = userRepository.findByEmail(principal.getName())
-                .orElseThrow(() -> new UserException(ExceptionMessage.USER_NOT_FOUND));
-
-        // 본사, 매니저만 접근 가능하게(매니저도 자기 지역만 조회하도록 해야 하나?)
-        if (user.getUserType() == Role.FRANCHISEE) {
-            throw new UserException(ExceptionMessage.INVALID_USER_ROLE);
-        }
 
         // 기간 설정 예외처리
         if(startDate.isAfter(endDate)) {
@@ -139,9 +131,17 @@ public class SalesServiceImpl implements SalesService {
         franchiseRepository.findByFranchiseId(franchiseId)
                 .orElseThrow(() -> new FranchiseException(ExceptionMessage.FRANCHISE_NOT_FOUND));
 
-        return salesDetailRepository.findMenuRanking(franchiseId, startDate, endDate, 5);
+        return salesDetailRepository.findMenuRanking(franchiseId, startDate, endDate, 7);
     }
 
+    @Override
+    public List<DailySalesDto> getHistory(Long franchiseId, LocalDate startDate, LocalDate endDate) {
+        if (startDate.isAfter(endDate)) {
+            throw new FranchiseException(ExceptionMessage.INVALID_DATE_RANGE);
+        }
+
+        return salesRecordRepository.getDailySalesByPeriod(franchiseId, startDate, endDate);
+    }
 
 
 }

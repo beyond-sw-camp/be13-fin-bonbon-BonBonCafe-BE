@@ -1,6 +1,6 @@
 package com.beyond.Team3.bonbon.menu.service;
 
-import com.beyond.Team3.bonbon.headquarter.entity.Headquarter;
+import com.beyond.Team3.bonbon.handler.exception.UserException;
 import com.beyond.Team3.bonbon.headquarter.repository.HeadquarterRepository;
 import com.beyond.Team3.bonbon.ingredient.entity.Ingredient;
 import com.beyond.Team3.bonbon.ingredient.repository.IngredientRepository;
@@ -15,18 +15,24 @@ import com.beyond.Team3.bonbon.menuCategory.repository.MenuCategoryRepository;
 import com.beyond.Team3.bonbon.menuDetail.dto.MenuDetailRequestDto;
 import com.beyond.Team3.bonbon.menuDetail.entity.MenuDetail;
 import com.beyond.Team3.bonbon.menuDetail.repository.MenuDetailRepository;
+import com.beyond.Team3.bonbon.user.entity.User;
+import com.beyond.Team3.bonbon.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.security.Principal;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import static com.beyond.Team3.bonbon.handler.message.ExceptionMessage.USER_NOT_FOUND;
 
 @Service
 @RequiredArgsConstructor
 public class MenuService {
+    private final UserRepository userRepository;
     private final MenuRepository menuRepository;
     private final CategoryRepository categoryRepository;
     private final MenuDetailRepository menuDetailRepository;
@@ -34,22 +40,23 @@ public class MenuService {
     private final HeadquarterRepository headquarterRepository;
     private final MenuCategoryRepository menuCategoryRepository;
 
-    public Page<MenuResponseDto> getAllMenu(Pageable pageable, Long headquarterId, String search) {
-        Page<Menu> menu = menuRepository.findAllMenu(pageable, headquarterId, search);
+    public Page<MenuResponseDto> getAllMenu(Pageable pageable, Principal principal, String search) {
+        User user = getLoginUser(principal);
+        Page<Menu> menu = menuRepository.findAllMenu(pageable, user.getHeadquarterId().getHeadquarterId(), search);
         return menu.map(MenuResponseDto::from);
     }
 
-    public MenuResponseDto getMenu(Long menuId, Long headquarterId) {
-        Menu menu = findMenuWithHeadquarterValidation(menuId, headquarterId);
+    public MenuResponseDto getMenu(Long menuId, Principal principal) {
+        User user = getLoginUser(principal);
+        Menu menu = findMenuWithHeadquarterValidation(menuId, user.getHeadquarterId().getHeadquarterId());
         return MenuResponseDto.from(menu);
     }
 
     @Transactional
-    public MenuResponseDto createMenu(MenuRequestDto dto, Long headquarterId) {
-        Headquarter headquarter = headquarterRepository.findById(headquarterId)
-                .orElseThrow(() -> new IllegalArgumentException("해당 본사가 없습니다."));
+    public MenuResponseDto createMenu(MenuRequestDto dto, Principal principal) {
+        User user = getLoginUser(principal);
 
-        Menu menu = dto.toEntity(headquarter);
+        Menu menu = dto.toEntity(user.getHeadquarterId());
         menuRepository.save(menu);
 
         applyCategories(menu, dto.getCategoryIds());
@@ -59,8 +66,9 @@ public class MenuService {
     }
 
     @Transactional
-    public MenuResponseDto updateMenu(Long menuId, Long headquarterId, MenuRequestDto dto) {
-        Menu menu = findMenuWithHeadquarterValidation(menuId, headquarterId);
+    public MenuResponseDto updateMenu(Long menuId, Principal principal, MenuRequestDto dto) {
+        User user = getLoginUser(principal);
+        Menu menu = findMenuWithHeadquarterValidation(menuId, user.getHeadquarterId().getHeadquarterId());
         menu.updateMenu(dto);
 
         if (dto.getCategoryIds() != null) {
@@ -79,14 +87,16 @@ public class MenuService {
     }
 
     @Transactional
-    public void deleteMenu(Long menuId, Long headquarterId) {
-        findMenuWithHeadquarterValidation(menuId, headquarterId);
+    public void deleteMenu(Long menuId, Principal principal) {
+        User user = getLoginUser(principal);
+        findMenuWithHeadquarterValidation(menuId, user.getHeadquarterId().getHeadquarterId());
         menuRepository.deleteById(menuId);
     }
 
     @Transactional(readOnly = true)
-    public List<MenuResponseDto> getMenusByCategoryAndHeadquarter(Long categoryId, Long headquarterId) {
-        List<Menu> menus = menuRepository.findMenusByCategoryAndHeadquarter(categoryId, headquarterId);
+    public List<MenuResponseDto> getMenusByCategoryAndHeadquarter(Long categoryId, Principal principal) {
+        User user = getLoginUser(principal);
+        List<Menu> menus = menuRepository.findMenusByCategoryAndHeadquarter(categoryId, user.getHeadquarterId().getHeadquarterId());
         return menus.stream().map(MenuResponseDto::from).collect(Collectors.toList());
     }
 
@@ -123,5 +133,10 @@ public class MenuService {
                 menu.addDetail(new MenuDetail(menu, ingredient, detailDto.getQuantity()));
             }
         }
+    }
+
+    private User getLoginUser(Principal principal) {
+        return userRepository.findByEmail(principal.getName())
+                .orElseThrow(() -> new UserException(USER_NOT_FOUND));
     }
 }

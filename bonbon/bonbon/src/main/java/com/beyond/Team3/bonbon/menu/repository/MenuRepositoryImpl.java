@@ -1,5 +1,6 @@
 package com.beyond.Team3.bonbon.menu.repository;
 
+import com.beyond.Team3.bonbon.franchiseMenu.entity.QFranchiseMenu;
 import com.beyond.Team3.bonbon.ingredient.entity.QIngredient;
 import com.beyond.Team3.bonbon.menu.entity.Menu;
 import com.beyond.Team3.bonbon.menu.entity.QMenu;
@@ -75,5 +76,27 @@ public class MenuRepositoryImpl implements MenuRepositoryCustom {
                         menu.headquarter.headquarterId.eq(headquarterId)
                 )
                 .fetch();
+    }
+
+    @Override
+    public Page<Menu> findAllByFranchise(Pageable pageable, Long franchiseId) {
+        QMenu menu = QMenu.menu;
+        QFranchiseMenu fm = QFranchiseMenu.franchiseMenu;
+
+        List<Menu> content = queryFactory
+                .select(fm.menuId) // 메뉴 자체를 가져옴
+                .from(fm)
+                .where(fm.franchiseId.franchiseId.eq(franchiseId))
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize())
+                .fetch();
+
+        Long total = queryFactory
+                .select(fm.count())
+                .from(fm)
+                .where(fm.franchiseId.franchiseId.eq(franchiseId))
+                .fetchOne();
+
+        return new PageImpl<>(content, pageable, total);
     }
 }

@@ -49,7 +49,6 @@ public class DataSourceConfig {
 
     private final MariaDBProperties mariaDBProperties;
 
-
     // Master 데이터베이스의 DataSource를 생성하는 빈
     @Bean(name = "masterDataSource")
     @Primary

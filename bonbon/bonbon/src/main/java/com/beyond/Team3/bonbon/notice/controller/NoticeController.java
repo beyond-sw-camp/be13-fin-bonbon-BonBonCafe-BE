@@ -12,7 +12,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+
+import java.security.Principal;
 
 @Tag(name = "게시판", description = "게시판")
 @RestController
@@ -22,61 +25,67 @@ public class NoticeController {
     private final NoticeService noticeService;
 
     @Operation(summary = "게시글 단건 조회")
-    @GetMapping("/notice/{noticeId}/{headquarterId}")
+    @GetMapping("/notice/{noticeId}")
     public ResponseEntity<NoticeResponseDto> getNotice(
-            @PathVariable Long noticeId,
-            @PathVariable Long headquarterId
+            Principal principal,
+            @PathVariable Long noticeId
     ) {
-        NoticeResponseDto noticeResponseDto = noticeService.getNotice(noticeId, headquarterId);
+        NoticeResponseDto noticeResponseDto = noticeService.getNotice(noticeId, principal);
         return ResponseEntity.status(HttpStatus.OK).body(noticeResponseDto);
     }
 
     @Operation(summary = "게시글 전체 조회")
-    @GetMapping("/notice/{headquarterId}")
+    @GetMapping("/notice")
     public ResponseEntity<Page<NoticeResponseDto>> getAllNotices(
-            @PathVariable Long headquarterId,
             @PageableDefault(size = 10, page = 0) Pageable pageable,
+            Principal principal,
             @RequestParam(required = false) String search,
             @RequestParam(required = false) PostType postType
     ) {
-        Page<NoticeResponseDto> noticeResponseDto = noticeService.getAllNotice(headquarterId, pageable, search, postType);
+        Page<NoticeResponseDto> noticeResponseDto = noticeService.getAllNotice(principal, pageable, search, postType);
         return ResponseEntity.ok(noticeResponseDto);
     }
 
+    @PreAuthorize("hasRole('ROLE_HEADQUARTER')")
     @Operation(summary = "게시글 등록")
-    @PostMapping("/notice/{headquarterId}")
+    @PostMapping("/notice")
     public ResponseEntity<NoticeResponseDto> createNotice(
-            @PathVariable Long headquarterId,
+            Principal principal,
             @RequestBody NoticeRequestDto noticeRequestdto
     ) {
-        NoticeResponseDto noticeResponseDto = noticeService.createNotice(headquarterId, noticeRequestdto);
+        NoticeResponseDto noticeResponseDto = noticeService.createNotice(principal, noticeRequestdto);
         return ResponseEntity.ok(noticeResponseDto);
     }
 
+    @PreAuthorize("hasRole('ROLE_HEADQUARTER')")
     @Operation(summary = "게시글 수정")
-    @PutMapping("/notice/{noticeId}/{headquarterId}")
+    @PutMapping("/notice/{noticeId}")
     public ResponseEntity<NoticeResponseDto> updateNotice(
             @PathVariable Long noticeId,
             @RequestBody NoticeRequestDto noticeRequestdto,
-            @PathVariable Long headquarterId
+            Principal principal
     ) {
-        NoticeResponseDto noticeResponseDto = noticeService.updateNotice(noticeId, noticeRequestdto, headquarterId);
+        NoticeResponseDto noticeResponseDto = noticeService.updateNotice(noticeId, noticeRequestdto, principal);
         return ResponseEntity.ok(noticeResponseDto);
     }
 
+    @PreAuthorize("hasRole('ROLE_HEADQUARTER')")
     @Operation(summary = "게시글 삭제")
-    @DeleteMapping("/notice/{noticeId}/{headquarterId}")
+    @DeleteMapping("/notice/{noticeId}")
     public ResponseEntity<String> deleteNotice(
             @PathVariable Long noticeId,
-            @PathVariable Long headquarterId) {
-        noticeService.deleteNotice(noticeId, headquarterId);
+            Principal principal) {
+        noticeService.deleteNotice(noticeId, principal);
         return ResponseEntity.status(HttpStatus.OK).body("게시글이 삭제되었습니다.");
     }
 
+    @PreAuthorize("hasRole('ROLE_HEADQUARTER')")
     @Operation(summary = "문자 일괄 전송")
     @PostMapping("/notice/{noticeId}/send-sms")
-    public ResponseEntity<Void> sendSmsNotice(@PathVariable Long noticeId) {
-        noticeService.sendSmsToFranchises(noticeId);
+    public ResponseEntity<Void> sendSmsNotice(
+            @PathVariable Long noticeId,
+            Principal principal) {
+        noticeService.sendSmsToFranchises(noticeId, principal);
         return ResponseEntity.ok().build();
     }
 }

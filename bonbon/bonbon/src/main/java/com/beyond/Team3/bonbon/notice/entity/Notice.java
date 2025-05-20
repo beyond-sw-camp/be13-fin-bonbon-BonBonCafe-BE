@@ -42,17 +42,6 @@ public class Notice extends EntityDate {
         this.isSent = true;
     }
 
-    public static Notice createNotice(Headquarter headquarter, NoticeRequestDto noticeRequestdto) {
-
-        return Notice.builder()
-                .headquarterId(headquarter)
-                .title(noticeRequestdto.getTitle())
-                .content(noticeRequestdto.getContent())
-                .postType(noticeRequestdto.getPostType())
-                .author(headquarter.getName())
-                .build();
-    }
-
     public void updateNotice(NoticeRequestDto dto) {
         this.title = dto.getTitle();
         this.content = dto.getContent();

@@ -17,6 +17,7 @@ public class FranchiseStockHistoryResponseDto {
     private Long franchiseId;
     private Long historyId;
     private Long ingredientId;
+    private Long headquarterId;
     private String ingredientName;
     private LocalDate date;
     private HistoryStatus historyStatus;
@@ -28,6 +29,7 @@ public class FranchiseStockHistoryResponseDto {
                 history.getFranchiseId().getFranchiseId(),
                 history.getHistoryId(),
                 history.getIngredientId().getIngredientId(),
+                history.getFranchiseId().getHeadquarterId().getHeadquarterId(),
                 history.getIngredientId().getIngredientName(),
                 history.getDate(),
                 history.getHistoryStatus(),

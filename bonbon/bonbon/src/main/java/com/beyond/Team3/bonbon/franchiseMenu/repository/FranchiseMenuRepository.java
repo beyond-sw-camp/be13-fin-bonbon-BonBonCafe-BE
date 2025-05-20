@@ -1,4 +1,4 @@
-package com.beyond.Team3.bonbon.franchiseMenu.Repository;
+package com.beyond.Team3.bonbon.franchiseMenu.repository;
 
 import com.beyond.Team3.bonbon.franchise.entity.Franchise;
 import com.beyond.Team3.bonbon.franchiseMenu.entity.FranchiseMenu;

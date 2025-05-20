@@ -11,4 +11,5 @@ public interface MenuRepositoryCustom {
 
     List<Menu> findMenusByCategoryAndHeadquarter(Long categoryId, Long headquarterId);
 
+    Page<Menu> findAllByFranchise(Pageable pageable, Long franchiseId);
 }

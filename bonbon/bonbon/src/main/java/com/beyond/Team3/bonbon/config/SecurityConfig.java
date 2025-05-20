@@ -72,6 +72,7 @@ public class SecurityConfig {
                         requests
                                 .requestMatchers("/swagger-ui/**", "/v3/api-docs/**", "/actuator/health").permitAll()
                                 .requestMatchers("/s3/*").permitAll()
+                                .requestMatchers("/health").permitAll()
                                 .requestMatchers("/bonbon/user/login").permitAll() // 로그인 하지 않는 사용자 login 페이지 접근 가능
                                 .anyRequest().authenticated());  // 위에 명시된 경로 외의 다른 모든 요청은 인증된 사용자만 접근할 수 있도록 설정
                 // JWT Token 인증 방식의 미리 만들어둔 Filter를 Filter Chain에 추가

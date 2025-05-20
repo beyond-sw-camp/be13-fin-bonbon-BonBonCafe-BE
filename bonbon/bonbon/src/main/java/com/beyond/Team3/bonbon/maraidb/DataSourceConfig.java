@@ -29,6 +29,7 @@ import java.util.Objects;
         basePackages = {
                 "com.beyond.Team3.bonbon.franchise.repository",
                 "com.beyond.Team3.bonbon.franchiseStock.repository",
+                "com.beyond.Team3.bonbon.franchiseMenu.Repository",
                 "com.beyond.Team3.bonbon.franchiseStockHistory.repository",
                 "com.beyond.Team3.bonbon.headquarter.repository",
                 "com.beyond.Team3.bonbon.headquaterStock.repository",
@@ -47,7 +48,6 @@ import java.util.Objects;
 public class DataSourceConfig {
 
     private final MariaDBProperties mariaDBProperties;
-
 
     // Master 데이터베이스의 DataSource를 생성하는 빈
     @Bean(name = "masterDataSource")

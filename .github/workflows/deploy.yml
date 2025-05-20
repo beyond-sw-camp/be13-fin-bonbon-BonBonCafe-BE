@@ -8,8 +8,8 @@ on:
 env:
   AWS_REGION: ap-northeast-2 #리전
   S3_BUCKET_NAME: bonbon-back-end-bucket #버킷 이름
-  CODE_DEPLOY_APPLICATION_NAME: bonbon-BackEnd-dev #CodeDeploy 애플리케이션 이름
-  CODE_DEPLOY_DEPLOYMENT_GROUP_NAME: bonbon-BackEnd-deployGroup #CodeDeploy 배포 그룹 이름
+  CODE_DEPLOY_APPLICATION_NAME: bonbon-BackEnd-dev1 #CodeDeploy 애플리케이션 이름
+  CODE_DEPLOY_DEPLOYMENT_GROUP_NAME: bonbon-BackEnd-Deploy #CodeDeploy 배포 그룹 이름
 
 permissions:
   contents: read

@@ -2,11 +2,11 @@ package com.beyond.Team3.bonbon.franchiseMenu.service;
 
 import com.beyond.Team3.bonbon.franchise.entity.Franchise;
 import com.beyond.Team3.bonbon.franchise.repository.FranchiseRepository;
-import com.beyond.Team3.bonbon.franchiseMenu.Repository.FranchiseMenuRepository;
 import com.beyond.Team3.bonbon.franchiseMenu.dto.FranchiseMenuRequestDto;
 import com.beyond.Team3.bonbon.franchiseMenu.dto.FranchiseMenuResponseDto;
 import com.beyond.Team3.bonbon.franchiseMenu.entity.FranchiseMenu;
 import com.beyond.Team3.bonbon.franchiseMenu.entity.FranchiseMenuId;
+import com.beyond.Team3.bonbon.franchiseMenu.repository.FranchiseMenuRepository;
 import com.beyond.Team3.bonbon.handler.exception.UserException;
 import com.beyond.Team3.bonbon.menu.dto.MenuResponseDto;
 import com.beyond.Team3.bonbon.menu.entity.Menu;

@@ -8,7 +8,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
-import org.springframework.jdbc.datasource.LazyConnectionDataSourceProxy;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
@@ -29,7 +28,7 @@ import java.util.Objects;
         basePackages = {
                 "com.beyond.Team3.bonbon.franchise.repository",
                 "com.beyond.Team3.bonbon.franchiseStock.repository",
-                "com.beyond.Team3.bonbon.franchiseMenu.Repository",
+                "com.beyond.Team3.bonbon.franchiseMenu.repository",
                 "com.beyond.Team3.bonbon.franchiseStockHistory.repository",
                 "com.beyond.Team3.bonbon.headquarter.repository",
                 "com.beyond.Team3.bonbon.headquaterStock.repository",

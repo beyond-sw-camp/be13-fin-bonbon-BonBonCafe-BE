@@ -1,4 +1,105 @@
-# 📄 프로젝트 문서 모음
+# 📄 bonbon - 영업 관리 시스템
+## 🧷 1 .프로젝트 개요
+> **BonBon - 본사-가맹점 영업 관리 시스템**
+
+**본사와 가맹점 간의 운영을 효율화하기 위해 개발된 통합 영업 관리 시스템입니다.**  
+**Spring Boot 기반의 REST API 서버로, 본사와 가맹점 간의 재고 흐름, 메뉴 지정, 가맹점 주문, 공지사항 관리, 가맹점별 메뉴 관리 등 다양한 비즈니스 로직을 처리합니다.**
+
+---
+
+### 🛠 개발 배경
+- 프랜차이즈 본사는 전국 가맹점의 재고, 주문, 매출 등 다양한 운영 정보를 실시간으로 파악하고 관리해야 합니다.
+- 기존 시스템은 엑셀/수기 방식에 의존하고 있어 업무 누락, 시간 낭비, 정보 비대칭 등의 문제가 발생합니다.
+- 본사와 가맹점 간의 원활한 **데이터 공유**와 **운영 효율화**가 가능한 시스템이 필요했습니다.
+
+### 🎯 서비스 목표
+- 본사와 가맹점 간의 실시간 연동 기능 구현
+- 본사 메뉴 지정 → 가맹점 선택적 판매 구조 확립
+- 재고 흐름 자동화 및 신청 이력 관리
+- 메뉴/공지사항 일괄 전파 시스템
+- 데이터 기반의 매출 분석과 가맹점 운영 인사이트 제공
+
+### 🚀 기대 효과
+- 본사 운영 효율 증가 및 관리 체계화
+- 가맹점별 메뉴/재고/매출 현황 가시화
+- 공지사항/메뉴 전달의 일원화
+- 가맹점주에게 실시간 운영 데이터 제공으로 주체적인 경영 가능
+- 수작업 최소화 → 인력 및 시간 비용 절감
+---
+
+### 🏢 본사 기능
+
+| 기능 카테고리 | 주요 기능 설명 |
+|---------------|----------------|
+| 📋 계정 관리 | 가맹점주/담당자 계정 등록 및 관리 |
+| 🍽 메뉴 관리 | 메뉴 등록/수정/삭제, 필수 판매 메뉴 지정, 오더 스톱 처리 |
+| 📊 매출 분석 | 지점별 매출/마진/납부액 자동 계산 및 시각화 |
+| 🗺 가맹점 요약 확인 | 가맹점 목록/위치, 정보 요약, 메뉴 판매 순위 등 |
+| 🧾 가맹점 상세 관리 | 가맹점 등록/삭제, 정보 입력 및 메모 작성 |
+| 📢 공지사항 게시판 | 공지 등록/수정/삭제 및 가맹점 알림 |
+
+---
+
+### 🏪 가맹점 기능
+
+| 기능 카테고리 | 주요 기능 설명 |
+|---------------|----------------|
+| 🍽 메뉴 관리 | 본사 메뉴 조회 및 판매 선택 가능 |
+| 📊 가맹점 요약 | 본인 매출 차트, 인기 메뉴 확인, 인근 가맹점 비교 |
+| 🧾 가맹점 관리 | 점주/가게 정보 관리, 판매방식/배달 플랫폼 등록·조회 |
+| 📢 공지사항 게시판 | 본사 이벤트 게시글 조회 |
+## 🤗 2. 팀원 소개
+
+<div align="center">
+
+<table>
+  <tr>
+    <td align="center">
+      <img src="https://github.com/user-attachments/assets/8aef79a6-76b5-496a-ada1-40fc96373a83" width="100"  height="100"><br>
+      <b><a href="https://github.com/kimdoyun0806">김도윤</a></b><br>팀원
+    </td>
+     <td align="center">
+      <img src="https://github.com/user-attachments/assets/8aef79a6-76b5-496a-ada1-40fc96373a83" width="100"  height="100"><br>
+      <b><a href="">김민석</a></b><br>팀원
+    </td>
+    <td align="center">
+      <img src="https://github.com/user-attachments/assets/8aef79a6-76b5-496a-ada1-40fc96373a83" width="100" height="100"><br>
+      <b>🏆 <a href="https://github.com/namoo36">이승용</a></b><br><b>팀장</b>
+    </td>
+    <td align="center">
+      <img src="https://github.com/user-attachments/assets/8aef79a6-76b5-496a-ada1-40fc96373a83" width="100"  height="100"><br>
+      <b><a href="https://github.com/jelee55">이제경</a></b><br>팀원
+    </td>
+  </tr>
+</table>
+
+</div>
+
+
+## 기술 스택
+### 🌐 Backend
+<img src="https://img.shields.io/badge/java-007396?style=for-the-badge&logo=java&logoColor=white"> <img src="https://img.shields.io/badge/spring-6DB33F?style=for-the-badge&logo=spring&logoColor=white">
+<img src="https://img.shields.io/badge/springboot-6DB33F?style=for-the-badge&logo=springboot&logoColor=white">
+<img src="https://img.shields.io/badge/Spring%20Data%20JPA-%236DB33F?style=for-the-badge&logo=spring&logoColor=white">
+<img src="https://img.shields.io/badge/Spring%20Security-6DB33F?style=for-the-badge&logo=Spring%20Security&logoColor=white"> ![JWT](https://img.shields.io/badge/JWT-000000?style=for-the-badge&logo=jsonwebtokens&logoColor=white) ![QueryDSL](https://img.shields.io/badge/QueryDSL-005571?style=for-the-badge&logo=hibernate&logoColor=white)
+
+### 🌐 Frontend
+<img src="https://img.shields.io/badge/css3-1572B6?style=for-the-badge&logo=css3&logoColor=white"> <img src="https://img.shields.io/badge/vuetify-1867C0?style=for-the-badge&logo=vuetify&logoColor=white"> <img src="https://img.shields.io/badge/chart.js-FF6384?style=for-the-badge&logo=chartdotjs&logoColor=white"> <img src="https://img.shields.io/badge/html5-E34F26?style=for-the-badge&logo=html5&logoColor=white"> <img src="https://img.shields.io/badge/javascript-F7DF1E?style=for-the-badge&logo=JavaScript&logoColor=white"> <img src="https://img.shields.io/badge/Axios-5A29E4?style=for-the-badge&logo=Axios&logoColor=white"> <img src="https://img.shields.io/badge/vue.js-4FC08D?style=for-the-badge&logo=Vue.js&logoColor=white"> <img src="https://img.shields.io/badge/bootstrap-7952B3?style=for-the-badge&logo=bootstrap&logoColor=white">
+
+### 🗃️ DB
+<img src="https://img.shields.io/badge/mariaDB-003545?style=for-the-badge&logo=mariaDB&logoColor=white"> <img src="https://img.shields.io/badge/Redis-DC382D?style=for-the-badge&logo=Redis&logoColor=white"> 
+
+### ⚙️ Tools
+<img src="https://img.shields.io/badge/Git-F05032?style=for-the-badge&logo=Git&logoColor=white"> <img src="https://img.shields.io/badge/github-181717?style=for-the-badge&logo=github&logoColor=white"> <img src="https://img.shields.io/badge/Figma-9C29B1?style=for-the-badge&logo=Figma&logoColor=white"> <img src="https://img.shields.io/badge/Postman-FF6C37?style=for-the-badge&logo=Postman&logoColor=white"> <img src="https://img.shields.io/badge/Swagger-85EA2D?style=for-the-badge&logo=Swagger&logoColor=white"> <img src="https://img.shields.io/badge/erdCloud-0097A7?style=for-the-badge&logo=erdCloud&logoColor=white">
+
+### 🚀 CI/CD
+<img src="https://img.shields.io/badge/AWS EC2-232F3E?style=for-the-badge&logo=amazonaws&logoColor=white"> <img src="https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=Docker&logoColor=white"> <img src="https://img.shields.io/badge/DockerHub-2496ED?style=for-the-badge&logo=docker&logoColor=white"> <img src="https://img.shields.io/badge/Kubernetes-326CE5?style=for-the-badge&logo=Kubernetes&logoColor=white"> <img src="https://img.shields.io/badge/ArgoCD-F5503C?style=for-the-badge&logo=argo&logoColor=white"> <img src="https://img.shields.io/badge/Route53-8C4FFF?style=for-the-badge&logo=amazonroute53&logoColor=white"> <img src="https://img.shields.io/badge/S3-569A31?style=for-the-badge&logo=amazons3&logoColor=white"> <img src="https://img.shields.io/badge/ELB-8C4FFF?style=for-the-badge&logo=awselasticloadbalancing&logoColor=white">
+
+### 💬 Communication
+<img src="https://img.shields.io/badge/Jira-0052CC?style=for-the-badge&logo=Jira&logoColor=white"> <img src="https://img.shields.io/badge/Discord-7289DA?style=for-the-badge&logo=Discord&logoColor=white"> <img src="https://img.shields.io/badge/Notion-000000?style=for-the-badge&logo=Notion&logoColor=white">
+
+<br>
+
 
 ## 🔽 문서 리스트
 

@@ -52,7 +52,7 @@ public class SalesController {
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate
             ) {
-        List<DailySalesDto> results = salesService.getPeriodSales(principal, franchiseId, startDate, endDate);
+        List<DailySalesDto> results = salesService.getPeriodSales(franchiseId, startDate, endDate);
         return ResponseEntity.ok(results);
     }
 
@@ -72,13 +72,15 @@ public class SalesController {
     }
 
     @GetMapping("/menu/ranking/{franchiseId}")
-    @Operation(summary = "메뉴별 판매 순위 조회", description = "기간 설정해서 해당 지점의 메뉴 판매 순위를 상위 5개만 반환한다.")
+    @Operation(summary = "메뉴별 판매 순위 조회", description = "기간 설정해서 해당 지점의 메뉴 판매 순위를 상위 7개만 반환한다.")
     public ResponseEntity<List<MenuRankingDto>> getMenuSalesRanking(
             Principal principal,
             @PathVariable("franchiseId") Long franchiseId,
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate
     ) {
+
+
         List<MenuRankingDto> results = salesService.getMenuSalesRanking(principal, franchiseId, startDate, endDate);
         return ResponseEntity.ok(results);
     }
@@ -86,19 +88,23 @@ public class SalesController {
     @GetMapping("/forecast/weekly/{franchiseId}")
     @Operation(summary = "가맹점 기간별 예상매출 조회", description = "일주일 단위로 예상매출을 조회한다.")
     public ResponseEntity<List<ForecastResponseDto>> getWeeklyForecast(
-            Principal principal,
             @PathVariable("franchiseId") Long franchiseId,
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate expectationStartDate,
             @RequestParam(defaultValue = "7") int periods) throws JsonProcessingException {
         // 과거 데이터 조회(2년 치)
         LocalDate pastYear = expectationStartDate.minusYears(2);
-        List<DailySalesDto> history = salesService.getPeriodSales(principal,franchiseId, pastYear, expectationStartDate)
-                .stream()
-                .filter(date -> date.getTotalAmount() > 0) // 매출 없으면 필터링
-                .collect(Collectors.toList());
+        List<DailySalesDto> history =
+                salesService.getHistory(franchiseId, pastYear, expectationStartDate)
+                        .stream().filter(d -> d.getTotalAmount() > 0)
+                        .collect(Collectors.toList());
 
+        // 에러 확인용
+        log.info(">>>>> Forecast history size={} for storeId={}", history.size(), franchiseId);
+        history.forEach(d -> log.info("  ds={}, y={}", d.getSalesDate(), d.getTotalAmount()));
 
-        List<ForecastResponseDto> forecast = flaskService.weeklyForecast(principal, history,periods);
+        List<ForecastResponseDto> forecast =
+                flaskService.weeklyForecast(history, periods);
+
         return ResponseEntity.ok(forecast);
     }
 

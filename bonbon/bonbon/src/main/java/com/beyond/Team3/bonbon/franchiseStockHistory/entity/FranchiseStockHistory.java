@@ -39,12 +39,17 @@ public class FranchiseStockHistory {
     public void updateHistory(BigDecimal quantity, HistoryStatus status) {
         this.quantity = quantity;
         this.date = LocalDate.now();
-        this.historyStatus = status;
     }
 
     public void validateFranchise(Long franchiseId) {
         if (!this.franchiseId.getFranchiseId().equals(franchiseId)) {
             throw new IllegalArgumentException("해당 가맹점의 내역이 아닙니다.");
         }
+    }
+
+    public void updateHistoryByHeadquarter(BigDecimal quantity, HistoryStatus status) {
+        this.quantity = quantity;
+        this.date = LocalDate.now();
+        this.historyStatus = status;
     }
 }

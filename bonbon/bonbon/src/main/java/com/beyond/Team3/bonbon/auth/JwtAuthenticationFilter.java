@@ -25,7 +25,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     private final JwtTokenProvider jwtTokenProvider;
     private final AuthService authService;
 
-    private static final List<String> EXCLUDED_PATHS = Arrays.asList("/swagger-ui/**", "/v3/api-docs/**", "/bonbon/user/login");
+    private static final List<String> EXCLUDED_PATHS = Arrays.asList("/swagger-ui/**", "/v3/api-docs/**", "/bonbon/user/login", "/health");
     private static final AntPathMatcher pathMatcher = new AntPathMatcher(); // 추가
 
     private boolean isExcludedPath(String requestURI) {

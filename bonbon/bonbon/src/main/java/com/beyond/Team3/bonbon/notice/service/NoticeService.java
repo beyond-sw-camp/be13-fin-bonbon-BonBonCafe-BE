@@ -33,6 +33,7 @@ public class NoticeService {
     private final FranchiseRepository franchiseRepository;
     private final HeadquarterRepository headquarterRepository;
 
+    @Transactional(readOnly = true)
     public NoticeResponseDto getNotice(Long noticeId, Principal principal) {
 
         Headquarter headquarter = getUserHeadquarter(principal);

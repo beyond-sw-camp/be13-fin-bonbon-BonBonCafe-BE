@@ -46,6 +46,7 @@ public class MenuService {
         return menu.map(MenuResponseDto::from);
     }
 
+    @Transactional
     public MenuResponseDto getMenu(Long menuId, Principal principal) {
         User user = getLoginUser(principal);
         Menu menu = findMenuWithHeadquarterValidation(menuId, user.getHeadquarterId().getHeadquarterId());

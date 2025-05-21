@@ -2,6 +2,7 @@ package com.beyond.Team3.bonbon.franchiseStockHistory.service;
 
 import com.beyond.Team3.bonbon.common.enums.HistoryStatus;
 import com.beyond.Team3.bonbon.common.enums.Role;
+import com.beyond.Team3.bonbon.common.validator.QuantityValidator;
 import com.beyond.Team3.bonbon.franchise.entity.Franchise;
 import com.beyond.Team3.bonbon.franchise.entity.Franchisee;
 import com.beyond.Team3.bonbon.franchise.repository.FranchiseRepository;
@@ -45,6 +46,7 @@ public class FranchiseStockHistoryService {
     private final HeadquarterStockRepository headquarterStockRepository;
     private final FranchiseStockHistoryRepository franchiseStockHistoryRepository;
 
+    @Transactional(readOnly = true)
     public FranchiseStockHistoryResponseDto getHistory(Principal principal, Long historyId) {
         // 1. 해당 히스토리 조회
         FranchiseStockHistory history = getHistoryById(historyId);
@@ -95,7 +97,7 @@ public class FranchiseStockHistoryService {
 
     @Transactional
     public FranchiseStockHistoryResponseDto createFranchiseStockHistory(Principal principal, FranchiseStockHistoryRequestDto dto) {
-        validateQuantity(dto.getQuantity()); // 주문 수량이 0보다 큰지 확인
+        QuantityValidator.validate(dto.getQuantity()); // 1백만 이하로
 
         User user = getLoginUser(principal);
 
@@ -164,8 +166,8 @@ public class FranchiseStockHistoryService {
     }
 
     @Transactional
-    public FranchiseStockHistoryResponseDto updateHistory(Principal principal, Long historyId, FranchiseStockHistoryRequestDto requestDto) {
-        validateQuantity(requestDto.getQuantity()); // 수량 0 이상 확인
+    public FranchiseStockHistoryResponseDto updateHistory(Principal principal, Long historyId, FranchiseStockHistoryRequestDto dto) {
+        QuantityValidator.validate(dto.getQuantity());
 
         FranchiseStockHistory history = getHistoryById(historyId);
 
@@ -194,7 +196,7 @@ public class FranchiseStockHistoryService {
 
         // 상태 검사
         if (history.getHistoryStatus() != HistoryStatus.REQUESTED &&
-                history.getQuantity().compareTo(requestDto.getQuantity()) != 0) {
+                history.getQuantity().compareTo(dto.getQuantity()) != 0) {
             throw new IllegalStateException("수량을 변경할 수 없습니다.");
         }
 
@@ -205,10 +207,10 @@ public class FranchiseStockHistoryService {
 
         Franchise franchise = history.getFranchiseId();
         Ingredient oldIngredient = history.getIngredientId();
-        Ingredient newIngredient = getIngredient(requestDto.getIngredientId());
+        Ingredient newIngredient = getIngredient(dto.getIngredientId());
 
         BigDecimal oldQuantity = history.getQuantity();
-        BigDecimal newQuantity = requestDto.getQuantity();
+        BigDecimal newQuantity = dto.getQuantity();
 
         HeadquarterStock oldStock = getHeadquarterStock(franchise.getHeadquarterId().getHeadquarterId(), oldIngredient.getIngredientId());
         if (oldStock != null) {
@@ -223,25 +225,25 @@ public class FranchiseStockHistoryService {
         newStock.subtractQuantity(newQuantity);
 
         if (history.getHistoryStatus() != HistoryStatus.DELIVERED &&
-                requestDto.getStatus() == HistoryStatus.DELIVERED) {
+                dto.getStatus() == HistoryStatus.DELIVERED) {
 
             FranchiseStock newFranchiseStock = franchiseStockRepository
                     .findByFranchiseIdAndIngredientId(franchise, newIngredient)
                     .orElseGet(() -> franchiseStockRepository.save(
-                            FranchiseStock.createFranchiseStock(franchise, newIngredient, requestDto)
+                            FranchiseStock.createFranchiseStock(franchise, newIngredient, dto)
                     ));
             newFranchiseStock.addQuantity(newQuantity);
         }
 
-        if (requestDto.getStatus() == HistoryStatus.CANCELLED) {
+        if (dto.getStatus() == HistoryStatus.CANCELLED) {
             HeadquarterStock cancelledStock = getHeadquarterStock(franchise.getHeadquarterId().getHeadquarterId(), newIngredient.getIngredientId());
             cancelledStock.addQuantity(newQuantity);
         }
 
         if (user.getUserType() == Role.FRANCHISEE) {
-            history.updateHistory(newQuantity, requestDto.getStatus());
+            history.updateHistory(newQuantity, dto.getStatus());
         } else if (user.getUserType() == Role.HEADQUARTER) {
-            history.updateHistoryByHeadquarter(newQuantity, requestDto.getStatus());
+            history.updateHistoryByHeadquarter(newQuantity, dto.getStatus());
         }
 
         return FranchiseStockHistoryResponseDto.from(history);
@@ -273,12 +275,6 @@ public class FranchiseStockHistoryService {
     private FranchiseStock getFranchiseStock(Franchise franchise, Ingredient ingredient) {
         return franchiseStockRepository.findByFranchiseIdAndIngredientId(franchise, ingredient)
                 .orElseThrow(() -> new IllegalArgumentException("해당 가맹점에 재고가 없습니다."));
-    }
-
-    private void validateQuantity(BigDecimal quantity) {
-        if (quantity.compareTo(BigDecimal.ZERO) <= 0) {
-            throw new IllegalArgumentException("수량은 0보다 커야 합니다.");
-        }
     }
 
     private void validateStockQuantity(BigDecimal stockQuantity, BigDecimal requestedQuantity) {

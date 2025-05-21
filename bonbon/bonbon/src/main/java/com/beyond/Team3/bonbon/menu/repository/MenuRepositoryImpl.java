@@ -82,13 +82,21 @@ public class MenuRepositoryImpl implements MenuRepositoryCustom {
     public Page<Menu> findAllByFranchise(Pageable pageable, Long franchiseId) {
         QMenu menu = QMenu.menu;
         QFranchiseMenu fm = QFranchiseMenu.franchiseMenu;
+        QMenuCategory menuCategory = QMenuCategory.menuCategory;
+        QMenuDetail menuDetail = QMenuDetail.menuDetail;
 
         List<Menu> content = queryFactory
-                .select(fm.menuId) // 메뉴 자체를 가져옴
+                .select(menu)
                 .from(fm)
+                .join(fm.menuId, menu)
+                .leftJoin(menu.categories, menuCategory).fetchJoin()
+                .leftJoin(menuCategory.category).fetchJoin()
+                .leftJoin(menu.details, menuDetail).fetchJoin()
+                .leftJoin(menuDetail.ingredient).fetchJoin()
                 .where(fm.franchiseId.franchiseId.eq(franchiseId))
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
+                .distinct()
                 .fetch();
 
         Long total = queryFactory

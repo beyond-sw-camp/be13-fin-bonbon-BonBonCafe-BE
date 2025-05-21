@@ -32,6 +32,7 @@ public class HeadquarterStockService {
     private final HeadquarterRepository headquarterRepository;
     private final HeadquarterStockRepository headquarterStockRepository;
 
+    @Transactional(readOnly = true)
     public HeadquarterStockResponseDto getHeadquarterStock(Principal principal, Long headquarterStockId) {
         User user = getLoginUser(principal);
         HeadquarterStock headquarterStock = findStockByIdOrThrow(headquarterStockId);

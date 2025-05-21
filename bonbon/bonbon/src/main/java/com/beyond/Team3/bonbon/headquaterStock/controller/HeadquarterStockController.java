@@ -12,6 +12,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
@@ -24,6 +25,7 @@ import java.util.List;
 public class HeadquarterStockController {
     private final HeadquarterStockService headquarterStockService;
 
+    @PreAuthorize("hasRole('ROLE_HEADQUARTER')")
     @Operation(summary = "재고 단건 조회")
     @GetMapping("/me/{headquarterStockId}")
     public ResponseEntity<HeadquarterStockResponseDto> getHeadquarterStock(
@@ -34,6 +36,7 @@ public class HeadquarterStockController {
         return ResponseEntity.status(HttpStatus.OK).body(headquarterStockResponseDto);
     }
 
+    @PreAuthorize("hasRole('ROLE_HEADQUARTER')")
     @Operation(summary = "본사의 재고 전체 조회")
     @GetMapping("") //headquarterId 제거
     public ResponseEntity<Page<HeadquarterStockResponseDto>> getAllStock(
@@ -45,6 +48,7 @@ public class HeadquarterStockController {
         return ResponseEntity.ok(headquarterStockResponseDto);
     }
 
+    @PreAuthorize("hasRole('ROLE_HEADQUARTER')")
     @Operation(summary = "재고 등록")
     @PostMapping("/me") //headquarterId 제거
     public ResponseEntity<HeadquarterStockResponseDto> createHeadquarterStock(
@@ -55,6 +59,7 @@ public class HeadquarterStockController {
         return ResponseEntity.ok(headquarterStockResponseDto);
     }
 
+    @PreAuthorize("hasRole('ROLE_HEADQUARTER')")
     @Operation(summary = "재고 삭제")
     @DeleteMapping("/me/{headquarterStockId}")
     public ResponseEntity<String> deleteHeadquarterStock(
@@ -65,6 +70,7 @@ public class HeadquarterStockController {
         return ResponseEntity.status(HttpStatus.OK).body("재고가 삭제되었습니다.");
     }
 
+    @PreAuthorize("hasRole('ROLE_HEADQUARTER')")
     @Operation(summary = "재고 수정")
     @PutMapping("/me/{headquarterStockId}")
     public ResponseEntity<HeadquarterStockResponseDto> updateHeadquarterStock(
@@ -76,6 +82,7 @@ public class HeadquarterStockController {
         return ResponseEntity.ok(headquarterStockResponseDto);
     }
 
+    @PreAuthorize("hasRole('ROLE_HEADQUARTER')")
     @Operation(summary = "본사 재고의 재료 목록 조회")
     @GetMapping("/ingredients")
     public ResponseEntity<List<IngredientRequestDto>> getIngredientsByHeadquarter(Principal principal) {

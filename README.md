@@ -1,11 +1,18 @@
 # 📄 bonbon - 영업 관리 시스템
-## 🧷 1 .프로젝트 개요
+
+## 📚 목차
+
+1. [프로젝트 개요](#1-프로젝트-개요)  
+2. [팀원 소개](#2-팀원-소개)  
+3. [주요 기능 구성](#3-주요-기능-구성)  
+4. [기술 스택](#4-기술-스택)  
+5. [문서 리스트](#5-문서-리스트)  
+
+## 1. 프로젝트 개요
 > **BonBon - 본사-가맹점 영업 관리 시스템**
 
 **본사와 가맹점 간의 운영을 효율화하기 위해 개발된 통합 영업 관리 시스템입니다.**  
 **Spring Boot 기반의 REST API 서버로, 본사와 가맹점 간의 재고 흐름, 메뉴 지정, 가맹점 주문, 공지사항 관리, 가맹점별 메뉴 관리 등 다양한 비즈니스 로직을 처리합니다.**
-
----
 
 ### 🛠 개발 배경
 - 프랜차이즈 본사는 전국 가맹점의 재고, 주문, 매출 등 다양한 운영 정보를 실시간으로 파악하고 관리해야 합니다.
@@ -25,49 +32,29 @@
 - 공지사항/메뉴 전달의 일원화
 - 가맹점주에게 실시간 운영 데이터 제공으로 주체적인 경영 가능
 - 수작업 최소화 → 인력 및 시간 비용 절감
----
 
-### 🏢 본사 기능
+<br>
 
-| 기능 카테고리 | 주요 기능 설명 |
-|---------------|----------------|
-| 📋 계정 관리 | 가맹점주/담당자 계정 등록 및 관리 |
-| 🍽 메뉴 관리 | 메뉴 등록/수정/삭제, 필수 판매 메뉴 지정, 오더 스톱 처리 |
-| 📊 매출 분석 | 지점별 매출/마진/납부액 자동 계산 및 시각화 |
-| 🗺 가맹점 요약 확인 | 가맹점 목록/위치, 정보 요약, 메뉴 판매 순위 등 |
-| 🧾 가맹점 상세 관리 | 가맹점 등록/삭제, 정보 입력 및 메모 작성 |
-| 📢 공지사항 게시판 | 공지 등록/수정/삭제 및 가맹점 알림 |
-
----
-
-### 🏪 가맹점 기능
-
-| 기능 카테고리 | 주요 기능 설명 |
-|---------------|----------------|
-| 🍽 메뉴 관리 | 본사 메뉴 조회 및 판매 선택 가능 |
-| 📊 가맹점 요약 | 본인 매출 차트, 인기 메뉴 확인, 인근 가맹점 비교 |
-| 🧾 가맹점 관리 | 점주/가게 정보 관리, 판매방식/배달 플랫폼 등록·조회 |
-| 📢 공지사항 게시판 | 본사 이벤트 게시글 조회 |
-## 🤗 2. 팀원 소개
+## 2. 팀원 소개
 
 <div align="center">
 
 <table>
   <tr>
     <td align="center">
-      <img src="https://github.com/user-attachments/assets/8aef79a6-76b5-496a-ada1-40fc96373a83" width="100"  height="100"><br>
+      <img src="https://github.com/user-attachments/assets/9e6b2726-8b4d-4077-8980-6a49cb7b7125" width="100"  height="100"><br>
       <b><a href="https://github.com/kimdoyun0806">김도윤</a></b><br>팀원
     </td>
      <td align="center">
-      <img src="https://github.com/user-attachments/assets/8aef79a6-76b5-496a-ada1-40fc96373a83" width="100"  height="100"><br>
-      <b><a href="">김민석</a></b><br>팀원
+      <img src="https://github.com/user-attachments/assets/6835cd71-cc90-41ed-ae2d-f8064b82b3a2" width="100"  height="100"><br>
+      <b><a href="https://github.com/mlnstone">김민석</a></b><br>팀원
     </td>
     <td align="center">
-      <img src="https://github.com/user-attachments/assets/8aef79a6-76b5-496a-ada1-40fc96373a83" width="100" height="100"><br>
+      <img src="https://github.com/user-attachments/assets/225eeac9-508b-443a-b6f5-f3128892e9d8" width="100" height="100"><br>
       <b>🏆 <a href="https://github.com/namoo36">이승용</a></b><br><b>팀장</b>
     </td>
     <td align="center">
-      <img src="https://github.com/user-attachments/assets/8aef79a6-76b5-496a-ada1-40fc96373a83" width="100"  height="100"><br>
+      <img src="https://github.com/user-attachments/assets/74ac18a5-b79a-47b1-8b3a-e22f1dbc886c" width="100"  height="100"><br>
       <b><a href="https://github.com/jelee55">이제경</a></b><br>팀원
     </td>
   </tr>
@@ -75,8 +62,44 @@
 
 </div>
 
+<br>
 
-## 기술 스택
+## 3. 주요 기능 구성
+
+**BonBon 시스템은 사용자 유형에 따라 본사와 가맹점으로 구분되며, 각 역할에 맞춘 기능이 나누어져 있습니다.** <br>
+**본사**는 전체 관리와 통계 분석, 메뉴 일괄 등록 등 전반적인 운영을 담당하고, **가맹점**은 재고 신청, 매출 확인, 메뉴 선택 등 가맹점 운영에 필요한 기능에 집중되어 있습니다.
+
+### 🏢 본사 기능
+
+| 기능 카테고리       | 주요 기능 설명                                                                 |
+|--------------------|---------------------------------------------------------------------------------|
+| 📋 계정 관리        | 가맹점주/담당자 계정 등록 및 관리                                                |
+| 🍽️ 메뉴 관리        | 메뉴 등록/수정/삭제, 필수 판매 메뉴 지정, 오더 스톱 처리                          |
+| 📊 매출 분석        | 지점별 매출/마진/납부액 자동 계산 및 시각화                                       |
+| 🧭 가맹점 요약 확인   | 가맹점 목록/위치, 정보 요약, 메뉴 판매 순위 등                                     |
+| 🗂️ 가맹점 상세 관리  | 가맹점 등록/삭제, 정보 입력 및 메모 작성                                           |
+| 📢 공지사항 게시판   | 공지 등록/수정/삭제 및 가맹점 알림                                               |
+| 📦 재고 관리        | 재고 목록, 단건조회, 등록/수정/삭제, 가맹점 재고 신청 내역 조회                    |
+| 🏢 본사 관리        | 본사 정보 조회 및 수정, 본사별 메뉴 카테고리 조회                                  |
+| 🧾 체크리스트        | 위생, 소독, 서비스 등 체크리스트 등록/수정/삭제/조회                              |
+| 🌍 지역 관리        | 시/도, 구/군 목록 조회 및 지역별 가맹점 조회                                       |
+
+---
+
+### 🏪 가맹점 기능
+  
+| 기능 카테고리       | 주요 기능 설명                                                                 |
+|--------------------|---------------------------------------------------------------------------------|
+| 🍽️ 메뉴 관리        | 본사 메뉴 조회 및 판매 선택 가능                                                |
+| 📊 가맹점 요약       | 본인 매출 차트, 인기 메뉴 확인, 인근 가맹점 비교                                  |
+| 🗂️ 가맹점 관리       | 점주/가게 정보 관리, 판매방식/배달 플랫폼 등록 및 조회                           |
+| 📢 공지사항 게시판   | 본사 공지사항 및 이벤트 게시글 조회                                              |
+| 📦 재고 관리        | 가맹점 재고 조회/수정/삭제                                                      |
+| 📦 주문 관리        | 재고 신청 등록/수정/삭제 및 신청 내역 단건·전체 조회                             |
+
+<br>
+
+## 4. 기술 스택
 ### 🌐 Backend
 <img src="https://img.shields.io/badge/java-007396?style=for-the-badge&logo=java&logoColor=white"> <img src="https://img.shields.io/badge/spring-6DB33F?style=for-the-badge&logo=spring&logoColor=white">
 <img src="https://img.shields.io/badge/springboot-6DB33F?style=for-the-badge&logo=springboot&logoColor=white">
@@ -101,7 +124,7 @@
 <br>
 
 
-## 🔽 문서 리스트
+## 5. 문서 리스트
 
 <details>
 <summary><strong>📌 프로젝트 기획서</strong></summary>
@@ -135,7 +158,7 @@
 <summary><strong>📌 ERD</strong></summary>
 
 - 링크 : [ERD](https://www.erdcloud.com/d/58wZNJdygPpztALBK)
-![Image](https://github.com/user-attachments/assets/98309944-4798-45b6-9d0a-58ad90039bf6)
+![ERD - bonbonCafe](https://github.com/user-attachments/assets/616a765a-0b08-470e-9cc9-f4404c1139ba)
 
 </details>
 

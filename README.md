@@ -42,19 +42,19 @@
 <table>
   <tr>
     <td align="center">
-      <img src="https://github.com/user-attachments/assets/8aef79a6-76b5-496a-ada1-40fc96373a83" width="100"  height="100"><br>
+      <img src="https://github.com/user-attachments/assets/9e6b2726-8b4d-4077-8980-6a49cb7b7125" width="100"  height="100"><br>
       <b><a href="https://github.com/kimdoyun0806">김도윤</a></b><br>팀원
     </td>
      <td align="center">
-      <img src="https://github.com/user-attachments/assets/8aef79a6-76b5-496a-ada1-40fc96373a83" width="100"  height="100"><br>
-      <b><a href="">김민석</a></b><br>팀원
+      <img src="https://github.com/user-attachments/assets/6835cd71-cc90-41ed-ae2d-f8064b82b3a2" width="100"  height="100"><br>
+      <b><a href="https://github.com/mlnstone">김민석</a></b><br>팀원
     </td>
     <td align="center">
-      <img src="https://github.com/user-attachments/assets/8aef79a6-76b5-496a-ada1-40fc96373a83" width="100" height="100"><br>
+      <img src="https://github.com/user-attachments/assets/225eeac9-508b-443a-b6f5-f3128892e9d8" width="100" height="100"><br>
       <b>🏆 <a href="https://github.com/namoo36">이승용</a></b><br><b>팀장</b>
     </td>
     <td align="center">
-      <img src="https://github.com/user-attachments/assets/8aef79a6-76b5-496a-ada1-40fc96373a83" width="100"  height="100"><br>
+      <img src="https://github.com/user-attachments/assets/74ac18a5-b79a-47b1-8b3a-e22f1dbc886c" width="100"  height="100"><br>
       <b><a href="https://github.com/jelee55">이제경</a></b><br>팀원
     </td>
   </tr>

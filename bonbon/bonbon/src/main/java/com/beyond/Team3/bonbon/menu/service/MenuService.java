@@ -1,5 +1,6 @@
 package com.beyond.Team3.bonbon.menu.service;
 
+import com.beyond.Team3.bonbon.common.validator.QuantityValidator;
 import com.beyond.Team3.bonbon.handler.exception.UserException;
 import com.beyond.Team3.bonbon.headquarter.repository.HeadquarterRepository;
 import com.beyond.Team3.bonbon.ingredient.entity.Ingredient;
@@ -56,6 +57,7 @@ public class MenuService {
     @Transactional
     public MenuResponseDto createMenu(MenuRequestDto dto, Principal principal) {
         User user = getLoginUser(principal);
+        QuantityValidator.validate(dto.getPrice());
 
         Menu menu = dto.toEntity(user.getHeadquarterId());
         menuRepository.save(menu);
@@ -69,6 +71,8 @@ public class MenuService {
     @Transactional
     public MenuResponseDto updateMenu(Long menuId, Principal principal, MenuRequestDto dto) {
         User user = getLoginUser(principal);
+        QuantityValidator.validate(dto.getPrice());
+
         Menu menu = findMenuWithHeadquarterValidation(menuId, user.getHeadquarterId().getHeadquarterId());
         menu.updateMenu(dto);
 
@@ -129,8 +133,11 @@ public class MenuService {
     private void applyIngredients(Menu menu, List<MenuDetailRequestDto> menuDetails) {
         if (menuDetails != null) {
             for (MenuDetailRequestDto detailDto : menuDetails) {
+                QuantityValidator.validateNonNegative(detailDto.getQuantity());
+
                 Ingredient ingredient = ingredientRepository.findById(detailDto.getIngredientId())
                         .orElseThrow(() -> new IllegalArgumentException("재료 없음"));
+
                 menu.addDetail(new MenuDetail(menu, ingredient, detailDto.getQuantity()));
             }
         }

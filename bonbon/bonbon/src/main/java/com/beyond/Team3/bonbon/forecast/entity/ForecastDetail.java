@@ -24,6 +24,7 @@ public class ForecastDetail {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "detail_id")
     private Long detailId;
 
     @ManyToOne

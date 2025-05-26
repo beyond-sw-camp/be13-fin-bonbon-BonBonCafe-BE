@@ -33,8 +33,8 @@ import java.util.stream.Collectors;
 public class JwtTokenProvider {
 
     private final SecretKey key;  // JWT 서명에 사용될 비밀 키
-    private final long ACCESS_TOKEN_EXP = 1000L * 60L * 60L * 2;          // accessToken : 2시간
-    private final long REFRESH_TOKEN_EXP = 1000L * 60L * 60L * 24 * 7L;     // refreshToken : 7일
+    private final long ACCESS_TOKEN_EXP = 1000L * 60L * 30L;          // accessToken : 30분
+    private final long REFRESH_TOKEN_EXP = 1000L * 60L * 60L * 24L * 7L;     // refreshToken : 7일
 
     private final UserDetailsService userDetailsService;
     private final RedisTemplate<String, String> redisTemplate;

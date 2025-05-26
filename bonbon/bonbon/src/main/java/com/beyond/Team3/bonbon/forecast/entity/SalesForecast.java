@@ -1,6 +1,7 @@
 package com.beyond.Team3.bonbon.forecast.entity;
 
 import com.beyond.Team3.bonbon.franchise.entity.Franchise;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -23,13 +24,16 @@ public class SalesForecast {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "forecast_id")
     private Long forecastId;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "franchise_id")
     private Franchise franchiseId;
 
+    @Column(name = "forecast_date")
     private LocalDate forecastDate;
 
+    @Column(name = "predicated_amount")
     private int predicatedAmount;
 }

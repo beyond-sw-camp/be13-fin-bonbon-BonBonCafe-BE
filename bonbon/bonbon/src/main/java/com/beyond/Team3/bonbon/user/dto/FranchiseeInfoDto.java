@@ -8,7 +8,7 @@ import lombok.Setter;
 @Setter
 public class FranchiseeInfoDto extends UserInfo {
 
-
+    private Long franchiseId;
 
     public FranchiseeInfoDto(User user) {
         super(user);

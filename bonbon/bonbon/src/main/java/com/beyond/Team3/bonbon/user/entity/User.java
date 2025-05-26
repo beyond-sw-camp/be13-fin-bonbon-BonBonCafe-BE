@@ -59,6 +59,7 @@ public class User {
 
     private LocalDateTime deletedAt;
 
+    @Column(name = "user_image")
     private String userImage;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -75,6 +76,7 @@ public class User {
     public void userInfoUpdate(UserModifyDto userModifyDto){
         this.name = userModifyDto.getName();
         this.phone = userModifyDto.getPhone();
-//        this.status = userModifyDto.getStatus();
+        this.status = userModifyDto.getStatus();
+        this.userImage = userModifyDto.getUserImage();
     }
 }

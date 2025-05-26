@@ -10,6 +10,7 @@ import com.beyond.Team3.bonbon.franchise.repository.FranchiseRepository;
 import com.beyond.Team3.bonbon.handler.exception.FranchiseException;
 import com.beyond.Team3.bonbon.region.entity.Region;
 import com.beyond.Team3.bonbon.region.repository.RegionRepository;
+import com.beyond.Team3.bonbon.user.dto.FranchiseeInfoDto;
 import com.beyond.Team3.bonbon.user.dto.ManagerInfoDto;
 import com.beyond.Team3.bonbon.user.dto.UserInfoDto;
 import com.beyond.Team3.bonbon.user.repository.FranchiseeRepository;
@@ -190,15 +191,26 @@ public class UserServiceImpl implements UserService {
     // 특정 가맹점주 정보 조회
     @Override
     @Transactional
-    public ManagerInfoDto getFranchiseeDetail(Long userId, Principal principal) {
+    public FranchiseeInfoDto getFranchiseeDetail(Long userId, Principal principal) {
         // 본사 확인 -> 접근 권한 있는지 확인
         User user = checkAuthorization(userId, principal);
 
-        // 매니저인지 확인
+        // 가맹점주인지 확인
         if(!user.getUserType().equals(Role.FRANCHISEE)){
             throw new UserException(ExceptionMessage.INVALID_USER_ROLE);
         }
-        return null;
+
+        Franchisee franchisee = franchiseeRepository.findByUserId(user)
+                .orElseThrow(() -> new UserException(ExceptionMessage.USER_NOT_FOUND));
+
+        FranchiseeInfoDto franchiseeInfoDto = new FranchiseeInfoDto(user);
+        if(franchisee.getFranchise() != null){
+            franchiseeInfoDto.setFranchiseId(franchisee.getFranchise().getFranchiseId());
+        } else {
+            franchiseeInfoDto.setFranchiseId(null); // 연결된 가맹점이 없으면 null로 일단 띄우기
+        }
+
+        return franchiseeInfoDto;
     }
 
     // 가맹점주 계정 삭제
@@ -234,14 +246,14 @@ public class UserServiceImpl implements UserService {
         deleteUser(deleteUser);
     }
 
-//    @Override
-//    @Transactional
-//    public List<FranchiseResponseDto> findFranchiseWithoutOwner() {
-//        // 가맹점주가 없는 가맹점 리스트업
-//        List<Franchise> withoutOwner = franchiseRepository.findWithoutOwner();
-//
-//        return withoutOwner.stream().map(FranchiseResponseDto::new).toList();
-//    }
+    @Override
+    @Transactional
+    public List<FranchiseResponseDto> findFranchiseWithoutOwner() {
+        // 가맹점주가 없는 가맹점 리스트업
+        List<Franchise> withoutOwner = franchiseRepository.findWithoutOwner();
+
+        return withoutOwner.stream().map(FranchiseResponseDto::new).toList();
+    }
 
     // 사용자 계정 삭제
     public void deleteUser(User user) {

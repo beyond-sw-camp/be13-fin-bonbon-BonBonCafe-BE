@@ -21,14 +21,19 @@ public class Ingredient {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "ingredient_id")
     private Long ingredientId;
 
+    @Column(name = "ingredient_name")
     private String ingredientName;
 
+    @Column(name = "unit")
     private String unit;
 
+    @Column(name = "unit_price")
     private BigDecimal unitPrice;
 
+    @Column(name = "retail_price")
     private BigDecimal retailPrice;
 
     @OneToMany(mappedBy = "ingredient")

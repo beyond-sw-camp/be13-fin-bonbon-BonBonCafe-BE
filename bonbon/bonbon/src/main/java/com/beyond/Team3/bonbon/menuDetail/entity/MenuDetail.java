@@ -30,6 +30,7 @@ public class MenuDetail {
     @JoinColumn(name = "ingredient_id")
     private Ingredient ingredient;
 
+    @Column(name = "quantity")
     private BigDecimal quantity;
 
     public MenuDetail(Menu menu, Ingredient ingredient, BigDecimal quantity) {

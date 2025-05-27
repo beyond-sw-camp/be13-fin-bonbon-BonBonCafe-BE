@@ -10,7 +10,7 @@ public class UserModifyDto {
 
     private String name;
 
-//    private String userImage;
+    private String userImage;
 
-//    private AccountStatus status;
+    private AccountStatus status;
 }

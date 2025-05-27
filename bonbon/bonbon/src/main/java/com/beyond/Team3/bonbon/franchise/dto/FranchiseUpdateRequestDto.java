@@ -12,7 +12,7 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor
 public class FranchiseUpdateRequestDto {
-    private String name;
+//    private String name;
 
     private String franchiseTel;
 

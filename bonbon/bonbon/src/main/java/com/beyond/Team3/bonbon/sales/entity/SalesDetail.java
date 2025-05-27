@@ -29,8 +29,10 @@ public class SalesDetail {
     @JoinColumn(name = "menu_id")
     private Menu menu;
 
+    @Column(name = "product_count")
     private int productCount = 0;       // 판매 수량
 
+    @Column(name = "amount")
     private int amount = 0;         // 메뉴 판매 금액
 
     public LocalDate getSalesDate() {

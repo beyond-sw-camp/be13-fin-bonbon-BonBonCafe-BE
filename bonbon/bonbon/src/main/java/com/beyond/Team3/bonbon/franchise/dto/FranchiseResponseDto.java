@@ -4,8 +4,10 @@ import com.beyond.Team3.bonbon.common.enums.FranchiseStatus;
 import com.beyond.Team3.bonbon.common.enums.RegionName;
 import com.beyond.Team3.bonbon.franchise.entity.Franchise;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import lombok.ToString;
 
 import java.time.LocalDate;
@@ -15,6 +17,7 @@ import java.time.LocalDateTime;
 @Getter
 @ToString
 @NoArgsConstructor
+@AllArgsConstructor
 public class FranchiseResponseDto {
 
     private Long franchiseId;
@@ -70,5 +73,21 @@ public class FranchiseResponseDto {
         this.modifiedAt = franchise.getModifiedAt();
     }
 
-
+    public FranchiseResponseDto(Franchise franchise) {
+        this.franchiseId = franchise.getFranchiseId();
+        this.managerName = managerName;
+//        this.regionCode = franchise.getRegionCode().getRegionCode();
+        this.headquarterId = franchise.getHeadquarterId().getHeadquarterId();
+        this.name = franchise.getName();
+        this.franchiseTel = franchise.getFranchiseTel();
+        this.roadAddress = franchise.getRoadAddress();
+        this.detailAddress = franchise.getDetailAddress();
+        this.openDate = franchise.getOpenDate();
+        this.franchiseImage = franchise.getFranchiseImage();
+        this.storeSize = franchise.getStoreSize();
+        this.seatingCapacity = franchise.getSeatingCapacity();
+        this.parkingAvailability = franchise.isParkingAvailability();
+        this.status = franchise.getStatus();
+        this.openHours = franchise.getOpenHours();
+    }
 }

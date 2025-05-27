@@ -18,6 +18,7 @@ public class FranchiseStock {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "stock_id")
     private Long stockId;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -30,6 +31,7 @@ public class FranchiseStock {
 
     // 돈, 소수점 관련 내용은 BigDecimal을 사용
     //      -> 소수점 저장 타입인 float, double 타입은 소수점의 정밀도가 완벽하지 않아 오차가 생길 수 있음.
+    @Column(name = "quantity")
     private BigDecimal quantity;    // 가맹점 재고 수량
 
     public static FranchiseStock createFranchiseStock(Franchise franchise, Ingredient ingredient, FranchiseStockHistoryRequestDto dto) {

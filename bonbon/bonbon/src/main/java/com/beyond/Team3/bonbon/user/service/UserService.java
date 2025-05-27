@@ -2,6 +2,7 @@ package com.beyond.Team3.bonbon.user.service;
 
 import com.beyond.Team3.bonbon.common.enums.Role;
 import com.beyond.Team3.bonbon.franchise.dto.FranchiseResponseDto;
+import com.beyond.Team3.bonbon.user.dto.FranchiseeInfoDto;
 import com.beyond.Team3.bonbon.user.dto.FranchiseeRegisterDto;
 import com.beyond.Team3.bonbon.user.dto.ManagerInfoDto;
 import com.beyond.Team3.bonbon.user.dto.ManagerRegisterDto;
@@ -34,11 +35,11 @@ public interface UserService {
 
     ManagerInfoDto getManagerDetail(Long userId, Principal principal);
 
-    ManagerInfoDto getFranchiseeDetail(Long userId, Principal principal);
+    FranchiseeInfoDto getFranchiseeDetail(Long userId, Principal principal);
 
     void deleteFranchisee(Long userId, Principal principal);
 
     void deleteManager(Long userId, Principal principal);
 
-//    List<FranchiseResponseDto> findFranchiseWithoutOwner();
+    List<FranchiseResponseDto> findFranchiseWithoutOwner();
 }

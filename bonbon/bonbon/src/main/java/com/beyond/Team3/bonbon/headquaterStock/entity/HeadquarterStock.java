@@ -17,8 +17,10 @@ public class HeadquarterStock {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "stock_id")
     private Long stockId;
 
+    @Column(name = "quantity")
     private BigDecimal quantity;
 
     @ManyToOne(fetch = FetchType.LAZY)

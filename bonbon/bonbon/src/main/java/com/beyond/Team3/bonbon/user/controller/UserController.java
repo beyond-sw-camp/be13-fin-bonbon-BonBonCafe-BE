@@ -2,6 +2,7 @@ package com.beyond.Team3.bonbon.user.controller;
 
 import com.beyond.Team3.bonbon.common.enums.Role;
 import com.beyond.Team3.bonbon.franchise.dto.FranchiseResponseDto;
+import com.beyond.Team3.bonbon.user.dto.FranchiseeInfoDto;
 import com.beyond.Team3.bonbon.user.dto.FranchiseeRegisterDto;
 import com.beyond.Team3.bonbon.user.dto.ManagerInfoDto;
 import com.beyond.Team3.bonbon.user.dto.ManagerRegisterDto;
@@ -31,7 +32,7 @@ import java.util.List;
 
 @Slf4j
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/bonbon/user")
 @RequiredArgsConstructor
 @Tag(name = "User", description = "회원 관리")
 public class UserController {
@@ -51,12 +52,12 @@ public class UserController {
     @GetMapping("/mamager")
     @PreAuthorize("hasRole('ROLE_HEADQUARTER')")
     @Operation(summary = "등록한 MANAGER 계정 전체 조회", description = "Headquarter에서 등록한 MANAGER 계정 정보를 확인한다.")
-    public ResponseEntity<List<UserInfoDto>> mamagerAccounts(
+    public ResponseEntity<Page<UserInfoDto>> mamagerAccounts(
             @RequestParam(name = "page", defaultValue = "0") int page,
             @RequestParam(name = "size", defaultValue = "10") int size,
             Principal principal){
         Page<UserInfoDto> accounts = userService.getAccountsByRole(page, size, Role.MANAGER, principal);
-        return ResponseEntity.ok(accounts.getContent());
+        return ResponseEntity.ok(accounts);
     }
 
     @GetMapping("/mamager/{userId}")
@@ -97,24 +98,24 @@ public class UserController {
     @GetMapping("/franchisee")
     @PreAuthorize("hasRole('ROLE_HEADQUARTER')")
     @Operation(summary = "등록한 Franchisee 계정 전체 조회", description = "Headquarter에서 등록한 Franchisee 계정 정보를 확인한다.")
-    public ResponseEntity<List<UserInfoDto>> franchiseAccounts(
+    public ResponseEntity<Page<UserInfoDto>> franchiseAccounts(
             @RequestParam(name = "page", defaultValue = "0") int page,
             @RequestParam(name = "size", defaultValue = "10") int size,
             Principal principal){
         Page<UserInfoDto> accounts = userService.getAccountsByRole(page, size, Role.FRANCHISEE, principal);
-        return ResponseEntity.ok(accounts.getContent());
+        return ResponseEntity.ok(accounts);
     }
 
     @GetMapping("/franchisee/{userId}")
     @PreAuthorize("hasRole('ROLE_HEADQUARTER')")
     @Operation(summary = "등록한 FRANCHISEE 계정 단일 조회", description = "Headquarter에서 등록한 FRANCHISEE 계정 정보를 확인한다.")
-    public ResponseEntity<ManagerInfoDto> franchiseeAccountDetail(
+    public ResponseEntity<FranchiseeInfoDto> franchiseeAccountDetail(
             @PathVariable("userId") Long userId,
             Principal principal){
 
-        ManagerInfoDto managerDetail = userService.getFranchiseeDetail(userId, principal);
+        FranchiseeInfoDto franchiseeInfoDto = userService.getFranchiseeDetail(userId, principal);
 
-        return ResponseEntity.ok(managerDetail);
+        return ResponseEntity.ok(franchiseeInfoDto);
     }
 
     @DeleteMapping("/franchisee/{userId}")
@@ -132,25 +133,26 @@ public class UserController {
 
 
 //    // 가맹점주가 없는 가맹점 검색
-//    @GetMapping("/franchisee/without-owner")
-//    @PreAuthorize("hasRole('ROLE_HEADQUARTER')")
-//    @Operation(summary = "가맹점주가 없는 가맹점 확인", description = "가맹점주가 없는 가맹점 리스트를 조회한다.")
-//    public ResponseEntity<List<FranchiseResponseDto>> getFranchisesWithoutOwner(Principal principal) {
-//        List<FranchiseResponseDto> franchiseWithoutOwner = userService.findFranchiseWithoutOwner();
-//
-//        return ResponseEntity.ok(franchiseWithoutOwner);
-//    }
+    @GetMapping("/franchisee/without-owner")
+    @PreAuthorize("hasRole('ROLE_HEADQUARTER')")
+    @Operation(summary = "가맹점주가 없는 가맹점 확인", description = "가맹점주가 없는 가맹점 리스트를 조회한다.")
+    public ResponseEntity<List<FranchiseResponseDto>> getFranchisesWithoutOwner(Principal principal) {
+
+        List<FranchiseResponseDto> franchiseWithoutOwner = userService.findFranchiseWithoutOwner();
+
+        return ResponseEntity.ok(franchiseWithoutOwner);
+    }
 
 
 
-    @GetMapping("/")
+    @GetMapping
     @Operation(summary = "본인 계정 정보 조회", description = "인증이 완료된 회원 개인의 정보를 조회한다.")
-    public ResponseEntity<UserInfo> userInfo(Principal principal) {
+    public ResponseEntity<UserInfoDto> userInfo(Principal principal) {
 
         // 토큰이 유효하다면 해당 토큰에서 사용자를 추출
-        UserInfo userInfo = userService.getUser(principal);
+        UserInfoDto userInfoDto = (UserInfoDto) userService.getUser(principal);
 
-        return ResponseEntity.ok(userInfo);
+        return ResponseEntity.ok(userInfoDto);
     }
 
     @PostMapping("/password")

@@ -19,23 +19,27 @@ public class Notice extends EntityDate {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "notice_id")
     private Long noticeId;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "headquarter_id")
     private Headquarter headquarterId;
 
+    @Column(name = "title")
     private String title;
 
-    @Column(columnDefinition = "TEXT")
+    @Column(columnDefinition = "TEXT", name = "content")
     private String content;
 
     @Enumerated(EnumType.STRING)
+    @Column(name = "post_type")
     private PostType postType = PostType.NOTICE;
 
+    @Column(name = "author")
     private String author;
 
-    @Column(nullable = false)
+    @Column(nullable = false, name = "is_sent")
     private boolean isSent = false;
 
     public void markAsSent() {

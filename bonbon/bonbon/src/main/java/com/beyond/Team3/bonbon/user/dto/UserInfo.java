@@ -7,6 +7,9 @@ import lombok.Data;
 
 @Data
 public abstract class UserInfo {
+
+    private Long userId;
+
     private String email;
 
 //    private String password; // 비밀번호
@@ -22,11 +25,14 @@ public abstract class UserInfo {
     private String userImage;
 
     public UserInfo(User user) {
+        this.userId=user.getUserId();
         this.email = user.getEmail();
 //        this.password = user.getPassword();
         this.name = user.getName();
         this.role = user.getUserType();
         this.phone = user.getPhone();
         this.status = user.getStatus();
+        this.userImage = user.getUserImage();
+        System.out.println("userImage = " + this.userImage); // 확인 로그
     }
 }

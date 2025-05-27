@@ -268,8 +268,8 @@ public class FranchiseStockHistoryService {
 
     private HeadquarterStock getHeadquarterStock(Long headquarterId, Long ingredientId) {
         return headquarterStockRepository
-                .findByHeadquarter_HeadquarterIdAndIngredient_IngredientId(headquarterId, ingredientId)
-                .orElse(null);
+                .findByHeadquarterAndIngredientWithLock(headquarterId, ingredientId) // 동시성
+                .orElseThrow(() -> new IllegalArgumentException("본사 재고가 존재하지 않습니다."));
     }
 
     private FranchiseStock getFranchiseStock(Franchise franchise, Ingredient ingredient) {

@@ -9,4 +9,6 @@ import org.springframework.stereotype.Repository;
 public interface RegionRepository extends JpaRepository<Region, Long> {
 
     Region findByRegionCode(int regionCode);
+
+    Region findByRegionName(RegionName regionName);
 }

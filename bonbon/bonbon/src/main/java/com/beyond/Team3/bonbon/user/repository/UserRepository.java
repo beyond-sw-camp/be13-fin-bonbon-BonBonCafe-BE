@@ -24,5 +24,5 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     List<User> findByStatusAndDeletedAtBefore(AccountStatus status, LocalDateTime deletedAtBefore);
 
-    User findByUserId(Long userId);
+    Optional<User> findByUserId(Long userId);
 }

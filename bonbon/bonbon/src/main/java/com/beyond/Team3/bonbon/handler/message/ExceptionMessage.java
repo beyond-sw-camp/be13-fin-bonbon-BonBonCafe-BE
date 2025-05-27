@@ -21,7 +21,15 @@ public enum ExceptionMessage {
     NO_SALES_RECORDS("해당 기간에 매출 기록이 없습니다.", HttpStatus.NOT_FOUND),
     INVALID_DATE_RANGE("시작일은 종료일보다 이전이거나 같아야 합니다.",HttpStatus.BAD_REQUEST),
     UNAUTHORIZED_ACCOUNT_ACCESS("계정에 대한 수정 권한이 없습니다.", HttpStatus.UNAUTHORIZED),
-    INVALID_USER_ROLE("관리자만 접근 가능합니다.", HttpStatus.BAD_REQUEST);
+    INVALID_USER_ROLE("관리자만 접근 가능합니다.", HttpStatus.BAD_REQUEST),
+
+    MANAGER_NOT_FOUND("담당 매니저를 찾을 수 없습니다.", HttpStatus.NOT_FOUND),
+    UNAUTHORIZED_FRANCHISE_MODIFY("해당 지역의 가맹점을 수정할 권한이 없습니다.", HttpStatus.UNAUTHORIZED),
+    UNAUTHORIZED_FRANCHISE_DELETE("해당 지역의 담당자가 아니므로 가맹점을 삭제할 수 없습니다.", HttpStatus.FORBIDDEN),
+    UNAUTHORIZED_FRANCHISE_CREATE("가맹점 등록은 매니저만 가능합니다.", HttpStatus.FORBIDDEN),
+    HEADQUARTER_NOT_FOUND("매니저가 본사에 소속되어 있지 않습니다.", HttpStatus.BAD_REQUEST),
+
+    ;
 
     private final String message;
     private final HttpStatus status;

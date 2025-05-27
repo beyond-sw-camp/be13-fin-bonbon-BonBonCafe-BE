@@ -22,7 +22,7 @@ import java.security.Principal;
 import java.util.List;
 
 
-@Tag(name = "Franchise", description = "가맹점 관리")
+@Tag(name = "가맹점", description = "가맹점 등록, 조회, 수정 및 위치 정보 등을 관리하는 API입니다.")
 @Slf4j
 @RestController
 @RequestMapping("/franchise")
@@ -33,7 +33,7 @@ public class FranchiseController {
     private final FranchiseService franchiseService;
 
     @GetMapping
-    @Operation(summary = "모든 가맹점 조회", description = "본사와 계약한 모든 가맹점을 조회한다.")
+    @Operation(summary = "모든 가맹점 조회", description = "본사와 계약된 모든 가맹점 목록을 페이지 단위로 조회합니다.")
     public ResponseEntity<FranchisePageResponseDto> findAll(
             @RequestParam(name = "page", defaultValue = "0") int page,
             @RequestParam(name = "size", defaultValue = "10") int size
@@ -44,7 +44,7 @@ public class FranchiseController {
     }
 
     @GetMapping("/{franchiseId}")
-    @Operation(summary = "가맹점 조회", description = "본사와 계약한 특정 가맹점을 조회한다.")
+    @Operation(summary = "가맹점 조회", description = "지정된 ID에 해당하는 가맹점의 상세 정보를 조회합니다.")
     public ResponseEntity<FranchiseResponseDto> findByFranchiseId(@PathVariable Long franchiseId){
         FranchiseResponseDto responseDto = franchiseService.findByFranchiseId(franchiseId);
 
@@ -54,28 +54,48 @@ public class FranchiseController {
 
 
     @GetMapping("/summary/{name}")
+    @Operation(
+            summary = "가맹점 요약 조회",
+            description = "가맹점 이름을 기준으로 해당 가맹점의 요약 정보를 조회합니다."
+    )
     public ResponseEntity<FranchiseSummaryDto> findByFranchiseName(@PathVariable String name){
-        FranchiseSummaryDto summaryDto = franchiseService.findByFranchiseNam(name);
+        FranchiseSummaryDto summaryDto = franchiseService.findByFranchiseName(name);
         return ResponseEntity.ok(summaryDto);
     }
 
 
     // 프렌차이즈 등록
     @PostMapping
-    @Operation(summary = "가맹점 등록", description = "본사에서 매니저 역할을 가진 직원이 가맹점을 등록한다.")
+    @Operation(summary = "가맹점 등록", description = "본사 소속 직원 중 가맹점 관리를 담당하는 사용자가 가맹점을 등록합니다."
+                                                    + "사용자는 가맹점 이름, 전화번호, 주소, 개업일자, 사진, 평수, 좌석 수, 주차 가능 여부, 운영 상태, 운영 시간을 입력해야 합니다.")
     public ResponseEntity<FranchiseResponseDto> createFranchise(Principal principal, @RequestBody @Valid FranchiseRequestDto requestDto){
         franchiseService.createFranchise(principal, requestDto);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @PatchMapping("/{franciseId}")
-    @Operation(summary = "가맹점 정보 수정", description = "가맹점 담당 매니저가 가맹점의 정보를 수정할 수 있다.")
-    public ResponseEntity<FranchiseResponseDto> updateFranchiseInfo(@PathVariable Long franciseId, @RequestBody @Valid FranchiseUpdateRequestDto requestDto){
-        franchiseService.updateFranchiseInfo(franciseId, requestDto);
+    @Operation(summary = "가맹점 정보 수정", description = "가맹점 관리자는 해당 가맹점의 이름, 연락처, 사진, 평수, 좌석 수, 주차 가능 여부, 오픈 시간만 수정할 수 있음")
+    public ResponseEntity<FranchiseResponseDto> updateFranchiseInfo(@PathVariable Long franciseId, @RequestBody @Valid FranchiseUpdateRequestDto requestDto, Principal principal){
+        franchiseService.updateFranchiseInfo(franciseId, requestDto, principal);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    @DeleteMapping("/{franchiseId}")
+    @Operation(summary = "", description = "")
+    public ResponseEntity<Void> deleteFranchise(@PathVariable Long franchiseId, Principal principal){
+        franchiseService.deleteFranchise(franchiseId, principal);
+        return ResponseEntity.ok().build();
+    }
 
+    @GetMapping("/locations")
+    @Operation(
+            summary = "가맹점 위치 조회",
+            description = "지도에 표시하기 위해 모든 가맹점의 위치 정보를 조회합니다. 위치 정보는 위도와 경도를 포함합니다."
+    )
+    public ResponseEntity<List<FranchiseLocationDto>> getLocations() {
+        List<FranchiseLocationDto> locations = franchiseService.getFranchiseLocations();
+        return ResponseEntity.ok(locations);
+    }
 
 //    @GetMapping("/test/{region}")
 //    public void test(@PathVariable String region){
@@ -116,10 +136,6 @@ public class FranchiseController {
 //    }
 
 
-    @GetMapping("/locations")
-    public ResponseEntity<List<FranchiseLocationDto>> getLocations() {
-        List<FranchiseLocationDto> locations = franchiseService.getFranchiseLocations();
-        return ResponseEntity.ok(locations);
-    }
+
 
 }

@@ -94,7 +94,7 @@ public class SecurityConfig {
             CorsConfiguration configuration = new CorsConfiguration();
 
             // CORS 요청에서 허용할 출처를 설정한다.
-            configuration.setAllowedOrigins(Arrays.asList("http://localhost:8080", "https://www.be13-bonbon.com", "https://api.be13-bonbon.com"));
+            configuration.setAllowedOrigins(Arrays.asList("http://localhost:5173", "https://www.be13-bonbon.com", "https://api.be13-bonbon.com"));
 //             configuration.setAllowedOriginPatterns(List.of("*"));
 
             // CORS 요청에서 허용할 HTTP 메소드를 지정한다.

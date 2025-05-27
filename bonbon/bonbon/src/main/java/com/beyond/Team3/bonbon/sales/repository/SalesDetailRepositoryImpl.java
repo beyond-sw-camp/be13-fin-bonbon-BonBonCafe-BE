@@ -43,11 +43,30 @@ public class SalesDetailRepositoryImpl implements SalesDetailRepositoryCustom{
                         menu.name,
                         salesDetail.productCount.sum().intValue(),
                         salesDetail.amount.sum().intValue()
-                        ))
+                ))
                 .from(salesDetail)
                 .join(salesDetail.menu, menu)
                 .where(
                         franchiseEq(franchiseId),
+                        salesDateGoe(startDate),
+                        salesDateLoe(endDate)
+                )
+                .groupBy(menu.name)
+                .orderBy(salesDetail.productCount.sum().desc())
+                .limit(limit)
+                .fetch();
+    }
+
+    @Override
+    public List<MenuRankingDto> findAllMenuRanking(LocalDate startDate, LocalDate endDate, int limit) {
+        return queryFactory
+                .select(new QMenuRankingDto(
+                        menu.name,
+                        salesDetail.productCount.sum().intValue(),
+                        salesDetail.amount.sum().intValue()))
+                .from(salesDetail)
+                .join(salesDetail.menu, menu)
+                .where(
                         salesDateGoe(startDate),
                         salesDateLoe(endDate)
                 )

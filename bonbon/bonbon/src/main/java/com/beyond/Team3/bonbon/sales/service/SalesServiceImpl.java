@@ -80,7 +80,6 @@ public class SalesServiceImpl implements SalesService {
     @Transactional
     public List<DailySalesDto> getPeriodSales(Long franchiseId, LocalDate startDate, LocalDate endDate) {
 
-
         // 기간 설정 예외처리
         if(startDate.isAfter(endDate)) {
             throw new FranchiseException(ExceptionMessage.INVALID_DATE_RANGE);
@@ -143,5 +142,19 @@ public class SalesServiceImpl implements SalesService {
         return salesRecordRepository.getDailySalesByPeriod(franchiseId, startDate, endDate);
     }
 
+    @Override
+    public List<DailySalesDto> getAllFranchisePeriodSales(LocalDate startDate, LocalDate endDate) {
+        return salesRecordRepository.findAllFranchiseDailySalesByPeriod(startDate, endDate);
+    }
+
+    @Override
+    public List<MenuRankingDto> getAllMenuSalesRanking(LocalDate startDate, LocalDate endDate) {
+        return salesDetailRepository.findAllMenuRanking(startDate, endDate, 7);
+    }
+
+    @Override
+    public List<SalesRankingDto> getAllFranchiseRanking(LocalDate startDate, LocalDate endDate, int limit) {
+        return salesRecordRepository.findAllFranchiseRanking(startDate, endDate, 10);
+    }
 
 }

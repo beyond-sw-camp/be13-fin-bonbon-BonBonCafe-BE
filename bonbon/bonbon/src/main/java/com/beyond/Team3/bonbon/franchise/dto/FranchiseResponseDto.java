@@ -73,21 +73,21 @@ public class FranchiseResponseDto {
         this.modifiedAt = franchise.getModifiedAt();
     }
 
-    public FranchiseResponseDto(Franchise franchise) {
-        this.franchiseId = franchise.getFranchiseId();
-        this.managerName = managerName;
-//        this.regionCode = franchise.getRegionCode().getRegionCode();
-        this.headquarterId = franchise.getHeadquarterId().getHeadquarterId();
-        this.name = franchise.getName();
-        this.franchiseTel = franchise.getFranchiseTel();
-        this.roadAddress = franchise.getRoadAddress();
-        this.detailAddress = franchise.getDetailAddress();
-        this.openDate = franchise.getOpenDate();
-        this.franchiseImage = franchise.getFranchiseImage();
-        this.storeSize = franchise.getStoreSize();
-        this.seatingCapacity = franchise.getSeatingCapacity();
-        this.parkingAvailability = franchise.isParkingAvailability();
-        this.status = franchise.getStatus();
-        this.openHours = franchise.getOpenHours();
-    }
+//    public FranchiseResponseDto(Franchise franchise) {
+//        this.franchiseId = franchise.getFranchiseId();
+//        this.managerName = managerName;
+////        this.regionCode = franchise.getRegionCode().getRegionCode();
+//        this.headquarterId = franchise.getHeadquarterId().getHeadquarterId();
+//        this.name = franchise.getName();
+//        this.franchiseTel = franchise.getFranchiseTel();
+//        this.roadAddress = franchise.getRoadAddress();
+//        this.detailAddress = franchise.getDetailAddress();
+//        this.openDate = franchise.getOpenDate();
+//        this.franchiseImage = franchise.getFranchiseImage();
+//        this.storeSize = franchise.getStoreSize();
+//        this.seatingCapacity = franchise.getSeatingCapacity();
+//        this.parkingAvailability = franchise.isParkingAvailability();
+//        this.status = franchise.getStatus();
+//        this.openHours = franchise.getOpenHours();
+//    }
 }

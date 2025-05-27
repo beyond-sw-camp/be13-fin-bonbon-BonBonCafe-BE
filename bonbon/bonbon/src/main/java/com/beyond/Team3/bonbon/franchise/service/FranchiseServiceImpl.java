@@ -129,8 +129,8 @@ public class FranchiseServiceImpl implements FranchiseService {
                 .orElseThrow(() -> new UserException(ExceptionMessage.USER_NOT_FOUND));
 
 
-        // 매니저만 프랜차이즈 생성 가능
-        if (user.getUserType()  != Role.MANAGER) {
+        // 매니저 또는 본사만  프랜차이즈 생성 가능
+        if (user.getUserType() != Role.MANAGER && user.getUserType() != Role.HEADQUARTER) {
             throw new FranchiseException(ExceptionMessage.UNAUTHORIZED_FRANCHISE_CREATE);
         }
 
@@ -143,7 +143,9 @@ public class FranchiseServiceImpl implements FranchiseService {
                 user.getHeadquarterId().getHeadquarterId()
         );
 
-        Region regionCode = regionRepository.findByRegionName(requestDto.getRegionName());
+        RegionName regionName = requestDto.getRegionName();
+
+        Region regionCode = regionRepository.findByRegionName(regionName);
 
         Franchise franchise = requestDto.toEntity(headquarter, regionCode);
         franchiseRepository.save(franchise);

@@ -85,7 +85,7 @@ public class Franchise extends EntityDate {
     private Franchisee franchisee;
 
     public void update(FranchiseUpdateRequestDto requestDto) {
-        this.name = requestDto.getName();
+//        this.name = requestDto.getName();
         this.franchiseTel = requestDto.getFranchiseTel();
         this.franchiseImage = requestDto.getFranchiseImage();
         this.storeSize = requestDto.getStoreSize();

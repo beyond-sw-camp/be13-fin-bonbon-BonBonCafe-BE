@@ -55,7 +55,7 @@ public class FranchiseServiceImpl implements FranchiseService {
     private final WebClient.Builder webClientBuilder;
     private final ManagerRepository managerRepository;
 
-//    @Value("${kakao.map.api.key}")
+    @Value("${kakao.map.api.key}")
     private String kakaoApiKey;
 
 
@@ -126,8 +126,10 @@ public class FranchiseServiceImpl implements FranchiseService {
         User headquerterUser = userRepository.findByEmail(email).orElseThrow(() -> new UserException(ExceptionMessage.USER_NOT_FOUND));
         Headquarter headquarter = headquarterRepository.findByHeadquarterId(headquerterUser.getHeadquarterId().getHeadquarterId());
 
+        log.info("지역 이름???", requestDto.getRegionName());
         // 지역 코드 확인 -> message 추가 예정
-        Region regionCode = regionRepository.findByRegionCode(requestDto.getRegionCode());
+        RegionName regionName = requestDto.getRegionName();
+        Region regionCode = regionRepository.findByRegionName(regionName);
         Franchise franchise = requestDto.toEntity(headquarter, regionCode);
         franchiseRepository.save(franchise);
     }

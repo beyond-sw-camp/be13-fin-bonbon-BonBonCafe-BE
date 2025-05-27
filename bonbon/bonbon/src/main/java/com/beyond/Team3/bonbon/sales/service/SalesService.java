@@ -27,6 +27,15 @@ public interface SalesService {
     // 과거 데이터 조회
     List<DailySalesDto> getHistory(Long franchiseId, LocalDate startDate, LocalDate endDate);
 
+    // 전국 가맹점 일자별 매출 합 조회
+    List<DailySalesDto> getAllFranchisePeriodSales(LocalDate startDate, LocalDate endDate);
+
+    // 전국 가맹점 메뉴별 판매량 조회
+    List<MenuRankingDto> getAllMenuSalesRanking(LocalDate startDate, LocalDate endDate);
+
+    // 전국 가맹점 매출 순위 조회
+    List<SalesRankingDto> getAllFranchiseRanking(LocalDate startDate, LocalDate endDate, int limit);
+
 }
 
 

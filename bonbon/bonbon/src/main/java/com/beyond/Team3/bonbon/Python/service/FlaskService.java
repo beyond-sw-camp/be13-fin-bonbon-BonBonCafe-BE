@@ -25,14 +25,16 @@ import java.util.List;
 @RequiredArgsConstructor
 public class FlaskService {
 
-    private final UserRepository userRepository;
     //데이터를 JSON 객체로 변환하기 위해서 사용
     private final ObjectMapper objectMapper;
     private final RestTemplate restTemplate = new RestTemplate();
-    private final String url = "http://127.0.0.1:8082/forecast";
 
-    public List<ForecastResponseDto> weeklyForecast(List<DailySalesDto> history, int periods) throws JsonProcessingException
-    {
+    private final String GLOBAL_URL = "http://127.0.0.1:8082/forecast/global";
+    private final String FRANCHISE_URL = "http://127.0.0.1:8082/forecast/franchise/%d";
+
+    // 전체 가맹점 예측
+    public List<ForecastResponseDto> getGlobalForecast(List<DailySalesDto> history, int periods)
+            throws JsonProcessingException {
 
         // 헤더 객체 생성
         HttpHeaders headers = new HttpHeaders();
@@ -44,6 +46,28 @@ public class FlaskService {
         String body = objectMapper.writeValueAsString(requestDto);
 
         HttpEntity<String> entity = new HttpEntity<>(body,headers);
+
+        ForecastResponseDto[] arr =
+                restTemplate.postForObject(GLOBAL_URL, entity, ForecastResponseDto[].class);
+
+        return Arrays.asList(arr);
+    }
+
+    public List<ForecastResponseDto> getFranchiseForecast(Long franchiseId, List<DailySalesDto> history, int periods)
+            throws JsonProcessingException {
+
+        // 헤더 객체 생성
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+
+        // 바디 객체 생성
+        ForecastRequestDto requestDto = new ForecastRequestDto(history, periods);
+        // 자바 객체 -> JSON 문자열로 변환
+        String body = objectMapper.writeValueAsString(requestDto);
+
+        HttpEntity<String> entity = new HttpEntity<>(body,headers);
+
+        String url = String.format(FRANCHISE_URL,franchiseId);
 
         ForecastResponseDto[] arr =
                 restTemplate.postForObject(url, entity, ForecastResponseDto[].class);

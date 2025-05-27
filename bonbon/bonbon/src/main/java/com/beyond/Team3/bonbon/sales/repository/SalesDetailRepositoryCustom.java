@@ -12,4 +12,5 @@ public interface SalesDetailRepositoryCustom {
 
     List<MenuRankingDto> findMenuRanking(Long franchiseId, LocalDate startDate, LocalDate endDate, int limit);
 
+    List<MenuRankingDto> findAllMenuRanking(LocalDate startDate, LocalDate endDate, int limit);
 }

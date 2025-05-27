@@ -72,14 +72,50 @@ public class SalesRecordRepositoryImpl implements SalesRecordRepositoryCustom{
                         monthEq(month)
                 );
 //                .groupBy(franchise.franchiseId,franchise.name)
-                // 리스트를 가져와서 그 리스트의 크기를 확인하는 방식 -> 성능 저하될 수 있음
+        // 리스트를 가져와서 그 리스트의 크기를 확인하는 방식 -> 성능 저하될 수 있음
 //                .fetch()
 //                .size();
-                // null 반환 주의
+        // null 반환 주의
 //                .fetchOne();
 
 //        return new PageImpl<>(content,pageable,totalCount);
         return PageableExecutionUtils.getPage(content, pageable, countQuery::fetchOne);
+    }
+
+    @Override
+    public List<DailySalesDto> findAllFranchiseDailySalesByPeriod(LocalDate startDate, LocalDate endDate) {
+        return queryFactory
+                .select(new QDailySalesDto(
+                        salesRecord.salesDate,
+                        salesRecord.salesAmount.sum().intValue()
+                ))
+                .from(salesRecord)
+                .where(
+                        salesDateGoe(startDate),
+                        salesDateLoe(endDate)
+                )
+                .groupBy(salesRecord.salesDate)
+                .orderBy(salesRecord.salesDate.asc())
+                .fetch();
+    }
+
+    @Override
+    public List<SalesRankingDto> findAllFranchiseRanking(LocalDate startDate, LocalDate endDate, int limit) {
+        return queryFactory
+                .select(new QSalesRankingDto(
+                        franchise.name,
+                        salesRecord.salesAmount.sum().intValue()
+                ))
+                .from(salesRecord)
+                .join(salesRecord.franchise, franchise)
+                .where(
+                        salesDateGoe(startDate),
+                        salesDateLoe(endDate)
+                )
+                .groupBy(franchise.franchiseId)
+                .orderBy(salesRecord.salesAmount.sum().desc())
+                .limit(limit)
+                .fetch();
     }
 
     // 헬퍼 메소드

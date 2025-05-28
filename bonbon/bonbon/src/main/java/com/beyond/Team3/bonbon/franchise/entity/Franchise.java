@@ -91,6 +91,7 @@ public class Franchise extends EntityDate {
         this.storeSize = requestDto.getStoreSize();
         this.seatingCapacity = requestDto.getSeatingCapacity();
         this.parkingAvailability = requestDto.isParkingAvailability();
+        this.status = requestDto.getStatus();
         this.openHours = requestDto.getOpenHours();
     }
 

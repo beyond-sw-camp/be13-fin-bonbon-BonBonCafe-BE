@@ -11,12 +11,16 @@ import java.math.BigDecimal;
 @Getter
 @AllArgsConstructor
 public class MenuDetailResponseDto {
+    private Long ingredientId;
     private String ingredientName;
+    private String unit;
     private BigDecimal quantity;
-
+    
     public static MenuDetailResponseDto from(MenuDetail detail) {
         return new MenuDetailResponseDto(
+                detail.getIngredient().getIngredientId(),
                 detail.getIngredient().getIngredientName(),
+                detail.getIngredient().getUnit(),
                 detail.getQuantity()
         );
     }

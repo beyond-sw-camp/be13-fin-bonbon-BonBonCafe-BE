@@ -8,7 +8,11 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import java.util.TreeSet;
+import java.util.stream.Collectors;
 
 @Getter
 @AllArgsConstructor
@@ -34,8 +38,11 @@ public class FranchiseMenuResponseDto {
                 .status(menu.getStatus())
                 .categories(menu.getCategories().stream()
                         .map(c -> CategoryResponseDto.from(c.getCategory()))
-                        .distinct()
-                        .toList())
+                        .collect(Collectors.collectingAndThen(
+                                Collectors.toCollection(() -> new TreeSet<>(Comparator.comparing(CategoryResponseDto::getId))),
+                                ArrayList::new
+                        ))
+                )
                 .menuDetails(menu.getDetails().stream()
                         .map(MenuDetailResponseDto::from)
                         .toList())

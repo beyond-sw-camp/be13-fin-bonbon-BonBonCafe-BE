@@ -13,4 +13,8 @@ public interface MenuRepository extends JpaRepository<Menu, Long>, MenuRepositor
     List<Menu> findMenusByCategoryAndHeadquarter(Long categoryId, Long headquarterId);
 
     Page<Menu> findAllByFranchise(Pageable pageable, Long franchiseId);
+
+    boolean existsByNameAndHeadquarter_HeadquarterId(String name, Long headquarterId);
+
+    boolean existsByNameAndHeadquarter_HeadquarterIdAndMenuIdNot(String name, Long headquarterId, Long excludeMenuId);
 }

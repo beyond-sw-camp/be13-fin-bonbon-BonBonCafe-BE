@@ -155,10 +155,24 @@ public class FranchiseServiceImpl implements FranchiseService {
     @Transactional
     public void updateFranchiseInfo(Long franchiseId, FranchiseUpdateRequestDto requestDto, Principal principal) {
 
-        Manager manager = getManagerFromPrincipal(principal);
+        log.info("requestDto: {}", requestDto);
+
+        // 사용자 조회
+        String email = principal.getName();
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new UserException(ExceptionMessage.USER_NOT_FOUND));
+
         Franchise franchise = getFranchiseId(franchiseId);
 
-        authorizeManagerRegion(manager, franchise.getRegionCode());
+        // 매니저일 경우: 지역 검증
+        if (user.getUserType() == Role.MANAGER) {
+            Manager manager = managerRepository.findByUserId(user)
+                    .orElseThrow(() -> new FranchiseException(ExceptionMessage.MANAGER_NOT_FOUND));
+            authorizeManagerRegion(manager, franchise.getRegionCode());
+        } else if (user.getUserType() == Role.HEADQUARTER) {
+        } else {
+            throw new FranchiseException(ExceptionMessage.UNAUTHORIZED_FRANCHISE_MODIFY);
+        }
 
         franchise.update(requestDto);
         franchiseRepository.save(franchise);
@@ -194,10 +208,23 @@ public class FranchiseServiceImpl implements FranchiseService {
     @Override
     public void deleteFranchise(Long franchiseId, Principal principal) {
 
-        Manager manager = getManagerFromPrincipal(principal);
+        // 사용자 조회
+        String email = principal.getName();
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new UserException(ExceptionMessage.USER_NOT_FOUND));
+
         Franchise franchise = getFranchiseId(franchiseId);
 
-        authorizeManagerRegion(manager, franchise.getRegionCode());
+        // 매니저일 경우: 지역 검증
+        if (user.getUserType() == Role.MANAGER) {
+            Manager manager = managerRepository.findByUserId(user)
+                    .orElseThrow(() -> new FranchiseException(ExceptionMessage.MANAGER_NOT_FOUND));
+            authorizeManagerRegion(manager, franchise.getRegionCode());
+        } else if (user.getUserType() == Role.HEADQUARTER) {
+
+        } else {
+            throw new FranchiseException(ExceptionMessage.UNAUTHORIZED_FRANCHISE_DELETE);
+        }
 
         franchiseRepository.delete(franchise);
     }

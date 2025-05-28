@@ -76,7 +76,6 @@ public class FranchiseController {
     @PatchMapping("/{franciseId}")
     @Operation(summary = "가맹점 정보 수정", description = "가맹점 관리자는 해당 가맹점의 연락처, 사진, 평수, 좌석 수, 주차 가능 여부, 오픈 시간만 수정할 수 있음")
     public ResponseEntity<FranchiseResponseDto> updateFranchiseInfo(@PathVariable Long franciseId, @RequestBody FranchiseUpdateRequestDto requestDto, Principal principal){
-        log.info("franchiseId: {}", franciseId);
         franchiseService.updateFranchiseInfo(franciseId, requestDto, principal);
         return new ResponseEntity<>(HttpStatus.OK);
     }

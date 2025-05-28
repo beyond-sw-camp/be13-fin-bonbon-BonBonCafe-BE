@@ -11,6 +11,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 
 @Getter
@@ -20,8 +21,6 @@ import java.time.LocalDate;
 public class FranchiseResponseDto {
 
     private Long franchiseId;
-
-    private String managerName;
 
     private String regionName;
 //    private int regionCode;
@@ -50,12 +49,15 @@ public class FranchiseResponseDto {
 
     private String openHours;
 
-    public FranchiseResponseDto(Franchise franchise, String managerName, RegionName regionName ) {
+    private LocalDateTime createdAt;
+
+    private LocalDateTime modifiedAt;
+
+    public FranchiseResponseDto(Franchise franchise, RegionName regionName ) {
         this.franchiseId = franchise.getFranchiseId();
-        this.managerName = managerName;
+        this.headquarterId = franchise.getHeadquarterId().getHeadquarterId();
         this.regionName = regionName != null ? regionName.name() : null;
 //        this.regionCode = franchise.getRegionCode().getRegionCode();
-        this.headquarterId = franchise.getHeadquarterId().getHeadquarterId();
         this.name = franchise.getName();
         this.franchiseTel = franchise.getFranchiseTel();
         this.roadAddress = franchise.getRoadAddress();
@@ -67,23 +69,25 @@ public class FranchiseResponseDto {
         this.parkingAvailability = franchise.isParkingAvailability();
         this.status = franchise.getStatus();
         this.openHours = franchise.getOpenHours();
+        this.createdAt = franchise.getCreatedAt();
+        this.modifiedAt = franchise.getModifiedAt();
     }
 
-    public FranchiseResponseDto(Franchise franchise) {
-        this.franchiseId = franchise.getFranchiseId();
-        this.managerName = managerName;
-//        this.regionCode = franchise.getRegionCode().getRegionCode();
-        this.headquarterId = franchise.getHeadquarterId().getHeadquarterId();
-        this.name = franchise.getName();
-        this.franchiseTel = franchise.getFranchiseTel();
-        this.roadAddress = franchise.getRoadAddress();
-        this.detailAddress = franchise.getDetailAddress();
-        this.openDate = franchise.getOpenDate();
-        this.franchiseImage = franchise.getFranchiseImage();
-        this.storeSize = franchise.getStoreSize();
-        this.seatingCapacity = franchise.getSeatingCapacity();
-        this.parkingAvailability = franchise.isParkingAvailability();
-        this.status = franchise.getStatus();
-        this.openHours = franchise.getOpenHours();
-    }
+//    public FranchiseResponseDto(Franchise franchise) {
+//        this.franchiseId = franchise.getFranchiseId();
+//        this.managerName = managerName;
+////        this.regionCode = franchise.getRegionCode().getRegionCode();
+//        this.headquarterId = franchise.getHeadquarterId().getHeadquarterId();
+//        this.name = franchise.getName();
+//        this.franchiseTel = franchise.getFranchiseTel();
+//        this.roadAddress = franchise.getRoadAddress();
+//        this.detailAddress = franchise.getDetailAddress();
+//        this.openDate = franchise.getOpenDate();
+//        this.franchiseImage = franchise.getFranchiseImage();
+//        this.storeSize = franchise.getStoreSize();
+//        this.seatingCapacity = franchise.getSeatingCapacity();
+//        this.parkingAvailability = franchise.isParkingAvailability();
+//        this.status = franchise.getStatus();
+//        this.openHours = franchise.getOpenHours();
+//    }
 }

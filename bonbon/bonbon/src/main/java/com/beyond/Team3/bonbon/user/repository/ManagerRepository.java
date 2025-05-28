@@ -21,7 +21,9 @@ public interface ManagerRepository extends JpaRepository<Manager, Long> {
 
     void deleteByUserId(User userId);
 
-    Manager findByRegionCode(Region region);
+    Optional<Manager> findByRegionCode(Region region);
+
+    User userId(User userId);
 
     @Query("select m " +
             "from Manager m " +

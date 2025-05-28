@@ -11,5 +11,11 @@ import java.util.Optional;
 @Repository
 public interface RegionRepository extends JpaRepository<Region, Long> {
 
-    Optional<Region> findByRegionCode(int regionCode);
+    Region findByRegionCode(int regionCode);
+
+    Region findByRegionName(RegionName regionName);
+
+    Optional<Region> findByRegionCodeOptional(int regionCode);
+
 }
+

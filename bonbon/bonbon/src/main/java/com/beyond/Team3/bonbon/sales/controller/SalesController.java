@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
 import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -51,7 +52,7 @@ public class SalesController {
             @PathVariable("franchiseId") Long franchiseId,
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate
-            ) {
+    ) {
         List<DailySalesDto> results = salesService.getPeriodSales(franchiseId, startDate, endDate);
         return ResponseEntity.ok(results);
     }
@@ -72,7 +73,7 @@ public class SalesController {
     }
 
     @GetMapping("/menu/ranking/{franchiseId}")
-    @Operation(summary = "메뉴별 판매 순위 조회", description = "기간 설정해서 해당 지점의 메뉴 판매 순위를 상위 7개만 반환한다.")
+    @Operation(summary = "메뉴별 판매 순위 조회", description = "기간 설정해서 해당 지점의 메뉴 판매 순위를 조회한다.(default = 7")
     public ResponseEntity<List<MenuRankingDto>> getMenuSalesRanking(
             Principal principal,
             @PathVariable("franchiseId") Long franchiseId,
@@ -91,25 +92,90 @@ public class SalesController {
             @PathVariable("franchiseId") Long franchiseId,
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate expectationStartDate,
             @RequestParam(defaultValue = "7") int periods) throws JsonProcessingException {
-        // 과거 데이터 조회(2년 치)
-        LocalDate pastYear = expectationStartDate.minusYears(2);
+        // 과거 데이터 조회(3년 치)
+        LocalDate pastYear = expectationStartDate.minusYears(3);
         List<DailySalesDto> history =
                 salesService.getHistory(franchiseId, pastYear, expectationStartDate)
                         .stream().filter(d -> d.getTotalAmount() > 0)
                         .collect(Collectors.toList());
 
         // 에러 확인용
-        log.info(">>>>> Forecast history size={} for storeId={}", history.size(), franchiseId);
-        history.forEach(d -> log.info("  ds={}, y={}", d.getSalesDate(), d.getTotalAmount()));
+//        log.info(">>>>> Forecast history size={} for storeId={}", history.size(), franchiseId);
+//        history.forEach(d -> log.info("  ds={}, y={}", d.getSalesDate(), d.getTotalAmount()));
 
         List<ForecastResponseDto> forecast =
-                flaskService.weeklyForecast(history, periods);
+                flaskService.getFranchiseForecast(franchiseId, history, periods);
+
+        return ResponseEntity.ok(forecast);
+    }
+
+    @GetMapping("/all/forecast")
+    @Operation(
+            summary = "본사 전체 가앵점 예상 매출 조회",
+            description = "지정한 기간 모든 가맹점의 예상 매출을 조회한다."
+    )
+    public ResponseEntity<List<ForecastResponseDto>> getHeadQuarterForecast (
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate expectationStartDate,
+            @RequestParam(defaultValue = "90") int periods) throws JsonProcessingException {
+
+        // 과거 데이터 조회(3년 치)
+        LocalDate pastYear = expectationStartDate.minusYears(3);
+        List<DailySalesDto> history =
+                salesService.getAllFranchisePeriodSales(pastYear, expectationStartDate)
+                        .stream().filter(d -> d.getTotalAmount() > 0)
+                        .collect(Collectors.toList());
+
+        List<ForecastResponseDto> forecast =
+                flaskService.getGlobalForecast(history, periods);
 
         return ResponseEntity.ok(forecast);
     }
 
 
+    @GetMapping("/all/sales/period")
+    @Operation(
+            summary = "본사 전체 가맹점 일별 매출 조회",
+            description = "지정한 기간 동안 모든 가맹점의 매출을 날짜별로 합산하여 조회한다."
+    )
+    public ResponseEntity<List<DailySalesDto>> getHeadQuarterSalesByPeriod(
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate
+    ) {
+        List<DailySalesDto> result =
+                salesService.getAllFranchisePeriodSales(startDate, endDate);
 
+        return ResponseEntity.ok(result);
+    }
+
+    @GetMapping("all/menu/ranking")
+    @Operation(
+            summary = "본사 전체 가맹점 메뉴 판매 순위 조회",
+            description = "지정한 기간 동안 전국 가맹점의 메뉴 판매 순위를 합산하여 조회한다."
+    )
+    public ResponseEntity<List<MenuRankingDto>> getHeadQuarterMenuRanking(
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate
+    ) {
+        List<MenuRankingDto> result =
+                salesService.getAllMenuSalesRanking(startDate, endDate);
+
+        return ResponseEntity.ok(result);
+    }
+
+    @GetMapping("/all/ranking")
+    @Operation(
+            summary = "본사 전체 가맹점 상위 매출 순위 조회",
+            description = "지정한 기간 동안 전국 가맹점 매출 랭킹을 조회한다."
+    )
+    public ResponseEntity<List<SalesRankingDto>> getTopFranchiseRanking(
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate,
+            @RequestParam(defaultValue = "7") int limit
+    ) {
+        List<SalesRankingDto> result = salesService.getAllFranchiseRanking(startDate, endDate, limit);
+
+        return ResponseEntity.ok(result);
+    }
 
 
 }

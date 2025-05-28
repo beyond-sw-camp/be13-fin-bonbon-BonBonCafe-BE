@@ -20,14 +20,15 @@ public interface FranchiseRepository extends JpaRepository<Franchise, Long> {
     @Query("select f " +
             "from Franchise f " +
             "left JOIN  f.franchisee fe " +
-            "where fe is null and f.headquarterId = :headquarter")
-    Page<Franchise> findWithoutOwner(@Param("headquarter") Headquarter headquarter, Pageable pageable);
+            "where fe is null ")
+    List<Franchise> findWithoutOwner();
 
     List<Franchise> findByHeadquarterId_HeadquarterId(Long headquarterId);
 
+
     List<Franchise> findByRegionCode_RegionCode(int regionCode);
 
-    Franchise findByName(String name);
+    Optional<Franchise> findByName(String name);
 
     @Query("select f " +
             "from Franchise f " +

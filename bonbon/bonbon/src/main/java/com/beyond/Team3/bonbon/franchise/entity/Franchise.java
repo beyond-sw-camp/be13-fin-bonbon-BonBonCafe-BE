@@ -1,5 +1,6 @@
 package com.beyond.Team3.bonbon.franchise.entity;
 
+import com.beyond.Team3.bonbon.common.base.EntityDate;
 import com.beyond.Team3.bonbon.common.enums.FranchiseStatus;
 import com.beyond.Team3.bonbon.franchise.dto.FranchiseUpdateRequestDto;
 import com.beyond.Team3.bonbon.headquarter.entity.Headquarter;
@@ -31,7 +32,7 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "franchise")
-public class Franchise {
+public class Franchise extends EntityDate {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -84,7 +85,7 @@ public class Franchise {
     private Franchisee franchisee;
 
     public void update(FranchiseUpdateRequestDto requestDto) {
-        this.name = requestDto.getName();
+//        this.name = requestDto.getName();
         this.franchiseTel = requestDto.getFranchiseTel();
         this.franchiseImage = requestDto.getFranchiseImage();
         this.storeSize = requestDto.getStoreSize();

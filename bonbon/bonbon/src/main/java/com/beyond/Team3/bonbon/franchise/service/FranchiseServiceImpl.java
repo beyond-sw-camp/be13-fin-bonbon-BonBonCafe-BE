@@ -3,6 +3,7 @@ package com.beyond.Team3.bonbon.franchise.service;
 
 
 import com.beyond.Team3.bonbon.common.enums.RegionName;
+import com.beyond.Team3.bonbon.common.enums.Role;
 import com.beyond.Team3.bonbon.franchise.dto.FranchiseSummaryDto;
 import com.beyond.Team3.bonbon.franchise.dto.FranchiseLocationDto;
 import com.beyond.Team3.bonbon.franchise.dto.FranchisePageResponseDto;
@@ -55,8 +56,27 @@ public class FranchiseServiceImpl implements FranchiseService {
     private final WebClient.Builder webClientBuilder;
     private final ManagerRepository managerRepository;
 
-//    @Value("${kakao.map.api.key}")
+    @Value("${kakao.map.api.key}")
     private String kakaoApiKey;
+
+    private Manager getManagerFromPrincipal(Principal principal) {
+        String email = principal.getName();
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new UserException(ExceptionMessage.USER_NOT_FOUND));
+        return managerRepository.findByUserId(user)
+                .orElseThrow(() -> new FranchiseException(ExceptionMessage.MANAGER_NOT_FOUND));
+    };
+
+    private Franchise getFranchiseId(Long franchiseId) {
+        return franchiseRepository.findByFranchiseId(franchiseId)
+                .orElseThrow(() -> new FranchiseException(ExceptionMessage.FRANCHISE_NOT_FOUND));
+    }
+
+    private void authorizeManagerRegion(Manager manager, Region region) {
+        if (!Objects.equals(manager.getRegionCode(), region)) {
+            throw new FranchiseException(ExceptionMessage.UNAUTHORIZED_FRANCHISE_MODIFY);
+        }
+    }
 
 
     @Override
@@ -76,19 +96,12 @@ public class FranchiseServiceImpl implements FranchiseService {
 
         List<FranchiseResponseDto> responseDto = franchisePage.getContent().stream()
                 .map(franchise -> {
-                    // 매니저 조회 (regionCode로)
-                    Manager manager = managerRepository.findByRegionCode(franchise.getRegionCode());
-
-                    String managerName = manager != null && manager.getUserId() != null
-                            ? manager.getUserId().getName()
-                            : "";
-
                     // 지역 이름 조회 (RegionName enum)
                     RegionName regionName = franchise.getRegionCode() != null
                             ? franchise.getRegionCode().getRegionName()
                             : null;
 
-                    return new FranchiseResponseDto(franchise, managerName, regionName);
+                    return new FranchiseResponseDto(franchise, regionName);
                 })
                 .toList();
 
@@ -100,35 +113,39 @@ public class FranchiseServiceImpl implements FranchiseService {
     @Override
     public FranchiseResponseDto findByFranchiseId(Long franchiseId) {
 
-        Optional<Franchise> franchise = franchiseRepository.findById(franchiseId);
+        Franchise franchise = franchiseRepository.findById(franchiseId)
+                .orElseThrow(() -> new FranchiseException(ExceptionMessage.FRANCHISE_NOT_FOUND));
 
-        if (franchise.isEmpty()){
-            throw new FranchiseException(ExceptionMessage.FRANCHISE_NOT_FOUND);
-        }
-        Manager manager = managerRepository.findByRegionCode(franchise.get().getRegionCode());
-
-        User managerId = userRepository.findByUserId(manager.getUserId().getUserId());
-        String managerName = managerId.getName();
-        RegionName regionName = franchise.get().getRegionCode().getRegionName();
-
-        log.info("Franchise found: " + franchise.get().getFranchiseId());
-
-
-        return new FranchiseResponseDto( franchise.get(), managerName, regionName);
+        return new FranchiseResponseDto( franchise, franchise.getRegionCode().getRegionName());
     }
 
     @Override
     @Transactional
     public void createFranchise(Principal principal, FranchiseRequestDto requestDto) {
 
-        // 로그인 유저 본사Id 가져오기
+        log.info("requestDto: {}", requestDto);
         String email = principal.getName();
-        User headquerterUser = userRepository.findByEmail(email).orElseThrow(() -> new UserException(ExceptionMessage.USER_NOT_FOUND));
-        Headquarter headquarter = headquarterRepository.findByHeadquarterId(headquerterUser.getHeadquarterId().getHeadquarterId());
-
-        // 지역 코드 확인 -> message 추가 예정
-        Region regionCode = regionRepository.findByRegionCode(requestDto.getRegionCode())
+        User user  = userRepository.findByEmail(email)
                 .orElseThrow(() -> new UserException(ExceptionMessage.USER_NOT_FOUND));
+
+
+        // 매니저 또는 본사만  프랜차이즈 생성 가능
+        if (user.getUserType() != Role.MANAGER && user.getUserType() != Role.HEADQUARTER) {
+            throw new FranchiseException(ExceptionMessage.UNAUTHORIZED_FRANCHISE_CREATE);
+        }
+
+        // 매니저가 본사 소속인지 확인
+        if (user.getHeadquarterId() == null) {
+            throw new FranchiseException(ExceptionMessage.HEADQUARTER_NOT_FOUND);
+        }
+
+        Headquarter headquarter = headquarterRepository.findByHeadquarterId(
+                user.getHeadquarterId().getHeadquarterId()
+        );
+
+        RegionName regionName = requestDto.getRegionName();
+
+        Region regionCode = regionRepository.findByRegionName(regionName);
 
         Franchise franchise = requestDto.toEntity(headquarter, regionCode);
         franchiseRepository.save(franchise);
@@ -136,20 +153,83 @@ public class FranchiseServiceImpl implements FranchiseService {
 
     @Override
     @Transactional
-    public void updateFranchiseInfo(Long franchiseId, FranchiseUpdateRequestDto requestDto) {
-        // 해당 프랜차이즈 존재여부 확인
-        Optional<Franchise> optionalFranchise = franchiseRepository.findByFranchiseId(franchiseId);
-        if(optionalFranchise.isEmpty()){
-            throw new FranchiseException(ExceptionMessage.FRANCHISE_NOT_FOUND);
+    public void updateFranchiseInfo(Long franchiseId, FranchiseUpdateRequestDto requestDto, Principal principal) {
+
+        log.info("requestDto: {}", requestDto);
+
+        // 사용자 조회
+        String email = principal.getName();
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new UserException(ExceptionMessage.USER_NOT_FOUND));
+
+        Franchise franchise = getFranchiseId(franchiseId);
+
+        // 매니저일 경우: 지역 검증
+        if (user.getUserType() == Role.MANAGER) {
+            Manager manager = managerRepository.findByUserId(user)
+                    .orElseThrow(() -> new FranchiseException(ExceptionMessage.MANAGER_NOT_FOUND));
+            authorizeManagerRegion(manager, franchise.getRegionCode());
+        } else if (user.getUserType() == Role.HEADQUARTER) {
+        } else {
+            throw new FranchiseException(ExceptionMessage.UNAUTHORIZED_FRANCHISE_MODIFY);
         }
 
-        // 담당자 일치??매니저??
-        // 가맹 주점은 권한 없음..??
-
-        Franchise franchise = optionalFranchise.get();
         franchise.update(requestDto);
         franchiseRepository.save(franchise);
     }
+
+
+    @Override
+    public FranchiseSummaryDto findByFranchiseName(String name) {
+
+        Franchise franchise = franchiseRepository.findByName(name)
+                .orElseThrow(() -> new FranchiseException(ExceptionMessage.FRANCHISE_NOT_FOUND));
+
+
+        Region region = franchise.getRegionCode();
+        Manager manager = managerRepository.findByRegionCode(region)
+                .orElseThrow(()-> new FranchiseException(ExceptionMessage.MANAGER_NOT_FOUND));
+
+        User managerInfo = userRepository.findByUserId(manager.getUserId().getUserId())
+                .orElseThrow(() -> new UserException(ExceptionMessage.USER_NOT_FOUND));
+
+
+        log.info("Franchise found: {}", franchise.getFranchiseId());
+        log.info("Manager name: {}, phone: {}", managerInfo.getName(), managerInfo.getPhone());
+
+        return new FranchiseSummaryDto(
+                franchise.getFranchiseId(),
+                franchise.getFranchiseTel(),
+                managerInfo.getName(),
+                managerInfo.getPhone()
+        );
+    }
+
+    @Override
+    public void deleteFranchise(Long franchiseId, Principal principal) {
+
+        // 사용자 조회
+        String email = principal.getName();
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new UserException(ExceptionMessage.USER_NOT_FOUND));
+
+        Franchise franchise = getFranchiseId(franchiseId);
+
+        // 매니저일 경우: 지역 검증
+        if (user.getUserType() == Role.MANAGER) {
+            Manager manager = managerRepository.findByUserId(user)
+                    .orElseThrow(() -> new FranchiseException(ExceptionMessage.MANAGER_NOT_FOUND));
+            authorizeManagerRegion(manager, franchise.getRegionCode());
+        } else if (user.getUserType() == Role.HEADQUARTER) {
+
+        } else {
+            throw new FranchiseException(ExceptionMessage.UNAUTHORIZED_FRANCHISE_DELETE);
+        }
+
+        franchiseRepository.delete(franchise);
+    }
+
+
 
     @Override
     public List<FranchiseLocationDto> getFranchiseLocations() {
@@ -196,25 +276,5 @@ public class FranchiseServiceImpl implements FranchiseService {
                 .collect(Collectors.toList());
     }
 
-    @Override
-    public FranchiseSummaryDto findByFranchiseNam(String name) {
-        // franchiseId, franchiseTel
-        Franchise franchise = franchiseRepository.findByName(name);
-        log.info("Franchise found: " + franchise.getFranchiseId());
-        log.info("Franchise found: " + franchise.getFranchiseTel());
-
-        // 지역 코드로 담당자 찾기
-        Region region = franchise.getRegionCode();
-
-        Manager manager = managerRepository.findByRegionCode(region);
-
-        // 담당자의 유저 아이디로 이름, 전화번호 찾기
-        User managerInfo = userRepository.findByUserId(manager.getUserId().getUserId());
-
-        log.info("User found: " + managerInfo.getName());
-        log.info("User found: " + managerInfo.getPhone());
-
-        return new FranchiseSummaryDto(franchise.getFranchiseId(), franchise.getFranchiseTel(), managerInfo.getName(), managerInfo.getPhone());
-    }
 
 }

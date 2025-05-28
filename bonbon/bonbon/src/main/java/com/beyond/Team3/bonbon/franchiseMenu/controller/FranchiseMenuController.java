@@ -16,6 +16,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -33,6 +34,16 @@ public class FranchiseMenuController {
         FranchiseMenuResponseDto franchiseMenuResponseDto = franchiseMenuService.getMenuByFranchise(principal, menuId);
 
         return ResponseEntity.status(HttpStatus.OK).body(franchiseMenuResponseDto);
+    }
+
+    @Operation(summary = "카테고리별 가맹점 메뉴 조회")
+    @GetMapping("/category/{categoryId}")
+    public ResponseEntity<List<FranchiseMenuResponseDto>> getMenusByCategory(
+            Principal principal,
+            @PathVariable Long categoryId
+    ) {
+        List<FranchiseMenuResponseDto> menus = franchiseMenuService.findMenusByCategory(principal, categoryId);
+        return ResponseEntity.ok(menus);
     }
 
     @Operation(summary = "본인 가맹점의 메뉴 조회 (가맹점주 전용)")

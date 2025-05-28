@@ -28,7 +28,7 @@ public class FranchiseStockHistoryRepositoryImpl implements FranchiseStockHistor
                 .leftJoin(history.ingredientId, ingredient).fetchJoin()
                 .leftJoin(history.franchiseId, franchise).fetchJoin()
                 .where(history.franchiseId.franchiseId.eq(franchiseId))
-                .orderBy(history.date.desc())
+                .orderBy(history.historyId.desc())
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
                 .fetch();
@@ -53,7 +53,7 @@ public class FranchiseStockHistoryRepositoryImpl implements FranchiseStockHistor
                 .leftJoin(history.ingredientId, ingredient).fetchJoin()
                 .leftJoin(history.franchiseId, franchise).fetchJoin()
                 .where(franchise.headquarterId.headquarterId.eq(headquarterId))
-                .orderBy(history.date.desc())
+                .orderBy(history.historyId.desc())
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
                 .fetch();

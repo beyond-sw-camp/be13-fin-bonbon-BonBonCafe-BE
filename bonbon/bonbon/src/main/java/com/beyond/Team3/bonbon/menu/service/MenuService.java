@@ -59,6 +59,13 @@ public class MenuService {
         User user = getLoginUser(principal);
         QuantityValidator.validate(dto.getPrice());
 
+        // ✅ 메뉴 이름 비어있으면 예외 던짐
+        if (dto.getName() == null || dto.getName().trim().isEmpty()) {
+            throw new IllegalArgumentException("메뉴 이름을 입력해주세요!");
+        }
+        
+        validateDuplicateMenu(dto.getName(), user.getHeadquarterId().getHeadquarterId());
+
         Menu menu = dto.toEntity(user.getHeadquarterId());
         menuRepository.save(menu);
 
@@ -73,6 +80,7 @@ public class MenuService {
         User user = getLoginUser(principal);
         QuantityValidator.validate(dto.getPrice());
 
+        validateDuplicateMenu(dto.getName(), user.getHeadquarterId().getHeadquarterId(), menuId);
         Menu menu = findMenuWithHeadquarterValidation(menuId, user.getHeadquarterId().getHeadquarterId());
         menu.updateMenu(dto);
 
@@ -146,5 +154,21 @@ public class MenuService {
     private User getLoginUser(Principal principal) {
         return userRepository.findByEmail(principal.getName())
                 .orElseThrow(() -> new UserException(USER_NOT_FOUND));
+    }
+
+    // create용 (단순 중복 검사)
+    private void validateDuplicateMenu(String name, Long headquarterId) {
+        boolean exists = menuRepository.existsByNameAndHeadquarter_HeadquarterId(name, headquarterId);
+        if (exists) {
+            throw new IllegalArgumentException("같은 이름의 메뉴가 이미 존재합니다.");
+        }
+    }
+
+    // update용 (자기 자신 제외하고 중복 검사)
+    private void validateDuplicateMenu(String name, Long headquarterId, Long excludeMenuId) {
+        boolean exists = menuRepository.existsByNameAndHeadquarter_HeadquarterIdAndMenuIdNot(name, headquarterId, excludeMenuId);
+        if (exists) {
+            throw new IllegalArgumentException("같은 이름의 메뉴가 이미 존재합니다.");
+        }
     }
 }

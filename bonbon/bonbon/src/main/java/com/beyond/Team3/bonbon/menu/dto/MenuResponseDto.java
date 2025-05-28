@@ -9,6 +9,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.Comparator;
 import java.util.List;
 
 @Getter
@@ -36,6 +37,7 @@ public class MenuResponseDto {
 
         List<MenuDetailResponseDto> detailDtos = menu.getDetails().stream()
                 .map(MenuDetailResponseDto::from)
+                .sorted(Comparator.comparing(MenuDetailResponseDto::getIngredientId)) // ← 정렬 추가
                 .toList();
 
         return new MenuResponseDto(

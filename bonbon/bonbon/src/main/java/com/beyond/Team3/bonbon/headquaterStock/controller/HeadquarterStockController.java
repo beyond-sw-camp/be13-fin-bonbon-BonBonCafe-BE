@@ -82,7 +82,6 @@ public class HeadquarterStockController {
         return ResponseEntity.ok(headquarterStockResponseDto);
     }
 
-    @PreAuthorize("hasRole('ROLE_HEADQUARTER')")
     @Operation(summary = "본사 재고의 재료 목록 조회")
     @GetMapping("/ingredients")
     public ResponseEntity<List<IngredientRequestDto>> getIngredientsByHeadquarter(Principal principal) {

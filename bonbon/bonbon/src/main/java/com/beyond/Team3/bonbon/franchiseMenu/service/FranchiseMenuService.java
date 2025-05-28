@@ -21,6 +21,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.security.Principal;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import static com.beyond.Team3.bonbon.handler.message.ExceptionMessage.USER_NOT_FOUND;
 
@@ -44,6 +46,19 @@ public class FranchiseMenuService {
         }
 
         return FranchiseMenuResponseDto.from(menu);
+    }
+
+    @Transactional(readOnly = true)
+    public List<FranchiseMenuResponseDto> findMenusByCategory(Principal principal, Long categoryId) {
+        Franchise franchise = getFranchiseByPrincipal(principal);
+
+        // 2. 해당 가맹점이 가지고 있는 메뉴들 중, 메뉴의 카테고리가 일치하는 것만 필터링
+        List<Menu> menus = franchiseMenuRepository.findByFranchiseAndCategory(franchise.getFranchiseId(), categoryId);
+
+        // 3. DTO 변환
+        return menus.stream()
+                .map(FranchiseMenuResponseDto::from)
+                .collect(Collectors.toList());
     }
 
     public Page<MenuResponseDto> getAllMenusByFranchise(Pageable pageable, Principal principal) {
@@ -113,4 +128,5 @@ public class FranchiseMenuService {
                 .orElseThrow(() -> new IllegalArgumentException("가맹점 정보 없음"))
                 .getFranchise();
     }
+
 }

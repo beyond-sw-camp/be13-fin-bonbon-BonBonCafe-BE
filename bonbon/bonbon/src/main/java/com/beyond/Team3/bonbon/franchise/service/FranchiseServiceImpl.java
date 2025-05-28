@@ -127,7 +127,9 @@ public class FranchiseServiceImpl implements FranchiseService {
         Headquarter headquarter = headquarterRepository.findByHeadquarterId(headquerterUser.getHeadquarterId().getHeadquarterId());
 
         // 지역 코드 확인 -> message 추가 예정
-        Region regionCode = regionRepository.findByRegionCode(requestDto.getRegionCode());
+        Region regionCode = regionRepository.findByRegionCode(requestDto.getRegionCode())
+                .orElseThrow(() -> new UserException(ExceptionMessage.USER_NOT_FOUND));
+
         Franchise franchise = requestDto.toEntity(headquarter, regionCode);
         franchiseRepository.save(franchise);
     }

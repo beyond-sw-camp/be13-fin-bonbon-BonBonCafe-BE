@@ -1,5 +1,7 @@
 package com.beyond.Team3.bonbon.franchise.entity;
 
+import com.beyond.Team3.bonbon.user.dto.FranchiseeInfoDto;
+import com.beyond.Team3.bonbon.user.dto.FranchiseeRegisterDto;
 import com.beyond.Team3.bonbon.user.entity.User;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -37,5 +39,9 @@ public class Franchisee {
     @OneToOne
     @JoinColumn(name = "franchise_id", nullable = true)
     private Franchise franchise;
+
+    public void infoUpdate( ) {
+
+    }
 }
 

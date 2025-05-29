@@ -1,21 +1,31 @@
 package com.beyond.Team3.bonbon.user.controller;
 
 import com.beyond.Team3.bonbon.common.enums.Role;
-import com.beyond.Team3.bonbon.franchise.dto.FranchiseResponseDto;
+import com.beyond.Team3.bonbon.handler.exception.PageException;
+import com.beyond.Team3.bonbon.handler.message.ExceptionMessage;
+import com.beyond.Team3.bonbon.region.entity.Region;
+import com.beyond.Team3.bonbon.region.repository.RegionRepository;
+import com.beyond.Team3.bonbon.user.dto.FranchiseInfoDto;
+import com.beyond.Team3.bonbon.user.dto.FranchiseFilterDto;
 import com.beyond.Team3.bonbon.user.dto.FranchiseeInfoDto;
+import com.beyond.Team3.bonbon.user.dto.FranchiseeModifyDto;
 import com.beyond.Team3.bonbon.user.dto.FranchiseeRegisterDto;
 import com.beyond.Team3.bonbon.user.dto.ManagerInfoDto;
+import com.beyond.Team3.bonbon.user.dto.ManagerModifyDto;
 import com.beyond.Team3.bonbon.user.dto.ManagerRegisterDto;
 import com.beyond.Team3.bonbon.user.dto.PasswordModifyDto;
 import com.beyond.Team3.bonbon.user.dto.UserInfo;
 import com.beyond.Team3.bonbon.user.dto.UserInfoDto;
 import com.beyond.Team3.bonbon.user.dto.UserModifyDto;
+import com.beyond.Team3.bonbon.user.repository.UserRepository;
 import com.beyond.Team3.bonbon.user.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -28,7 +38,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.security.Principal;
-import java.util.List;
 
 @Slf4j
 @RestController
@@ -38,6 +47,8 @@ import java.util.List;
 public class UserController {
 
     private final UserService userService;
+    private final UserRepository userRepository;
+    private final RegionRepository regionRepository;
 
     @PostMapping("/manager")
     @PreAuthorize("hasRole('ROLE_HEADQUARTER')")
@@ -49,18 +60,30 @@ public class UserController {
         return ResponseEntity.ok("Manager 계정 생성이 완료되었습니다.");
     }
 
-    @GetMapping("/mamager")
+    @GetMapping("/manager")
     @PreAuthorize("hasRole('ROLE_HEADQUARTER')")
     @Operation(summary = "등록한 MANAGER 계정 전체 조회", description = "Headquarter에서 등록한 MANAGER 계정 정보를 확인한다.")
-    public ResponseEntity<Page<UserInfoDto>> mamagerAccounts(
+    public ResponseEntity<Page<ManagerInfoDto>> managerAccounts(
             @RequestParam(name = "page", defaultValue = "0") int page,
             @RequestParam(name = "size", defaultValue = "10") int size,
             Principal principal){
-        Page<UserInfoDto> accounts = userService.getAccountsByRole(page, size, Role.MANAGER, principal);
+        Page<ManagerInfoDto> accounts = userService.getManagerAccounts(page, size, principal);
         return ResponseEntity.ok(accounts);
     }
 
-    @GetMapping("/mamager/{userId}")
+    @GetMapping("/manager/franchises")
+    @PreAuthorize("hasRole('ROLE_HEADQUARTER')")
+    @Operation(summary = "해당 지역의 가맹점 목록 조회", description = "Headquarter에서 등록한 가맹점들 목록 조회3")
+    public ResponseEntity<Page<FranchiseFilterDto>> franchiseInRegion(
+            @RequestParam int regionCode,
+            @RequestParam(name = "page", defaultValue = "0") int page,
+            @RequestParam(name = "size", defaultValue = "10") int size,
+            Principal principal){
+        Page<FranchiseFilterDto> franchiseListInRegion = userService.getFranchiseInRegion(regionCode, page, size, principal);
+        return ResponseEntity.ok(franchiseListInRegion);
+    }
+
+    @GetMapping("/manager/{userId}")
     @PreAuthorize("hasRole('ROLE_HEADQUARTER')")
     @Operation(summary = "등록한 MANAGER 계정 단일 조회", description = "Headquarter에서 등록한 MANAGER 계정 정보를 확인한다.")
     public ResponseEntity<ManagerInfoDto> managerAccountDetail(
@@ -84,6 +107,21 @@ public class UserController {
         return ResponseEntity.ok("MANAGER 계정이 삭제되었습니다.");
     }
 
+    @GetMapping("/region")
+    @PreAuthorize("hasRole('ROLE_HEADQUARTER')")
+    @Operation(summary = "등록한 MANAGER 단일 계정 삭제", description = "Headquarter에서 등록한 MANAGER 계정을 삭제한다.")
+    public ResponseEntity<Page<Region>> getRegionList(
+            @RequestParam(name = "page", defaultValue = "0") int page,
+            @RequestParam(name = "size", defaultValue = "10") int size
+    ){
+        Pageable pageable = PageRequest.of(page, size);
+        if(page < 0 || size <= 0){
+            throw new PageException(ExceptionMessage.INVALID_PAGE_PARAMETER);
+        }
+        Page<Region> regions = regionRepository.findAll(pageable);
+
+        return ResponseEntity.ok(regions);
+    }
 
     @PostMapping("/franchisee")
     @PreAuthorize("hasRole('ROLE_HEADQUARTER')")
@@ -98,11 +136,11 @@ public class UserController {
     @GetMapping("/franchisee")
     @PreAuthorize("hasRole('ROLE_HEADQUARTER')")
     @Operation(summary = "등록한 Franchisee 계정 전체 조회", description = "Headquarter에서 등록한 Franchisee 계정 정보를 확인한다.")
-    public ResponseEntity<Page<UserInfoDto>> franchiseAccounts(
+    public ResponseEntity<Page<FranchiseeInfoDto>> franchiseAccounts(
             @RequestParam(name = "page", defaultValue = "0") int page,
             @RequestParam(name = "size", defaultValue = "10") int size,
             Principal principal){
-        Page<UserInfoDto> accounts = userService.getAccountsByRole(page, size, Role.FRANCHISEE, principal);
+        Page<FranchiseeInfoDto> accounts = userService.getFranchiseeAccounts(page, size, Role.FRANCHISEE, principal);
         return ResponseEntity.ok(accounts);
     }
 
@@ -131,19 +169,19 @@ public class UserController {
 
     }
 
-
 //    // 가맹점주가 없는 가맹점 검색
     @GetMapping("/franchisee/without-owner")
     @PreAuthorize("hasRole('ROLE_HEADQUARTER')")
     @Operation(summary = "가맹점주가 없는 가맹점 확인", description = "가맹점주가 없는 가맹점 리스트를 조회한다.")
-    public ResponseEntity<List<FranchiseResponseDto>> getFranchisesWithoutOwner(Principal principal) {
+    public ResponseEntity<Page<FranchiseFilterDto>> getFranchisesWithoutOwner(
+            @RequestParam(name = "page", defaultValue = "0") int page,
+            @RequestParam(name = "size", defaultValue = "10") int size,
+            Principal principal) {
 
-        List<FranchiseResponseDto> franchiseWithoutOwner = userService.findFranchiseWithoutOwner();
+        Page<FranchiseFilterDto> franchiseWithoutOwner = userService.findFranchiseWithoutOwner(page, size, principal);
 
         return ResponseEntity.ok(franchiseWithoutOwner);
     }
-
-
 
     @GetMapping
     @Operation(summary = "본인 계정 정보 조회", description = "인증이 완료된 회원 개인의 정보를 조회한다.")
@@ -187,6 +225,19 @@ public class UserController {
         return ResponseEntity.ok("수정이 완료되었습니다.");
     }
 
+    // 등록한 franchisee 계정 수정 -> 본사에서만 가능 / 가맹점 등록도 가능하게 해야 할 것 같은데 아무래도
+    @PostMapping("/franchisee-accounts/{franchiseeId}")
+    @PreAuthorize("hasRole('ROLE_HEADQUARTER')")
+    @Operation(summary = "등록한 가맹점주 계정 수정", description = "Headquarter에서 등록한 단일 가맹점주 계정 정보를 수정한다.")
+    public ResponseEntity<String> franchiseeAccountsModify(
+            @PathVariable("franchiseeId") Long franchiseeId,
+            @RequestBody FranchiseeModifyDto franchiseModifyDto,
+            Principal principal) {
+
+        userService.franchiseeUpdate(franchiseeId, franchiseModifyDto, principal);
+        return ResponseEntity.ok("수정이 완료되었습니다.");
+    }
+
     @GetMapping("/accounts/{userId}")
     @PreAuthorize("hasRole('ROLE_HEADQUARTER')")
     @Operation(summary = "등록한 특정 계정 조회", description = "Headquarter에서 등록한 단일 계정 정보를 조회한다.")
@@ -197,6 +248,18 @@ public class UserController {
         UserInfo userInfoDto = userService.getAccountDetail(userId, principal);
 
         return ResponseEntity.ok(userInfoDto);
+    }
+
+    @PostMapping("/manager-accounts/{managerId}")
+    @PreAuthorize("hasRole('ROLE_HEADQUARTER')")
+    @Operation(summary = "등록한 담당자 계정 수정", description = "Headquarter에서 등록한 단일 담당자 계정 정보를 수정한다.")
+    public ResponseEntity<String> managerAccountsModify(
+            @PathVariable("managerId") Long managerId,
+            @RequestBody ManagerModifyDto managerModifyDto,
+            Principal principal) {
+
+        userService.managerUpdate(managerId, managerModifyDto, principal);
+        return ResponseEntity.ok("수정이 완료되었습니다.");
     }
 
     @DeleteMapping("/accounts/{userId}")
@@ -210,5 +273,15 @@ public class UserController {
         return ResponseEntity.ok("수정이 완료되었습니다.");
     }
 
+    @GetMapping("/email-check")
+    @PreAuthorize("hasRole('ROLE_HEADQUARTER')")
+    @Operation(summary = "이메일 중복확인", description = "이메일 중복확인")
+    public ResponseEntity<Boolean> emailCheck(
+            @RequestParam String email,
+            Principal principal)
+    {
+        boolean res = userRepository.existsByEmail(email);
+        return ResponseEntity.ok(res);
+    }
 
 }

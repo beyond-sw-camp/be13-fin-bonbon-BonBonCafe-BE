@@ -8,6 +8,7 @@
 //import org.springframework.context.annotation.Configuration;
 //import org.springframework.context.annotation.Primary;
 //import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+//import org.springframework.jdbc.datasource.LazyConnectionDataSourceProxy;
 //import org.springframework.orm.jpa.JpaTransactionManager;
 //import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 //import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
@@ -95,8 +96,8 @@
 //    @Primary
 //    @Bean
 //    public DataSource dataSource(@Qualifier("routingDataSource") DataSource routingDataSource) {
-//        // 연결이 불필요하게 일찍 만들어지지 않도록 -> 시스템 자원 절약, 성능 최적화
-//        return routingDataSource;
+//        // ✅ 반드시 LazyConnectionDataSourceProxy로 감싸야 트랜잭션의 readOnly 여부가 반영됨
+//        return new LazyConnectionDataSourceProxy(routingDataSource);
 //    }
 //
 //    @Bean(name = "masterEntityManagerFactory")

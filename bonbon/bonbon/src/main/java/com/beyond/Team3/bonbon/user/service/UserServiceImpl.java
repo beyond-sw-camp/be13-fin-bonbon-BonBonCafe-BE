@@ -61,8 +61,7 @@ public class UserServiceImpl implements UserService {
         User registUser = join(managerRegisterDto, principal, Role.MANAGER);
 
         if(managerRegisterDto.getRegionCode() != 0){
-            Region byRegionCode = regionRepository.findByRegionCode(managerRegisterDto.getRegionCode())
-                    .orElseThrow(() -> new UserException(ExceptionMessage.USER_NOT_FOUND));
+            Region byRegionCode = regionRepository.findByRegionCode(managerRegisterDto.getRegionCode());
 
             // manager 테이블에 담당자 추가
             Manager manager = Manager.builder()
@@ -202,7 +201,7 @@ public class UserServiceImpl implements UserService {
 
     // 생성한 Franchisee 계정 전체 조회
     @Override
-    @Transactional
+    @Transactional(readOnly = true)
     public Page<FranchiseeInfoDto> getFranchiseeAccounts(int page, int size, Role role, Principal principal) {
 
         // 본사 정보 가져오기

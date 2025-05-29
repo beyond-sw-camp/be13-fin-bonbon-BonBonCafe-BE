@@ -16,9 +16,9 @@ public interface FranchiseService {
     FranchiseResponseDto findByFranchiseId(Long franchiseId);
     void createFranchise(Principal principal, @Valid FranchiseRequestDto requestDto);
     void updateFranchiseInfo(Long franchiseId, @Valid FranchiseUpdateRequestDto requestDto, Principal principal);
+    FranchiseSummaryDto findByFranchiseName(String name);
+    void deleteFranchise(Long franchiseId, Principal principal);
     List<FranchiseLocationDto> getFranchiseLocations();
 
-    FranchiseSummaryDto findByFranchiseName(String name);
 
-    void deleteFranchise(Long franchiseId, Principal principal);
 }

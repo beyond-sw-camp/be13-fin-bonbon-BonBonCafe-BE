@@ -124,12 +124,18 @@ public class FranchiseServiceImpl implements FranchiseService {
     public void createFranchise(Principal principal, FranchiseRequestDto requestDto) {
 
         log.info("requestDto: {}", requestDto);
+
+        // 동일한 위치 확인 후 존재하지 않으면 DB에 저장
+
+        // 동일한 위치 존재하면 해당 위치 존재함 알림 (등록 xx)
+
+
+
+        // 매니저 또는 본사만  프랜차이즈 생성 가능
         String email = principal.getName();
         User user  = userRepository.findByEmail(email)
                 .orElseThrow(() -> new UserException(ExceptionMessage.USER_NOT_FOUND));
 
-
-        // 매니저 또는 본사만  프랜차이즈 생성 가능
         if (user.getUserType() != Role.MANAGER && user.getUserType() != Role.HEADQUARTER) {
             throw new FranchiseException(ExceptionMessage.UNAUTHORIZED_FRANCHISE_CREATE);
         }
@@ -261,10 +267,10 @@ public class FranchiseServiceImpl implements FranchiseService {
 
                         if (!documents.isEmpty()) {
                             JsonNode first = documents.get(0);
-                            double lat = first.path("y").asDouble();
-                            double lng = first.path("x").asDouble();
+                            double latitude = first.path("y").asDouble();
+                            double longitude = first.path("x").asDouble();
 
-                            return new FranchiseLocationDto(name, lat, lng);
+                            return new FranchiseLocationDto(name, latitude, longitude);
                         }
                     } catch (Exception e) {
                         e.printStackTrace();

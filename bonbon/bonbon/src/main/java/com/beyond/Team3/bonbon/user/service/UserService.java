@@ -1,19 +1,20 @@
 package com.beyond.Team3.bonbon.user.service;
 
 import com.beyond.Team3.bonbon.common.enums.Role;
-import com.beyond.Team3.bonbon.franchise.dto.FranchiseResponseDto;
+import com.beyond.Team3.bonbon.user.dto.FranchiseInfoDto;
+import com.beyond.Team3.bonbon.user.dto.FranchiseFilterDto;
 import com.beyond.Team3.bonbon.user.dto.FranchiseeInfoDto;
+import com.beyond.Team3.bonbon.user.dto.FranchiseeModifyDto;
 import com.beyond.Team3.bonbon.user.dto.FranchiseeRegisterDto;
 import com.beyond.Team3.bonbon.user.dto.ManagerInfoDto;
+import com.beyond.Team3.bonbon.user.dto.ManagerModifyDto;
 import com.beyond.Team3.bonbon.user.dto.ManagerRegisterDto;
 import com.beyond.Team3.bonbon.user.dto.PasswordModifyDto;
 import com.beyond.Team3.bonbon.user.dto.UserInfo;
-import com.beyond.Team3.bonbon.user.dto.UserInfoDto;
 import com.beyond.Team3.bonbon.user.dto.UserModifyDto;
 import org.springframework.data.domain.Page;
 
 import java.security.Principal;
-import java.util.List;
 
 public interface UserService {
 
@@ -31,7 +32,9 @@ public interface UserService {
 
     UserInfo getAccountDetail(Long userId, Principal principal);
 
-    Page<UserInfoDto> getAccountsByRole(int page, int size, Role role, Principal principal);
+    Page<FranchiseeInfoDto> getFranchiseeAccounts(int page, int size, Role role, Principal principal);
+
+    Page<ManagerInfoDto> getManagerAccounts(int page, int size, Principal principal);
 
     ManagerInfoDto getManagerDetail(Long userId, Principal principal);
 
@@ -41,5 +44,11 @@ public interface UserService {
 
     void deleteManager(Long userId, Principal principal);
 
-    List<FranchiseResponseDto> findFranchiseWithoutOwner();
+    Page<FranchiseFilterDto> findFranchiseWithoutOwner(int page, int size, Principal principal);
+
+    Page<FranchiseFilterDto> getFranchiseInRegion(int regionCode, int page, int size, Principal principal);
+
+    void franchiseeUpdate(Long userId, FranchiseeModifyDto franchiseeModifyDto, Principal principal);
+
+    void managerUpdate(Long managerId, ManagerModifyDto managerModifyDto, Principal principal);
 }

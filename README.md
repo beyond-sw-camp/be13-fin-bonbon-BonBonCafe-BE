@@ -168,3 +168,17 @@
 - 링크: [화면설계서(Figma)](https://www.figma.com/design/mpyMKrXy8SDofcHFK5FtMN/beyond-3team-fin?node-id=0-1&p=f&t=SriIXOUKBkT1eIof-0)
 
 </details>
+
+<details>
+<summary><strong>📌 화면설계서 (Figma)</strong></summary>
+
+- 링크: [화면설계서(Figma)](https://www.figma.com/design/mpyMKrXy8SDofcHFK5FtMN/beyond-3team-fin?node-id=0-1&p=f&t=SriIXOUKBkT1eIof-0)
+
+</details>
+
+<details>
+<summary><strong>📌 API 명세서 </strong></summary>
+
+- 링크: [화면설계서(Figma)](https://www.figma.com/design/mpyMKrXy8SDofcHFK5FtMN/beyond-3team-fin?node-id=0-1&p=f&t=SriIXOUKBkT1eIof-0)
+
+</details>

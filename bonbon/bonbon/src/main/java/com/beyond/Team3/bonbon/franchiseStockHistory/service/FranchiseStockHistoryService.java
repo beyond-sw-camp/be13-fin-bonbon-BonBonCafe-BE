@@ -76,22 +76,29 @@ public class FranchiseStockHistoryService {
         return FranchiseStockHistoryResponseDto.from(history);
     }
 
-    public Page<FranchiseStockHistoryResponseDto> getAllFranchiseHistory(Pageable pageable, Principal principal) {
+    @Transactional(readOnly = true)
+    public Page<FranchiseStockHistoryResponseDto> getAllFranchiseHistory(Pageable pageable, Principal principal, HistoryStatus status) {
         // 본사 입장
         User user = getLoginUser(principal);
 
-        Page<FranchiseStockHistory> histories = franchiseStockHistoryRepository.getAllFranchiseHistory(pageable, user.getHeadquarterId().getHeadquarterId());
+        Page<FranchiseStockHistory> histories = franchiseStockHistoryRepository.getAllFranchiseHistory(pageable, user.getHeadquarterId().getHeadquarterId(), status);
         return histories.map(FranchiseStockHistoryResponseDto::from);
     }
 
-    public Page<FranchiseStockHistoryResponseDto> getAllHistory(Pageable pageable, Principal principal) {
-        // 로그인한 유저 정보 조회
+    @Transactional(readOnly = true)
+    public Page<FranchiseStockHistoryResponseDto> getAllHistory(Pageable pageable, Principal principal, HistoryStatus status) {
         User user = getLoginUser(principal);
-
-        // 해당 유저의 Franchisee 정보 조회
         Franchisee franchisee = getFranchiseeByPrincipal(principal);
+        Long franchiseId = franchisee.getFranchise().getFranchiseId();
 
-        Page<FranchiseStockHistory> histories = franchiseStockHistoryRepository.getAllHistory(pageable, franchisee.getFranchise().getFranchiseId());
+        Page<FranchiseStockHistory> histories;
+
+        if (status != null) {
+            histories = franchiseStockHistoryRepository.findAllByFranchiseId_FranchiseIdAndHistoryStatus(franchiseId, status, pageable);
+        } else {
+            histories = franchiseStockHistoryRepository.getAllHistory(pageable, franchiseId);
+        }
+
         return histories.map(FranchiseStockHistoryResponseDto::from);
     }
 
@@ -132,6 +139,9 @@ public class FranchiseStockHistoryService {
     @Transactional
     public void deleteFranchiseStockHistory(Principal principal, Long historyId) {
         FranchiseStockHistory history = getHistoryById(historyId);
+        if (history.getHistoryStatus() != HistoryStatus.REQUESTED) {
+            throw new IllegalStateException("요청 상태일 때만 삭제할 수 있습니다.");
+        }
 
         User user = getLoginUser(principal);
         Franchise franchise = history.getFranchiseId();
@@ -149,7 +159,7 @@ public class FranchiseStockHistoryService {
         }
 
         //  가맹점 재고 차감은 있으면
-        franchiseStockRepository.findByFranchiseIdAndIngredientId(franchise, ingredient)
+        franchiseStockRepository.findWithLockByFranchiseIdAndIngredientId(franchise, ingredient)
                 .ifPresent(fs -> fs.subtractQuantity(quantity));
 
         //  본사 재고 복구
@@ -201,7 +211,10 @@ public class FranchiseStockHistoryService {
         }
 
         if (history.getHistoryStatus() == HistoryStatus.DELIVERED ||
-                history.getHistoryStatus() == HistoryStatus.CANCELLED) {
+                history.getHistoryStatus() == HistoryStatus.CANCELLED ||
+                history.getHistoryStatus() == HistoryStatus.REJECTED
+        ) {
+            System.out.println(history.getHistoryStatus());
             throw new IllegalStateException("배송 완료 또는 취소된 신청은 수정할 수 없습니다.");
         }
 
@@ -228,7 +241,7 @@ public class FranchiseStockHistoryService {
                 dto.getStatus() == HistoryStatus.DELIVERED) {
 
             FranchiseStock newFranchiseStock = franchiseStockRepository
-                    .findByFranchiseIdAndIngredientId(franchise, newIngredient)
+                    .findWithLockByFranchiseIdAndIngredientId(franchise, newIngredient)
                     .orElseGet(() -> franchiseStockRepository.save(
                             FranchiseStock.createFranchiseStock(franchise, newIngredient, dto)
                     ));
@@ -238,6 +251,11 @@ public class FranchiseStockHistoryService {
         if (dto.getStatus() == HistoryStatus.CANCELLED) {
             HeadquarterStock cancelledStock = getHeadquarterStock(franchise.getHeadquarterId().getHeadquarterId(), newIngredient.getIngredientId());
             cancelledStock.addQuantity(newQuantity);
+        }
+
+        if (dto.getStatus() == HistoryStatus.REJECTED) {
+            HeadquarterStock rejectedStock = getHeadquarterStock(franchise.getHeadquarterId().getHeadquarterId(), newIngredient.getIngredientId());
+            rejectedStock.addQuantity(newQuantity);
         }
 
         if (user.getUserType() == Role.FRANCHISEE) {
@@ -273,7 +291,7 @@ public class FranchiseStockHistoryService {
     }
 
     private FranchiseStock getFranchiseStock(Franchise franchise, Ingredient ingredient) {
-        return franchiseStockRepository.findByFranchiseIdAndIngredientId(franchise, ingredient)
+        return franchiseStockRepository.findWithLockByFranchiseIdAndIngredientId(franchise, ingredient)
                 .orElseThrow(() -> new IllegalArgumentException("해당 가맹점에 재고가 없습니다."));
     }
 

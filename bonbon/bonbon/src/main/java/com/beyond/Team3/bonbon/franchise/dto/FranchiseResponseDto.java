@@ -23,9 +23,10 @@ public class FranchiseResponseDto {
     private Long franchiseId;
 
     private String regionName;
-//    private int regionCode;
 
     private Long headquarterId;
+
+    private String franchiseeName; // 점주 이름
 
     private String name;
 
@@ -53,11 +54,11 @@ public class FranchiseResponseDto {
 
     private LocalDateTime modifiedAt;
 
-    public FranchiseResponseDto(Franchise franchise, RegionName regionName ) {
+    public FranchiseResponseDto(Franchise franchise, RegionName regionName, String franchiseeName ) {
         this.franchiseId = franchise.getFranchiseId();
         this.headquarterId = franchise.getHeadquarterId().getHeadquarterId();
         this.regionName = regionName != null ? regionName.name() : null;
-//        this.regionCode = franchise.getRegionCode().getRegionCode();
+        this.franchiseeName = franchiseeName;
         this.name = franchise.getName();
         this.franchiseTel = franchise.getFranchiseTel();
         this.roadAddress = franchise.getRoadAddress();
@@ -73,21 +74,23 @@ public class FranchiseResponseDto {
         this.modifiedAt = franchise.getModifiedAt();
     }
 
-//    public FranchiseResponseDto(Franchise franchise) {
-//        this.franchiseId = franchise.getFranchiseId();
-//        this.managerName = managerName;
-////        this.regionCode = franchise.getRegionCode().getRegionCode();
-//        this.headquarterId = franchise.getHeadquarterId().getHeadquarterId();
-//        this.name = franchise.getName();
-//        this.franchiseTel = franchise.getFranchiseTel();
-//        this.roadAddress = franchise.getRoadAddress();
-//        this.detailAddress = franchise.getDetailAddress();
-//        this.openDate = franchise.getOpenDate();
-//        this.franchiseImage = franchise.getFranchiseImage();
-//        this.storeSize = franchise.getStoreSize();
-//        this.seatingCapacity = franchise.getSeatingCapacity();
-//        this.parkingAvailability = franchise.isParkingAvailability();
-//        this.status = franchise.getStatus();
-//        this.openHours = franchise.getOpenHours();
-//    }
+    public FranchiseResponseDto(Franchise franchise, RegionName regionName ) {
+        this.franchiseId = franchise.getFranchiseId();
+        this.headquarterId = franchise.getHeadquarterId().getHeadquarterId();
+        this.regionName = regionName != null ? regionName.name() : null;
+        this.name = franchise.getName();
+        this.franchiseTel = franchise.getFranchiseTel();
+        this.roadAddress = franchise.getRoadAddress();
+        this.detailAddress = franchise.getDetailAddress();
+        this.openDate = franchise.getOpenDate();
+        this.franchiseImage = franchise.getFranchiseImage();
+        this.storeSize = franchise.getStoreSize();
+        this.seatingCapacity = franchise.getSeatingCapacity();
+        this.parkingAvailability = franchise.isParkingAvailability();
+        this.status = franchise.getStatus();
+        this.openHours = franchise.getOpenHours();
+        this.createdAt = franchise.getCreatedAt();
+        this.modifiedAt = franchise.getModifiedAt();
+    }
+
 }

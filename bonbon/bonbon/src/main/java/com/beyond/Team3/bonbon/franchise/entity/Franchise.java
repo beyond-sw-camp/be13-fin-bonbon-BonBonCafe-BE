@@ -101,4 +101,34 @@ public class Franchise extends EntityDate {
             this.franchisee = null;
         }
     }
+
+    public void closeTemporarily() {
+        if (this.status != FranchiseStatus.OPERATING) {
+            throw new IllegalStateException("운영 중인 상태에서만 임시 휴점 가능합니다.");
+        }
+        this.status = FranchiseStatus.CLOSED_TEMP;
+    }
+
+//    public void closePermanently() {
+//        if (this.status != FranchiseStatus.CLOSED_TEMP) {
+//            throw new IllegalStateException("임시 휴점 상태에서만 영구 폐점 가능합니다.");
+//        }
+//        this.status = FranchiseStatus.PREPARING;
+//    }
+
+    public void closePermanently() {
+        if (this.status != FranchiseStatus.OPERATING) {
+            throw new IllegalStateException("운영 중인 가맹점만 영구 폐점할 수 있습니다.");
+        }
+        this.status = FranchiseStatus.CLOSED_PERM;
+    }
+
+    public void closePermanentlyFromAnyStatus() {
+        if (this.status == FranchiseStatus.CLOSED_PERM) {
+            throw new IllegalStateException("이미 영구 폐점된 가맹점입니다.");
+        }
+        this.status = FranchiseStatus.CLOSED_PERM;
+    }
+
+
 }

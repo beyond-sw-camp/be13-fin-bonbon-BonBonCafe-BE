@@ -21,10 +21,15 @@ public class FranchiseLocation {
     private Long franchiseLocationId;
 
     @OneToOne
-    @JoinColumn(name = "franchise_id", referencedColumnName = "franchise_id")
+    @JoinColumn(name = "franchise_id")
     private Franchise franchise;
 
     private Double latitude;
     private Double longitude;
 
+    public FranchiseLocation(Franchise franchise, Double latitude, Double longitude) {
+        this.franchise = franchise;
+        this.latitude = latitude;
+        this.longitude = longitude;
+    }
 }

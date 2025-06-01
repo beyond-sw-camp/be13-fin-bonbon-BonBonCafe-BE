@@ -37,4 +37,11 @@ public interface FranchiseRepository extends JpaRepository<Franchise, Long> {
                                               @Param("headquarter") Headquarter headquarter,
                                               Pageable pageable);
 
+    boolean existsByRoadAddress(String roadAddress);
+
+//    @Query("SELECT f FROM Franchise f WHERE f.roadAddress LIKE %:region% AND f.roadAddress LIKE %:district%")
+//    Page<Franchise> findByRegionAndDistrict(@Param("region") String region,
+//                                            @Param("district") String district,
+//                                            Pageable pageable);
+
 }

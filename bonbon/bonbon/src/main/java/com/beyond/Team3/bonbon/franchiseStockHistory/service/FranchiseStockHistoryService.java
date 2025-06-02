@@ -140,7 +140,7 @@ public class FranchiseStockHistoryService {
     public void deleteFranchiseStockHistory(Principal principal, Long historyId) {
         FranchiseStockHistory history = getHistoryById(historyId);
         if (history.getHistoryStatus() != HistoryStatus.REQUESTED) {
-            throw new IllegalStateException("요청 상태일 때만 삭제할 수 있습니다.");
+            throw new IllegalStateException("수량 변경은 '신청 완료' 상태에서만 가능합니다.");
         }
 
         User user = getLoginUser(principal);
@@ -207,7 +207,7 @@ public class FranchiseStockHistoryService {
         // 상태 검사
         if (history.getHistoryStatus() != HistoryStatus.REQUESTED &&
                 history.getQuantity().compareTo(dto.getQuantity()) != 0) {
-            throw new IllegalStateException("수량을 변경할 수 없습니다.");
+            throw new IllegalStateException("수량 변경은 '신청 완료' 상태에서만 가능합니다.");
         }
 
         if (history.getHistoryStatus() == HistoryStatus.DELIVERED ||
@@ -234,9 +234,14 @@ public class FranchiseStockHistoryService {
         if (newStock == null) {
             throw new IllegalArgumentException("수정하려는 재료가 본사 재고에 없습니다.");
         }
-        validateStockQuantity(newStock.getQuantity(), newQuantity);
-        newStock.subtractQuantity(newQuantity);
 
+        // 재고 수량 변경 (거절, 취소는 변경 X)
+        if (!(dto.getStatus() == HistoryStatus.REJECTED || dto.getStatus() == HistoryStatus.CANCELLED)) {
+            validateStockQuantity(newStock.getQuantity(), newQuantity);
+            newStock.subtractQuantity(newQuantity); // 🔥 REJECTED면 실행 안됨
+        }
+
+        // 신청 -> 배송 완료 -> 가맹점 재고 증가
         if (history.getHistoryStatus() != HistoryStatus.DELIVERED &&
                 dto.getStatus() == HistoryStatus.DELIVERED) {
 
@@ -248,20 +253,24 @@ public class FranchiseStockHistoryService {
             newFranchiseStock.addQuantity(newQuantity);
         }
 
-        if (dto.getStatus() == HistoryStatus.CANCELLED) {
-            HeadquarterStock cancelledStock = getHeadquarterStock(franchise.getHeadquarterId().getHeadquarterId(), newIngredient.getIngredientId());
-            cancelledStock.addQuantity(newQuantity);
-        }
-
-        if (dto.getStatus() == HistoryStatus.REJECTED) {
-            HeadquarterStock rejectedStock = getHeadquarterStock(franchise.getHeadquarterId().getHeadquarterId(), newIngredient.getIngredientId());
-            rejectedStock.addQuantity(newQuantity);
-        }
+        //
+//        if (dto.getStatus() == HistoryStatus.CANCELLED || dto.getStatus() == HistoryStatus.REJECTED) {
+//            HeadquarterStock stock = getHeadquarterStock(franchise.getHeadquarterId().getHeadquarterId(), newIngredient.getIngredientId());
+//            stock.addQuantity(oldQuantity);
+//        }
 
         if (user.getUserType() == Role.FRANCHISEE) {
             history.updateHistory(newQuantity, dto.getStatus());
         } else if (user.getUserType() == Role.HEADQUARTER) {
-            history.updateHistoryByHeadquarter(newQuantity, dto.getStatus());
+            if (dto.getStatus() == HistoryStatus.CANCELLED || dto.getStatus() == HistoryStatus.REJECTED) {
+                if (!oldIngredient.getIngredientId().equals(newIngredient.getIngredientId())) {
+                    HeadquarterStock stock = getHeadquarterStock(franchise.getHeadquarterId().getHeadquarterId(), newIngredient.getIngredientId());
+                    stock.addQuantity(oldQuantity);
+                }
+                history.updateHistoryStatus(dto.getStatus());
+            } else {
+                history.updateHistoryByHeadquarter(newQuantity, dto.getStatus());
+            }
         }
 
         return FranchiseStockHistoryResponseDto.from(history);

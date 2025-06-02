@@ -85,11 +85,11 @@ public class NoticeService {
                 .distinct()
                 .toList();
 
-        String prefix = switch (notice.getPostType()) {
-            case NOTICE -> "[공지] ";
-            case EVENT -> "[이벤트] ";
+        String content = switch (notice.getPostType()) {
+            case NOTICE -> "[공지] " + notice.getTitle() + "\n👉 https://www.be13-bonbon.com/notices/" + noticeId;
+            case EVENT -> "[이벤트] " + notice.getTitle() + "\n👉 https://www.be13-bonbon.com/events/" + noticeId;
         };
-        coolSmsService.sendBulkMessage(phoneNumbers, prefix + notice.getTitle());
+        coolSmsService.sendBulkMessage(phoneNumbers, content);
 
         noticeRepository.markAsSentOnly(noticeId);
     }

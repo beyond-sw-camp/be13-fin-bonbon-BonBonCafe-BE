@@ -56,4 +56,8 @@ public class FranchiseStockHistory {
         this.date = LocalDate.now();
         this.historyStatus = status;
     }
+
+    public void updateHistoryStatus(HistoryStatus historyStatus) {
+        this.historyStatus = historyStatus;
+    }
 }

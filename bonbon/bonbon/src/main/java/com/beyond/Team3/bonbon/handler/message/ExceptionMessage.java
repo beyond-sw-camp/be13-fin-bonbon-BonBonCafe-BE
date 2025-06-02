@@ -24,10 +24,15 @@ public enum ExceptionMessage {
     INVALID_USER_ROLE("관리자만 접근 가능합니다.", HttpStatus.BAD_REQUEST),
 
     MANAGER_NOT_FOUND("담당 매니저를 찾을 수 없습니다.", HttpStatus.NOT_FOUND),
-    UNAUTHORIZED_FRANCHISE_MODIFY("해당 지역의 가맹점을 수정할 권한이 없습니다.", HttpStatus.UNAUTHORIZED),
-    UNAUTHORIZED_FRANCHISE_DELETE("해당 지역의 가맹점을 삭제할 권한이 없습니다.", HttpStatus.FORBIDDEN),
+    UNAUTHORIZED_FRANCHISE_MODIFY("가맹점을 수정할 권한이 없습니다.", HttpStatus.UNAUTHORIZED),
+    UNAUTHORIZED_FRANCHISE_DELETE("가맹점을 삭제할 권한이 없습니다.", HttpStatus.FORBIDDEN),
     UNAUTHORIZED_FRANCHISE_CREATE("가맹점 등록 권한이 없습니다.", HttpStatus.FORBIDDEN),
+//    TEMP_CLOSE_INVALID_STATUS("운영 중인 상태에서만 임시 휴점이 가능합니다.", HttpStatus.BAD_REQUEST),
+    PERM_CLOSE_INVALID_STATUS("운영 중인 가맹점만 영구 폐점할 수 있습니다.", HttpStatus.BAD_REQUEST),
+    ALREADY_PERMANENT_CLOSED("이미 영구 폐점된 가맹점입니다.", HttpStatus.BAD_REQUEST),
     HEADQUARTER_NOT_FOUND("매니저가 본사에 소속되어 있지 않습니다.", HttpStatus.BAD_REQUEST),
+    ALREADY_REGISTERED_ADDRESS("이미 동일한 위치에 가맹점이 등록되어 있습니다.", HttpStatus.CONFLICT),
+    KAKAO_API_FAILED("카카오 지도 API 호출 중 문제가 발생했습니다.", HttpStatus.BAD_GATEWAY),
 
     ;
 

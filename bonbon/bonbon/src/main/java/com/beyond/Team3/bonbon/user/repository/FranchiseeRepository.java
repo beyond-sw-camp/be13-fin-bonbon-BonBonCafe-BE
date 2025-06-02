@@ -1,5 +1,7 @@
 package com.beyond.Team3.bonbon.user.repository;
 
+import aj.org.objectweb.asm.commons.Remapper;
+import com.beyond.Team3.bonbon.franchise.entity.Franchise;
 import com.beyond.Team3.bonbon.franchise.entity.Franchisee;
 import com.beyond.Team3.bonbon.user.entity.User;
 import org.springframework.data.domain.Page;
@@ -26,4 +28,6 @@ public interface FranchiseeRepository extends JpaRepository<Franchisee, Long> {
             "left Join f.userId fu " +
             "where fu.parentId = :parentId")
     Page<Franchisee> findFranchiseesFromHeadquarter(@Param("parentId") User parentId, Pageable pageable);
+
+    Optional<Franchisee> findByFranchise(Franchise franchise);
 }

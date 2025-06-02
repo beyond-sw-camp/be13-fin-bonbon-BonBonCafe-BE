@@ -2,7 +2,7 @@ package com.beyond.Team3.bonbon.common.enums;
 
 import com.fasterxml.jackson.annotation.JsonValue;
 
-public enum  RegionName {
+public enum RegionName {
     // 서울특별시
     SEOUL_JONGNOGU     ("서울특별시 종로구"),     // 11110
     SEOUL_JUNGGU       ("서울특별시 중구"),       // 11140

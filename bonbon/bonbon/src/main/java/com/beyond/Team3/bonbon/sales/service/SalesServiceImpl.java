@@ -123,9 +123,9 @@ public class SalesServiceImpl implements SalesService {
         }
 
         // 본사, 매니저만 접근 가능하게(매니저도 자기 지역만 조회하도록 해야 하나?)
-        if (user.getUserType() == Role.FRANCHISEE) {
-            throw new UserException(ExceptionMessage.INVALID_USER_ROLE);
-        }
+//        if (user.getUserType() == Role.FRANCHISEE) {
+//            throw new UserException(ExceptionMessage.INVALID_USER_ROLE);
+//        }
         // 가맹점 확인
         franchiseRepository.findByFranchiseId(franchiseId)
                 .orElseThrow(() -> new FranchiseException(ExceptionMessage.FRANCHISE_NOT_FOUND));

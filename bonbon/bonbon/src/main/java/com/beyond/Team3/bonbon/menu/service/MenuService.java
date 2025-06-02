@@ -51,6 +51,11 @@ public class MenuService {
     public MenuResponseDto getMenu(Long menuId, Principal principal) {
         User user = getLoginUser(principal);
         Menu menu = findMenuWithHeadquarterValidation(menuId, user.getHeadquarterId().getHeadquarterId());
+
+        if (!menu.hasSameHeadquarter(user.getHeadquarterId().getHeadquarterId())) {
+            throw new IllegalArgumentException("해당 본사의 메뉴가 아닙니다.");
+        }
+
         return MenuResponseDto.from(menu);
     }
 
@@ -63,7 +68,7 @@ public class MenuService {
         if (dto.getName() == null || dto.getName().trim().isEmpty()) {
             throw new IllegalArgumentException("메뉴 이름을 입력해주세요!");
         }
-        
+
         validateDuplicateMenu(dto.getName(), user.getHeadquarterId().getHeadquarterId());
 
         Menu menu = dto.toEntity(user.getHeadquarterId());

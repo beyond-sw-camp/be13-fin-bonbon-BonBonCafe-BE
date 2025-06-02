@@ -32,11 +32,14 @@ public class FranchiseStockService {
     private final FranchiseeRepository franchiseeRepository;
     private final FranchiseStockRepository franchiseStockRepository;
 
+    @Transactional(readOnly = true)
     public FranchiseStockResponseDto getFranchiseStock(Principal principal, Long franchiseStockId) {
         Franchisee franchisee = getFranchiseeByPrincipal(principal);
         FranchiseStock franchiseStock = findStockByIdOrThrow(franchiseStockId);
-
-        if (!franchisee.getFranchise().equals(franchiseStock.getFranchiseId())) {
+        System.out.println(franchisee.getFranchise().getFranchiseId());
+        System.out.println("ㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋ");
+        System.out.println(franchiseStock.getFranchiseId().getFranchiseId() + "ㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋ");
+        if (!franchisee.getFranchise().getFranchiseId().equals(franchiseStock.getFranchiseId().getFranchiseId())) {
             throw new IllegalArgumentException("해당 가맹점의 재고가 아닙니다.");
         }
         return FranchiseStockResponseDto.from(franchiseStock);

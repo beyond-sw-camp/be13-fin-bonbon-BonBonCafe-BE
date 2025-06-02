@@ -9,8 +9,13 @@ import lombok.Getter;
 public class IngredientRequestDto {
     private Long ingredientId;
     private String ingredientName;
+    private String unit;
+
 
     public static IngredientRequestDto toEntity(Ingredient ingredient) {
-        return new IngredientRequestDto(ingredient.getIngredientId(), ingredient.getIngredientName());
+        return new IngredientRequestDto(
+                ingredient.getIngredientId(),
+                ingredient.getIngredientName(),
+                ingredient.getUnit());
     }
 }

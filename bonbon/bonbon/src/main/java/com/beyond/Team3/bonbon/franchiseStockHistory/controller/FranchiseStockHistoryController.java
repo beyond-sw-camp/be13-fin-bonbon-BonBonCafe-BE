@@ -1,5 +1,6 @@
 package com.beyond.Team3.bonbon.franchiseStockHistory.controller;
 
+import com.beyond.Team3.bonbon.common.enums.HistoryStatus;
 import com.beyond.Team3.bonbon.franchiseStockHistory.dto.FranchiseStockHistoryRequestDto;
 import com.beyond.Team3.bonbon.franchiseStockHistory.dto.FranchiseStockHistoryResponseDto;
 import com.beyond.Team3.bonbon.franchiseStockHistory.service.FranchiseStockHistoryService;
@@ -38,8 +39,9 @@ public class FranchiseStockHistoryController {
     @GetMapping("/headquarter/franchise-history-list")
     public ResponseEntity<Page<FranchiseStockHistoryResponseDto>> getAllFranchiseHistory(
             @PageableDefault(size = 10, page = 0) Pageable pageable,
+            @RequestParam(required = false) HistoryStatus status,
             Principal principal) {
-        Page<FranchiseStockHistoryResponseDto> franchiseStockHistoryResponseDto = franchiseStockHistoryService.getAllFranchiseHistory(pageable, principal);
+        Page<FranchiseStockHistoryResponseDto> franchiseStockHistoryResponseDto = franchiseStockHistoryService.getAllFranchiseHistory(pageable, principal, status);
         return ResponseEntity.ok(franchiseStockHistoryResponseDto);
     }
 
@@ -47,8 +49,10 @@ public class FranchiseStockHistoryController {
     @GetMapping("/list")
     public ResponseEntity<Page<FranchiseStockHistoryResponseDto>> getAllHistory(
             @PageableDefault(size = 10, page = 0) Pageable pageable,
+            @RequestParam(required = false) HistoryStatus status,
             Principal principal) {
-        Page<FranchiseStockHistoryResponseDto> franchiseStockHistoryResponseDto = franchiseStockHistoryService.getAllHistory(pageable, principal);
+        Page<FranchiseStockHistoryResponseDto> franchiseStockHistoryResponseDto =
+                franchiseStockHistoryService.getAllHistory(pageable, principal, status);
         return ResponseEntity.ok(franchiseStockHistoryResponseDto);
     }
 

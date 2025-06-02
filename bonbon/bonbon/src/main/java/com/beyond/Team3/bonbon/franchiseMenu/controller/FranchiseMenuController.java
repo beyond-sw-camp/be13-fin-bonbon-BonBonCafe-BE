@@ -2,6 +2,7 @@ package com.beyond.Team3.bonbon.franchiseMenu.controller;
 
 import com.beyond.Team3.bonbon.franchiseMenu.dto.FranchiseMenuRequestDto;
 import com.beyond.Team3.bonbon.franchiseMenu.dto.FranchiseMenuResponseDto;
+import com.beyond.Team3.bonbon.franchiseMenu.dto.FranchiseSimpleResponseDto;
 import com.beyond.Team3.bonbon.franchiseMenu.service.FranchiseMenuService;
 import com.beyond.Team3.bonbon.menu.dto.MenuResponseDto;
 import io.swagger.v3.oas.annotations.Operation;
@@ -66,7 +67,6 @@ public class FranchiseMenuController {
         return ResponseEntity.ok(menus);
     }
 
-
     @Operation(summary = "가맹점 메뉴 등록")
     @PostMapping
     public ResponseEntity<FranchiseMenuResponseDto> createFranchiseMenu(
@@ -84,6 +84,16 @@ public class FranchiseMenuController {
         franchiseMenuService.delete(principal, dto);
 
         return ResponseEntity.status(HttpStatus.OK).body("메뉴가 삭제되었습니다.");
+    }
+
+    @PreAuthorize("hasRole('ROLE_HEADQUARTER')")
+    @Operation(summary = "특정 메뉴를 판매 중인 가맹점 목록 조회")
+    @GetMapping("/menu/{menuId}/franchises")
+    public ResponseEntity<List<FranchiseSimpleResponseDto>> getFranchisesByMenu(
+            @PathVariable Long menuId
+    ) {
+        List<FranchiseSimpleResponseDto> franchises = franchiseMenuService.getFranchisesByMenu(menuId);
+        return ResponseEntity.ok(franchises);
     }
 
 

@@ -14,4 +14,6 @@ public interface FranchiseMenuRepository extends JpaRepository<FranchiseMenu, Fr
     boolean existsByFranchiseIdAndMenuId(Franchise franchise, Menu menu);
 
     List<Menu> findByFranchiseAndCategory(Long franchiseId, Long categoryId);
+
+    List<FranchiseMenu> findByMenuId_MenuId(Long menuId);
 }

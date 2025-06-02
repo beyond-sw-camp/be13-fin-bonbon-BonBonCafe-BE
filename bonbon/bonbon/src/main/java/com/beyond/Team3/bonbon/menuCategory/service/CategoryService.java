@@ -26,6 +26,7 @@ public class CategoryService {
         return CategoryResponseDto.from(category);
     }
 
+    @Transactional(readOnly = true)
     public List<MenuResponseDto> getMenusByCategory(Long categoryId) {
         List<MenuCategory> menuCategories = menuCategoryRepository.findByCategoryCategoryId(categoryId);
         return menuCategories.stream()

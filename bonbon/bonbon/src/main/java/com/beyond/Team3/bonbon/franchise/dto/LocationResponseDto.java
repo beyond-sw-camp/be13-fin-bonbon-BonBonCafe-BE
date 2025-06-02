@@ -9,15 +9,19 @@ import lombok.ToString;
 @ToString
 @NoArgsConstructor
 public class LocationResponseDto {
+    private Long franchiseId;
     private String name;
     private double latitude;
     private double longitude;
+    private String franchiseImage;
 
 
-    public LocationResponseDto(String name, double latitude, double longitude) {
+    public LocationResponseDto(Long franchiseId , String name, double latitude, double longitude, String franchiseImage) {
+        this.franchiseId = franchiseId;
         this.name = name;
         this.latitude = latitude;
         this.longitude = longitude;
+        this.franchiseImage = franchiseImage;
     }
 
 }

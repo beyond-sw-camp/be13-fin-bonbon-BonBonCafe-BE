@@ -41,6 +41,7 @@ import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 
@@ -217,28 +218,59 @@ public class FranchiseServiceImpl implements FranchiseService {
 
 
     @Override
-    public FranchiseSummaryDto findByFranchiseName(String name) {
+    public FranchiseSummaryDto franchiseSummary(Long franchiseId) {
 
-        Franchise franchise = franchiseRepository.findByName(name)
+        Franchise franchise = franchiseRepository.findByFranchiseId(franchiseId)
                 .orElseThrow(() -> new FranchiseException(ExceptionMessage.FRANCHISE_NOT_FOUND));
 
 
         Region region = franchise.getRegionCode();
-        Manager manager = managerRepository.findByRegionCode(region)
-                .orElseThrow(()-> new FranchiseException(ExceptionMessage.MANAGER_NOT_FOUND));
+//        Manager manager = managerRepository.findByRegionCode(region)
+//                .orElseThrow(()-> new FranchiseException(ExceptionMessage.MANAGER_NOT_FOUND));
+//
+//        User managerInfo = userRepository.findByUserId(manager.getUserId().getUserId())
+//                .orElseThrow(() -> new UserException(ExceptionMessage.USER_NOT_FOUND));
+//
+//
+//        log.info("Franchise found: {}", franchise.getFranchiseId());
+//        log.info("Manager name: {}, phone: {}", managerInfo.getName(), managerInfo.getPhone());
+//
+//        return new FranchiseSummaryDto(
+//                franchise.getFranchiseId(),
+//                franchise.getFranchiseTel(),
+//                managerInfo.getName(),
+//                managerInfo.getPhone()
+//        );
+        // 매니저 조회 (없을 수 있음)
+        Optional<Manager> managerOpt = managerRepository.findByRegionCode(region);
+        String managerName = null;
+        String managerPhone = null;
 
-        User managerInfo = userRepository.findByUserId(manager.getUserId().getUserId())
-                .orElseThrow(() -> new UserException(ExceptionMessage.USER_NOT_FOUND));
+        if (managerOpt.isPresent()) {
+            Manager manager = managerOpt.get();
 
+            // 매니저에 연결된 유저 정보 조회 (없을 수 있음)
+            Optional<User> managerInfoOpt = userRepository.findByUserId(manager.getUserId().getUserId());
+            if (managerInfoOpt.isPresent()) {
+                User managerInfo = managerInfoOpt.get();
+                managerName = managerInfo.getName();
+                managerPhone = managerInfo.getPhone();
+
+                log.info("Manager name: {}, phone: {}", managerName, managerPhone);
+            } else {
+                log.warn("User info not found for manager ID: {}", manager.getUserId().getUserId());
+            }
+        } else {
+            log.warn("Manager not found for region: {}", region);
+        }
 
         log.info("Franchise found: {}", franchise.getFranchiseId());
-        log.info("Manager name: {}, phone: {}", managerInfo.getName(), managerInfo.getPhone());
 
         return new FranchiseSummaryDto(
                 franchise.getFranchiseId(),
                 franchise.getFranchiseTel(),
-                managerInfo.getName(),
-                managerInfo.getPhone()
+                managerName,
+                managerPhone
         );
     }
 
@@ -340,9 +372,11 @@ public class FranchiseServiceImpl implements FranchiseService {
 
         return franchiseLocation.stream()
                 .map(location -> new LocationResponseDto(
+                        location.getFranchise().getFranchiseId(),
                         location.getFranchise().getName(),  // 가맹점 이름
                         location.getLatitude(),
-                        location.getLongitude()
+                        location.getLongitude(),
+                        location.getFranchise().getFranchiseImage()
                 ))
                 .collect(Collectors.toList());
     }
@@ -363,9 +397,11 @@ public class FranchiseServiceImpl implements FranchiseService {
             if (franchiseLocationRepository.existsByFranchise(franchise)) {
                 FranchiseLocation existingLocation = franchiseLocationRepository.findByFranchise(franchise);
                 locationList.add(new LocationResponseDto(
+                        franchise.getFranchiseId(),
                         franchise.getName(),
                         existingLocation.getLatitude(),
-                        existingLocation.getLongitude()
+                        existingLocation.getLongitude(),
+                        existingLocation.getFranchise().getFranchiseImage()
                 ));
                 continue;
             }
@@ -396,8 +432,8 @@ public class FranchiseServiceImpl implements FranchiseService {
                     FranchiseLocation location = new FranchiseLocation(franchise, latitude, longitude);
                     franchiseLocationRepository.save(location);
 
-                    // 반환용 리스트에도 추가
-                    locationList.add(new LocationResponseDto(franchise.getName(), latitude, longitude));
+//                    // 반환용 리스트에도 추가
+                    locationList.add(new LocationResponseDto(franchise.getFranchiseId(), franchise.getName(), latitude, longitude, franchise.getFranchiseImage()));
                 }
             } catch (Exception e) {
                 log.error("Kakao API 호출 실패 (프랜차이즈: {}): {}", franchise.getName(), e.getMessage());

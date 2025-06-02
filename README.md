@@ -168,3 +168,24 @@
 - 링크: [화면설계서(Figma)](https://www.figma.com/design/mpyMKrXy8SDofcHFK5FtMN/beyond-3team-fin?node-id=0-1&p=f&t=SriIXOUKBkT1eIof-0)
 
 </details>
+
+<details>
+<summary><strong>📌 API 명세서 </strong></summary>
+
+- 링크: [API 명세서](https://www.notion.so/playdatacademy/API-1d6d943bcac28104835dd13b87578046?pvs=4)
+
+</details>
+
+<details>
+<summary><strong>📌 단위 테스트 결과서</strong></summary>
+
+- 링크: [단위 테스트 결과서](https://docs.google.com/spreadsheets/d/1DiH1bHHJueDsMxrl0_vGZ8jhjAMejhCEK-gJhL4AF-4/edit?gid=417184159#gid=417184159)
+
+</details>
+
+<details>
+<summary><strong>📌 UI/UX 단위 테스트 결과서</strong></summary>
+
+- 링크: [UI/UX 단위 테스트 결과서](https://docs.google.com/spreadsheets/d/1DiH1bHHJueDsMxrl0_vGZ8jhjAMejhCEK-gJhL4AF-4/edit?gid=1228868911#gid=1228868911)
+
+</details>

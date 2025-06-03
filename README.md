@@ -191,7 +191,7 @@
 </details>
 
 <details>
-<summary>📌FRONTEND - UX/UI 테스트</summary>
+<summary>📌 FRONTEND - UX/UI 테스트</summary>
 
 <details>
 <summary>가맹점</summary>
@@ -308,8 +308,9 @@
 </details>
 
 </details>
-<summary>📌BACKEND - UX/UI 테스트</summary>
 
+<details>
+<summary>📌 BACKEND - UX/UI 테스트</summary>
 <details>
 <summary>가맹점</summary>
 <ul>

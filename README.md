@@ -191,7 +191,7 @@
 </details>
 
 <details>
-<summary>📌 FRONTEND - UX/UI 테스트</summary>
+<summary>📌 FRONTEND - 기능 시연</summary>
 
 <details>
 <summary>가맹점</summary>
@@ -313,7 +313,7 @@
 <!-- ------------- -->
 
 <details>
-<summary>📌 BACKEND - UX/UI 테스트</summary>
+<summary>📌 BACKEND - 기능 시연</summary>
 <details>
 <summary>가맹점</summary>
 <ul>
@@ -664,8 +664,8 @@
   
   </li>
   <li>로그인
-  
-  
+    <img width="1339" alt="image" src="https://github.com/user-attachments/assets/00884264-d258-48b2-9516-69c7060d600d" />
+    <img width="1303" alt="image" src="https://github.com/user-attachments/assets/fa289af6-d953-4817-a8fa-688c826aa602" />  
   </li>
   <li>본사 등록 계정 삭제 
     

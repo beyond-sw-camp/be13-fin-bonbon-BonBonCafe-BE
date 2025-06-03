@@ -344,7 +344,7 @@
     <img width="1290" alt="image" src="https://github.com/user-attachments/assets/beb1904a-b0a2-4226-a41f-2b3e8b4f3229" />
   </li>
   <li>특정 가맹점 메뉴 조회(본사 전용) 
-    <img width="1333" alt="image" src="https://github.com/user-attachments/assets/f4c7e6aa-ee97-47d3-aa24-15344fd657a6" />
+    <img width="1321" alt="image" src="https://github.com/user-attachments/assets/b118a52e-35a4-4dca-92ca-f4f0c24db928" />
     <img width="1266" alt="image" src="https://github.com/user-attachments/assets/e91b093b-098b-425c-a632-16ca344b01bd" />
   </li>
   <li>가맹점 메뉴 단건 조회 
@@ -404,12 +404,34 @@
 <details>
 <summary>게시판</summary>
 <ul>
-  <li>게시글 삭제 <img src="이미지링크" /></li>
-  <li>게시글 수정 <img src="이미지링크" /></li>
-  <li>문자 일괄 전송 <img src="이미지링크" /></li>
-  <li>게시글 등록 <img src="이미지링크" /></li>
-  <li>게시글 전체 조회 <img src="이미지링크" /></li>
-  <li>게시글 단건 조회 <img src="이미지링크" /></li>
+  <li>게시글 등록 
+    <img width="1330" alt="image" src="https://github.com/user-attachments/assets/0bbabe08-bb01-46aa-bb87-c287c54d376a" />
+    <img width="1305" alt="image" src="https://github.com/user-attachments/assets/ecc994ab-5eb0-47d9-9cd2-e84f6096a765" />
+  </li>
+  <li>게시글 전체 조회 
+    <img width="1340" alt="image" src="https://github.com/user-attachments/assets/b374f0b5-2d87-4d46-8eef-6b2b648bc4ed" />
+    <img width="1288" alt="image" src="https://github.com/user-attachments/assets/92d9727e-9792-4f68-b0a0-52e78d5975bf" />
+  </li>
+  <li>게시글 단건 조회 
+    <img width="1325" alt="image" src="https://github.com/user-attachments/assets/549441c5-3d14-4389-b3c1-c21089ee59aa" />
+    <img width="1341" alt="image" src="https://github.com/user-attachments/assets/9c77a617-56ad-4dd7-9ac5-f801b8592e55" />
+  </li>
+  <li>게시글 수정 
+    <img width="1328" alt="image" src="https://github.com/user-attachments/assets/3098c76d-9f47-47b0-b55a-e66acbbdb8ad" />
+    <img width="1297" alt="image" src="https://github.com/user-attachments/assets/1bb966d9-17ab-43c7-a4e9-c0e5f08f042a" />
+  </li>
+  <li>게시글 삭제 
+    <img width="1325" alt="image" src="https://github.com/user-attachments/assets/3dd3593d-fe95-4744-a390-87bdf8ce9790" />
+    <img width="1322" alt="image" src="https://github.com/user-attachments/assets/5cd5ad29-77ee-4da6-8e47-db7432fecee9" />
+  </li>
+  <li>문자 일괄 전송 
+    <img width="1332" alt="image" src="https://github.com/user-attachments/assets/b53d1e1c-bdc1-4a46-9627-225b986ecfaf" />
+    <img width="1306" alt="image" src="https://github.com/user-attachments/assets/4af67bec-edc6-4a08-9cba-e001895c633d" />
+    <img width="1306" alt="image" src="https://github.com/user-attachments/assets/0222c9eb-0de8-4dd5-beac-91d53e3b6580" />
+
+  </li>
+  
+  
 </ul>
 </details>
 

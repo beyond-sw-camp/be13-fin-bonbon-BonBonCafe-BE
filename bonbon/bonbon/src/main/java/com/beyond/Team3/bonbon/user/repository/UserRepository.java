@@ -1,6 +1,5 @@
 package com.beyond.Team3.bonbon.user.repository;
 
-import ch.qos.logback.core.status.Status;
 import com.beyond.Team3.bonbon.common.enums.AccountStatus;
 import com.beyond.Team3.bonbon.common.enums.Role;
 import com.beyond.Team3.bonbon.headquarter.entity.Headquarter;
@@ -8,8 +7,6 @@ import com.beyond.Team3.bonbon.user.entity.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;
@@ -27,4 +24,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
     Optional<User> findByUserId(Long userId);
 
     boolean existsByEmail(String email);
+
+    Optional<User> findByUserTypeAndHeadquarterId(Role userType, Headquarter headquarterId);
+
 }

@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface FranchiseeRepository extends JpaRepository<Franchisee, Long> {
+public interface FranchiseeRepository extends JpaRepository<Franchisee, Long> , FranchiseeRepositoryCustom {
 
     void deleteByUserId(User userId);
 
@@ -30,4 +30,6 @@ public interface FranchiseeRepository extends JpaRepository<Franchisee, Long> {
     Page<Franchisee> findFranchiseesFromHeadquarter(@Param("parentId") User parentId, Pageable pageable);
 
     Optional<Franchisee> findByFranchise(Franchise franchise);
+
+    Page<Franchisee> findAll(Pageable pageable, String search, Long headquarterId);
 }

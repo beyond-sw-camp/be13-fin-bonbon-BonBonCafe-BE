@@ -310,20 +310,40 @@
 
 </details>
 
+<!-- ------------- -->
+
 <details>
 <summary>📌 BACKEND - UX/UI 테스트</summary>
 <details>
 <summary>가맹점</summary>
 <ul>
-  <li>가맹점 수정 <img src="이미지링크" /></li>
-  <li>가맹점 등록 <img src="이미지링크" /></li>
-  <li>가맹점 삭제 <img src="이미지링크" /></li>
-  <li>전체 가맹점 위치 조회 <img src="이미지링크" /></li>
-  <li>가맹점 요약 조회 <img src="이미지링크" /></li>
-  <li>특정 가맹점 조회 <img src="이미지링크" /></li>
+  <li>가맹점 수정 
   
+  
+  </li>
+  <li>가맹점 등록 
+    
+  
+  </li>
+  <li>가맹점 삭제 
+    
+  
+  </li>
+  <li>전체 가맹점 위치 조회 
+    
+  
+  </li>
+  <li>가맹점 요약 조회 
+    
+  
+  </li>
+  <li>특정 가맹점 조회 
+    
+  
+  </li>  
   <li>가맹점 전체 조회
-   <img src="이미지링크" />
+   
+  
   </li>
 </ul>
 </details>
@@ -437,15 +457,42 @@
 <details>
 <summary>매출</summary>
 <ul>
-  <li>전체 가맹점 기간 매출 조회 <img src="이미지링크" /></li>
-  <li>전체 가맹점 매출 순위 조회 <img src="이미지링크" /></li>
-  <li>전체 가맹점 메뉴 판매 순위 조회 <img src="이미지링크" /></li>
-  <li>전체 가맹점 예상 매출 조회 <img src="이미지링크" /></li>
-  <li>가맹점 기간별 예상 매출 조회 <img src="이미지링크" /></li>
-  <li>가맹점 기간별 매출 조회 <img src="이미지링크" /></li>
-  <li>가맹점 메뉴별 판매 순위 조회 <img src="이미지링크" /></li>
-  <li>지역별 매출 순위 조회 <img src="이미지링크" /></li>
-  <li>가맹점 일 매출 조회 <img src="이미지링크" /></li>
+  <li>전체 가맹점 기간 매출 조회
+  
+  
+  </li>
+  <li>전체 가맹점 매출 순위 조회 
+  
+  
+  </li>
+  <li>전체 가맹점 메뉴 판매 순위 조회 
+  
+  
+  </li>
+  <li>전체 가맹점 예상 매출 조회 
+  
+  
+  </li>
+  <li>가맹점 기간별 예상 매출 조회 
+  
+  
+  </li>
+  <li>가맹점 기간별 매출 조회 
+  
+  
+  </li>
+  <li>가맹점 메뉴별 판매 순위 조회 
+  
+  
+  </li>
+  <li>지역별 매출 순위 조회 
+  
+  
+  </li>
+  <li>가맹점 일 매출 조회 
+  
+  
+  </li>
 </ul>
 </details>
 
@@ -504,11 +551,11 @@
     <img width="1326" alt="image" src="https://github.com/user-attachments/assets/8d451b05-d2cd-4020-9a19-bd17c4da5fa1" />
     <img width="1308" alt="image" src="https://github.com/user-attachments/assets/847d27d1-df9e-4cfe-a9e0-389609a4c513" />
   </li>
-  <li>본사 재고 수정 <img src="이미지링크" />
+  <li>본사 재고 수정
     <img width="1306" alt="image" src="https://github.com/user-attachments/assets/035fb225-eaf5-4c9b-b89a-ad876a8e826f" />
     <img width="1325" alt="image" src="https://github.com/user-attachments/assets/8c5c2ffd-2f09-424d-b13c-235c6999fbaa" />
   </li>
-  <li>본사 재고 삭제 <img src="이미지링크" />
+  <li>본사 재고 삭제
     <img width="1342" alt="image" src="https://github.com/user-attachments/assets/45f2d9f9-a588-485e-913d-d5b1f2748c69" />
     <img width="1319" alt="image" src="https://github.com/user-attachments/assets/53e1f84a-4393-4131-b5c5-b0d9a38fd71d" />
   </li>
@@ -536,9 +583,18 @@
 <details>
 <summary>지역</summary>
 <ul>
-  <li>구/군 목록 조회 <img src="이미지링크" /></li>
-  <li>시/도 목록 조회 <img src="이미지링크" /></li>
-  <li>지역별 가맹점 조회 <img src="이미지링크" /></li>
+  <li>구/군 목록 조회
+  
+  
+  </li>
+  <li>시/도 목록 조회 
+  
+  
+  </li>
+  <li>지역별 가맹점 조회 
+  
+  
+  </li>
 </ul>
 </details>
 
@@ -559,19 +615,61 @@
 <details>
 <summary>회원</summary>
 <ul>
-  <li>가맹점주 계정 목록 확인 <img src="이미지링크" /></li>
-  <li>본사 등록 계정 수정 <img src="이미지링크" /></li>
-  <li>가맹점 담당자 계정 목록 확인 <img src="이미지링크" /></li>
-  <li>본사 가맹점주 계정 등록 <img src="이미지링크" /></li>
-  <li>본사 등록 계정 조회 <img src="이미지링크" /></li>
-  <li>본사 생성 계정 전체 조회 <img src="이미지링크" /></li>
-  <li>개인 계정 비밀번호 변경 <img src="이미지링크" /></li>
-  <li>개인 계정 정보 변경 <img src="이미지링크" /></li>
-  <li>개인 계정 조회 <img src="이미지링크" /></li>
-  <li>본사 가맹점 담당자 계정 등록 <img src="이미지링크" /></li>
-  <li>AccessToken 재발급 <img src="이미지링크" /></li>
-  <li>로그아웃 <img src="이미지링크" /></li>
-  <li>로그인 <img src="이미지링크" /></li>
-  <li>본사 등록 계정 삭제 <img src="이미지링크" /></li>
+  <li>가맹점주 계정 목록 확인
+  
+  
+  </li>
+  <li>본사 등록 계정 수정 
+  
+  
+  </li>
+  <li>가맹점 담당자 계정 목록 확인 
+  
+  
+  </li>
+  <li>본사 가맹점주 계정 등록
+  
+  
+  </li>
+  <li>본사 등록 계정 조회
+  
+  
+  </li>
+  <li>본사 생성 계정 전체 조회
+  
+  
+  </li>
+  <li>개인 계정 비밀번호 변경 
+  
+  
+  </li>
+  <li>개인 계정 정보 변경
+  
+  
+  </li>
+  <li>개인 계정 조회
+  
+  
+  </li>
+  <li>본사 가맹점 담당자 계정 등록
+  
+  
+  </li>
+  <li>AccessToken 재발급
+  
+  
+  </li>
+  <li>로그아웃
+  
+  
+  </li>
+  <li>로그인
+  
+  
+  </li>
+  <li>본사 등록 계정 삭제 
+    
+  
+  </li>
 </ul>
 </details>

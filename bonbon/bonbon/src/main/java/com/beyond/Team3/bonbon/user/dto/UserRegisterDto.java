@@ -17,8 +17,8 @@ public abstract class UserRegisterDto {
     @NotBlank(message = "비밀번호는 필수입니다.")
     private String password; // 비밀번호
 
-//    @NotBlank(message = "비밀번호를 확인은 필수입니다.")
-//    private String passwordConfirm; // 비밀번호
+    @NotBlank(message = "비밀번호를 확인은 필수입니다.")
+    private String passwordConfirm; // 비밀번호
 
     @NotBlank(message = "이름은 필수 입니다.")
     private String name;
@@ -26,6 +26,8 @@ public abstract class UserRegisterDto {
     private String phone; // 전화번호
 
     private String userImage;
+
+    private Long headquarterId;
 
 //    public Boolean passwordMatching(){
 //        return this.password.equals(this.passwordConfirm);

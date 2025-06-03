@@ -25,10 +25,11 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     private final JwtTokenProvider jwtTokenProvider;
     private final AuthService authService;
 
-    private static final List<String> EXCLUDED_PATHS = Arrays.asList("/swagger-ui/**", "/v3/api-docs/**", "/bonbon/user/login", "/health");
+    private static final List<String> EXCLUDED_PATHS = Arrays.asList("/swagger-ui/**", "/v3/api-docs/**", "/bonbon/user/login", "/bonbon/email/send", "/bonbon/email/verify",  "/bonbon/user/email-check", "/bonbon/user/headquarters","/bonbon/user/franchisee/without-owner", "/bonbon/user/region", "/health");
     private static final AntPathMatcher pathMatcher = new AntPathMatcher(); // 추가
 
     private boolean isExcludedPath(String requestURI) {
+
         return EXCLUDED_PATHS.stream().anyMatch(pattern -> pathMatcher.match(pattern, requestURI));
     }
 
@@ -37,6 +38,16 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
         String token = jwtTokenProvider.resolveToken(request.getHeader("Authorization"));
 
+        String path = request.getRequestURI();
+        String method = request.getMethod();
+
+        // post 방식의 franchisee는 그냥 통과 시킴, 나머지는 아님
+        if (("/bonbon/user/franchisee".equals(path) && "POST".equalsIgnoreCase(method)) ||
+                ("/bonbon/user/manager".equals(path) && "POST".equalsIgnoreCase(method))) {
+            filterChain.doFilter(request, response);
+            return;
+        }
+
         // Swagger UI 경로는 인증 필터를 통과시킴
         if (isExcludedPath(request.getRequestURI())) {
             filterChain.doFilter(request, response);  // JWT 인증을 거치지 않고 바로 필터 통과
@@ -44,8 +55,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         }
 
         // 받은 Request 의 Authorization 헤더에서 Token만 Parsing 해서 추출
-
-
         if(token != null && jwtTokenProvider.validateToken(token)
                 && jwtTokenProvider.hasRoleClaim(token)
                 && !jwtTokenProvider.isBlackListed(token)) {

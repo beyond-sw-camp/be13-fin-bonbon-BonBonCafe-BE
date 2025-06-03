@@ -8,4 +8,6 @@ import lombok.Setter;
 public class FranchiseeRegisterDto extends UserRegisterDto{
 
     private Long franchiseId;
+
+//    private Long headquarterId;
 }

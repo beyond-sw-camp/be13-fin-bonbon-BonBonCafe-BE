@@ -81,6 +81,12 @@ dependencies {
 	implementation "io.awspring.cloud:spring-cloud-aws-starter:3.3.0"
 	implementation group: 'com.amazonaws', name: 'aws-java-sdk-s3', version: '1.12.782'
 
+	implementation "org.springframework.boot:spring-boot-starter-mail:3.5.0"
+
+	implementation "org.springframework.boot:spring-boot-starter-thymeleaf:3.5.0"
+
+	implementation 'org.springframework:spring-websocket'
+
 }
 
 tasks.named('test') {

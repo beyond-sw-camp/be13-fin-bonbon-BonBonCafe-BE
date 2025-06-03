@@ -189,3 +189,487 @@
 - 링크: [UI/UX 단위 테스트 결과서](https://docs.google.com/spreadsheets/d/1DiH1bHHJueDsMxrl0_vGZ8jhjAMejhCEK-gJhL4AF-4/edit?gid=1228868911#gid=1228868911)
 
 </details>
+
+<details>
+<summary>📌 FRONTEND - 기능 시연</summary>
+
+<details>
+<summary>가맹점</summary>
+<ul>
+  <li>가맹점 수정 <img src="이미지링크" /></li>
+  <li>가맹점 등록 <img src="이미지링크" /></li>
+  <li>가맹점 삭제 <img src="이미지링크" /></li>
+  <li>전체 가맹점 위치 조회 <img src="이미지링크" /></li>
+  <li>가맹점 요약 조회 <img src="이미지링크" /></li>
+  <li>특정 가맹점 조회 <img src="이미지링크" /></li>
+  <li>가맹점 전체 조회 <img src="이미지링크" /></li>
+</ul>
+</details>
+
+<details>
+<summary>가맹점 메뉴</summary>
+<ul>
+  <li>가맹점 전용 메뉴 추가, 조회 <img src="https://github.com/user-attachments/assets/9fa01b54-1b91-49ff-b866-68cd4c14d808" /></li>
+  <li>가맹점 전용 메뉴 삭제 <img src="" /></li>
+</ul>
+</details>
+
+<details>
+<summary>재고</summary>
+<ul>
+  <li>가맹점 재고 주문 및 조회, 본사 주문 처리 <img src="https://github.com/user-attachments/assets/672c15fa-ed4f-4474-bc01-d2d4965f490d" /></li>
+  <li>본사 재고 등록<img src="https://github.com/user-attachments/assets/9df1248f-6a0d-4b06-bf34-f5e7043abd83" /></li>
+  <li>본사 재고 삭제<img src="https://github.com/user-attachments/assets/c72a9cdc-5b86-41bd-8d1f-ecb24ecf7eac" /></li>
+</ul>
+</details>
+
+<details>
+<summary>게시판</summary>
+<ul>
+  <li>게시글 등록, 수정, 삭제 <img src="https://github.com/user-attachments/assets/d95e03e3-20ae-4fcf-8b93-57c095f01489" /></li>
+  <li>문자 일괄 전송 <img src="https://github.com/user-attachments/assets/7c784913-b19b-4b4a-8efb-b4bf1f3e7622" /></li>
+</ul>
+</details>
+
+<details>
+<summary>매출</summary>
+<ul>
+  <li>전체 가맹점 기간 매출 조회 <img src="이미지링크" /></li>
+  <li>전체 가맹점 매출 순위 조회 <img src="이미지링크" /></li>
+  <li>전체 가맹점 메뉴 판매 순위 조회 <img src="이미지링크" /></li>
+  <li>전체 가맹점 예상 매출 조회 <img src="이미지링크" /></li>
+  <li>가맹점 기간별 예상 매출 조회 <img src="이미지링크" /></li>
+  <li>가맹점 기간별 매출 조회 <img src="이미지링크" /></li>
+  <li>가맹점 메뉴별 판매 순위 조회 <img src="이미지링크" /></li>
+  <li>지역별 매출 순위 조회 <img src="이미지링크" /></li>
+  <li>가맹점 일 매출 조회 <img src="이미지링크" /></li>
+</ul>
+</details>
+
+<details>
+<summary>메뉴</summary>
+<ul>
+  <li>메뉴 등록 <img src="https://github.com/user-attachments/assets/4ec94851-8e31-4235-bb08-6b8ab9a76cb7" /></li>
+  <li>메뉴 조회, 수정, 판매중인 가맹점 조회 <img src="https://github.com/user-attachments/assets/bd02f042-b2a1-406c-a6a7-27bfdd141640" /></li>
+  <li>메뉴 삭제 <img src="https://github.com/user-attachments/assets/0034f171-e940-436e-bd89-75ea5a5c5acd" /></li>
+  <li>카테고리별 메뉴 조회 <img src="https://github.com/user-attachments/assets/af65c697-8bf1-455a-924a-c9b61fa86862" /></li>
+
+</ul>
+</details>
+
+<details>
+<summary>본사</summary>
+<ul>
+  <li>본사 정보 조회, 수정 <img src="https://github.com/user-attachments/assets/5bce534a-b048-4815-b5c8-6d8d8ed88904" /></li>
+</ul>
+</details>
+
+<details>
+<summary>재료</summary>
+<ul>
+  <li>재료 전체 조회 <img src="이미지링크" /></li>
+</ul>
+</details>
+
+<details>
+<summary>지역</summary>
+<ul>
+  <li>구/군 목록 조회 <img src="이미지링크" /></li>
+  <li>시/도 목록 조회 <img src="이미지링크" /></li>
+  <li>지역별 가맹점 조회 <img src="이미지링크" /></li>
+</ul>
+</details>
+
+<details>
+<summary>카테고리</summary>
+<ul>
+  <li>카테고리의 메뉴 전체 조회 <img src="이미지링크" /></li>
+  <li>카테고리 전체 조회 <img src="이미지링크" /></li>
+</ul>
+</details>
+
+<details>
+<summary>회원</summary>
+<ul>
+  <li>가맹점주 계정 목록 확인 <img src="이미지링크" /></li>
+  <li>본사 등록 계정 수정 <img src="이미지링크" /></li>
+  <li>가맹점 담당자 계정 목록 확인 <img src="이미지링크" /></li>
+  <li>본사 가맹점주 계정 등록 <img src="이미지링크" /></li>
+  <li>본사 등록 계정 조회 <img src="이미지링크" /></li>
+  <li>본사 생성 계정 전체 조회 <img src="이미지링크" /></li>
+  <li>개인 계정 비밀번호 변경 <img src="이미지링크" /></li>
+  <li>개인 계정 정보 변경 <img src="이미지링크" /></li>
+  <li>개인 계정 조회 <img src="이미지링크" /></li>
+  <li>본사 가맹점 담당자 계정 등록 <img src="이미지링크" /></li>
+  <li>AccessToken 재발급 <img src="이미지링크" /></li>
+  <li>로그아웃 <img src="이미지링크" /></li>
+  <li>로그인 <img src="이미지링크" /></li>
+  <li>본사 등록 계정 삭제 <img src="이미지링크" /></li>
+</ul>
+</details>
+
+</details>
+
+<!-- ------------- -->
+
+<details>
+<summary>📌 BACKEND - 기능 시연</summary>
+<details>
+<summary>가맹점</summary>
+<ul>
+  <li>가맹점 수정 
+  
+  
+  </li>
+  <li>가맹점 등록 
+    
+  
+  </li>
+  <li>가맹점 삭제 
+    
+  
+  </li>
+  <li>전체 가맹점 위치 조회 
+    
+  
+  </li>
+  <li>가맹점 요약 조회 
+    
+  
+  </li>
+  <li>특정 가맹점 조회 
+    
+  
+  </li>  
+  <li>가맹점 전체 조회
+   
+  
+  </li>
+</ul>
+</details>
+
+<details>
+<summary>가맹점 메뉴</summary>
+<ul>
+  <li>가맹점 메뉴 등록 
+    <img width="1342" alt="image" src="https://github.com/user-attachments/assets/040fe9f4-88d2-40fb-b647-b4d37be27a26" />
+    <img width="1307" alt="image" src="https://github.com/user-attachments/assets/a45572d7-4368-4f5e-806b-d61aa5a38974" />
+  </li>
+  <li>가맹점 메뉴 삭제 
+    <img src="https://github.com/user-attachments/assets/65911ea5-a89a-4148-ab4e-0363ea78fdfc" />
+    <img src="https://github.com/user-attachments/assets/7bb3ff4b-1d44-4b97-b1f5-f5bb1cfdf023" />
+  </li>
+  <li>카테고리별 가맹점 메뉴 조회 
+    <img width="1330" alt="image" src="https://github.com/user-attachments/assets/7a4cf8b0-43d8-43be-8395-74397b1fe058" />
+    <img width="1290" alt="image" src="https://github.com/user-attachments/assets/beb1904a-b0a2-4226-a41f-2b3e8b4f3229" />
+  </li>
+  <li>특정 가맹점 메뉴 조회(본사 전용) 
+    <img width="1321" alt="image" src="https://github.com/user-attachments/assets/b118a52e-35a4-4dca-92ca-f4f0c24db928" />
+    <img width="1266" alt="image" src="https://github.com/user-attachments/assets/e91b093b-098b-425c-a632-16ca344b01bd" />
+  </li>
+  <li>가맹점 메뉴 단건 조회 
+    <img width="1329" alt="image" src="https://github.com/user-attachments/assets/79b7f801-b27f-46e6-9ea6-d9a863a3fddd" />
+    <img width="1321" alt="image" src="https://github.com/user-attachments/assets/78b1980a-0f4d-448c-9b78-723139a40049" />
+  </li>
+  <li>본인 가맹점의 메뉴 전체 조회 
+    <img src="https://github.com/user-attachments/assets/79b81e91-b34b-4795-adcc-08a6a150bce3" />
+    <img width="1068" alt="image" src="https://github.com/user-attachments/assets/124dcd96-6c2d-4513-89cc-f40f778029ac" />
+  </li>
+</ul>
+</details>
+
+<details>
+<summary>가맹점 재고</summary>
+<ul>
+  <li>가맹점 재고 단건 조회 
+    <img width="1335" alt="image" src="https://github.com/user-attachments/assets/461f4758-6b87-446e-a572-d96e5acddabf" />
+    <img width="1307" alt="image" src="https://github.com/user-attachments/assets/ff0b94d7-53aa-4ff5-b042-3289dcecc7fc" />
+  </li>
+  <li>가맹점 재고 전체 조회 
+    <img width="1334" alt="image" src="https://github.com/user-attachments/assets/902a9654-3fba-4f59-8365-0d88f3bcdd34" />
+    <img width="1321" alt="image" src="https://github.com/user-attachments/assets/84922525-73bf-44ae-b36c-8baaeb1efdd4" />
+  </li>
+</ul>
+</details>
+
+<details>
+<summary>가맹점 주문 내역</summary>
+<ul>
+  <li>재고 신청 내역 단건 조회 
+    <img width="1328" alt="image" src="https://github.com/user-attachments/assets/670496c0-02f4-4b77-9d03-999b27285cc2" />
+    <img width="1325" alt="image" src="https://github.com/user-attachments/assets/ba8b19f8-aa41-42e8-9d21-923874e9cc20" />
+  </li>
+  <li>가맹점 재고 신청 내역 전체 조회 (가맹점용)
+    <img width="1328" alt="image" src="https://github.com/user-attachments/assets/465016fb-c5ad-465b-91b8-eee996cc7718" />
+    <img width="1324" alt="image" src="https://github.com/user-attachments/assets/1bac4ada-b06b-4044-b775-90837e7b815a" />
+  </li>
+  <li>가맹점 재고 신청 내역 전체 조회 (본사용) 
+    <img width="1345" alt="image" src="https://github.com/user-attachments/assets/b7cb64c6-087b-4853-ab1d-23eb89a6a206" />
+    <img width="1287" alt="image" src="https://github.com/user-attachments/assets/ccb57e59-674d-4e8d-bb57-e734b160dc89" />
+  </li>
+  <li>재고 신청 삭제
+    <img width="1320" alt="image" src="https://github.com/user-attachments/assets/cd18779f-e364-45d9-b011-27abaccd29d6" />
+  </li>
+  <li>재고 신청 수정 
+    <img width="1334" alt="image" src="https://github.com/user-attachments/assets/de949741-0758-4d26-a34b-9347ba3b6e2a" />
+    <img width="1327" alt="image" src="https://github.com/user-attachments/assets/b65e3f01-830c-4361-8a4a-5ea67998cfcf" />
+  </li>
+  <li>재고 신청 
+    <img width="1349" alt="image" src="https://github.com/user-attachments/assets/e8bde47a-f524-4f82-9f07-d0437c58eaf4" />
+    <img width="1328" alt="image" src="https://github.com/user-attachments/assets/31236694-50be-4a9c-b96c-cf33687ffd6c" />
+  </li>
+</ul>
+</details>
+
+<details>
+<summary>게시판</summary>
+<ul>
+  <li>게시글 등록 
+    <img width="1330" alt="image" src="https://github.com/user-attachments/assets/0bbabe08-bb01-46aa-bb87-c287c54d376a" />
+    <img width="1305" alt="image" src="https://github.com/user-attachments/assets/ecc994ab-5eb0-47d9-9cd2-e84f6096a765" />
+  </li>
+  <li>게시글 전체 조회 
+    <img width="1340" alt="image" src="https://github.com/user-attachments/assets/b374f0b5-2d87-4d46-8eef-6b2b648bc4ed" />
+    <img width="1288" alt="image" src="https://github.com/user-attachments/assets/92d9727e-9792-4f68-b0a0-52e78d5975bf" />
+  </li>
+  <li>게시글 단건 조회 
+    <img width="1325" alt="image" src="https://github.com/user-attachments/assets/549441c5-3d14-4389-b3c1-c21089ee59aa" />
+    <img width="1341" alt="image" src="https://github.com/user-attachments/assets/9c77a617-56ad-4dd7-9ac5-f801b8592e55" />
+  </li>
+  <li>게시글 수정 
+    <img width="1328" alt="image" src="https://github.com/user-attachments/assets/3098c76d-9f47-47b0-b55a-e66acbbdb8ad" />
+    <img width="1297" alt="image" src="https://github.com/user-attachments/assets/1bb966d9-17ab-43c7-a4e9-c0e5f08f042a" />
+  </li>
+  <li>게시글 삭제 
+    <img width="1325" alt="image" src="https://github.com/user-attachments/assets/3dd3593d-fe95-4744-a390-87bdf8ce9790" />
+    <img width="1322" alt="image" src="https://github.com/user-attachments/assets/5cd5ad29-77ee-4da6-8e47-db7432fecee9" />
+  </li>
+  <li>문자 일괄 전송 
+    <img width="1332" alt="image" src="https://github.com/user-attachments/assets/b53d1e1c-bdc1-4a46-9627-225b986ecfaf" />
+    <img width="1306" alt="image" src="https://github.com/user-attachments/assets/4af67bec-edc6-4a08-9cba-e001895c633d" />
+    <img width="1306" alt="image" src="https://github.com/user-attachments/assets/0222c9eb-0de8-4dd5-beac-91d53e3b6580" />
+
+  </li>
+  
+</ul>
+</details>
+
+<details>
+<summary>매출</summary>
+<ul>
+  <li>전체 가맹점 기간 매출 조회
+  
+  
+  </li>
+  <li>전체 가맹점 매출 순위 조회 
+  
+  
+  </li>
+  <li>전체 가맹점 메뉴 판매 순위 조회 
+  
+  
+  </li>
+  <li>전체 가맹점 예상 매출 조회 
+  
+  
+  </li>
+  <li>가맹점 기간별 예상 매출 조회 
+  
+  
+  </li>
+  <li>가맹점 기간별 매출 조회 
+  
+  
+  </li>
+  <li>가맹점 메뉴별 판매 순위 조회 
+  
+  
+  </li>
+  <li>지역별 매출 순위 조회 
+  
+  
+  </li>
+  <li>가맹점 일 매출 조회 
+  
+  
+  </li>
+</ul>
+</details>
+
+<details>
+<summary>메뉴</summary>
+<ul>
+  <li>메뉴 등록 
+    <img width="1321" alt="image" src="https://github.com/user-attachments/assets/059ceb0b-25ac-43ca-b353-a79e08f62925" />
+    <img width="1303" alt="image" src="https://github.com/user-attachments/assets/e732d541-5b93-4a65-bc41-e15a538582bf" />
+  </li>
+  <li>메뉴 수정 
+    <img width="1342" alt="image" src="https://github.com/user-attachments/assets/5bcde91d-2769-452a-8f8e-36c29727b945" />
+    <img width="1327" alt="image" src="https://github.com/user-attachments/assets/8c8ecce2-4c04-4ea7-bf3a-85e2f2fde200" />
+  </li>
+  <li>카테고리로 메뉴 조회 
+    <img width="1343" alt="image" src="https://github.com/user-attachments/assets/877a822c-0938-4354-9bb5-9e14e3a19685" />
+    <img width="1283" alt="image" src="https://github.com/user-attachments/assets/2c0d5f99-9c9a-423f-9cc3-7b389f1ba555" />
+  </li>
+  <li>메뉴 삭제 
+    <img width="1334" alt="image" src="https://github.com/user-attachments/assets/678ec452-a313-4d2a-940f-74fd28fb3db3" />
+    <img width="1260" alt="image" src="https://github.com/user-attachments/assets/0a383bd7-8b45-4c14-aa6e-003f3658c250" />
+  </li>
+  <li>메뉴 단일 조회 
+    <img width="1335" alt="image" src="https://github.com/user-attachments/assets/f9b4ad70-8a85-4770-9479-d5de21697b73" />
+    <img width="1315" alt="image" src="https://github.com/user-attachments/assets/8532696c-b010-48fe-94b0-16bc52320eb0" />
+  </li>
+  <li>메뉴 전체 조회
+    <img width="1337" alt="image" src="https://github.com/user-attachments/assets/c4bd1ad6-e02b-42f6-b4c6-9a0fd49f19a3" />
+    <img width="1354" alt="image" src="https://github.com/user-attachments/assets/e7139f52-26f6-442d-9b3d-4492f2631620" />
+  </li>
+</ul>
+</details>
+
+<details>
+<summary>본사</summary>
+<ul>
+  <li>본사 조회
+    <img width="1323" alt="image" src="https://github.com/user-attachments/assets/06b343a7-ae7b-4810-b4d2-8e5a54afbee7" />
+    <img width="1295" alt="image" src="https://github.com/user-attachments/assets/f7fc0a87-c968-4269-a5e5-fce93efd8126" />
+  </li>
+  <li>본사 정보 수정
+    <img width="1339" alt="image" src="https://github.com/user-attachments/assets/e1809bf5-21b4-4223-b942-3bf7068d1845" />
+    <img width="1318" alt="image" src="https://github.com/user-attachments/assets/d4a36648-02e3-4b7e-911c-b001a71f3da0" />
+  </li>
+</ul>
+</details>
+
+<details>
+<summary>본사 재고</summary>
+<ul>
+  <li>본사의 재료 목록 조회
+    <img width="1337" alt="image" src="https://github.com/user-attachments/assets/81d0a9a1-f5e0-43f6-93b0-b687cf0f6450" />
+    <img width="1328" alt="image" src="https://github.com/user-attachments/assets/200f6f2d-b122-4a26-ac41-f2fa858fd941" />
+  </li>
+  <li>본사 재고 등록 
+    <img width="1326" alt="image" src="https://github.com/user-attachments/assets/8d451b05-d2cd-4020-9a19-bd17c4da5fa1" />
+    <img width="1308" alt="image" src="https://github.com/user-attachments/assets/847d27d1-df9e-4cfe-a9e0-389609a4c513" />
+  </li>
+  <li>본사 재고 수정
+    <img width="1306" alt="image" src="https://github.com/user-attachments/assets/035fb225-eaf5-4c9b-b89a-ad876a8e826f" />
+    <img width="1325" alt="image" src="https://github.com/user-attachments/assets/8c5c2ffd-2f09-424d-b13c-235c6999fbaa" />
+  </li>
+  <li>본사 재고 삭제
+    <img width="1342" alt="image" src="https://github.com/user-attachments/assets/45f2d9f9-a588-485e-913d-d5b1f2748c69" />
+    <img width="1319" alt="image" src="https://github.com/user-attachments/assets/53e1f84a-4393-4131-b5c5-b0d9a38fd71d" />
+  </li>
+  <li>본사 재고 전체 조회 
+    <img width="1324" alt="image" src="https://github.com/user-attachments/assets/4774fae9-195b-488b-8660-a8990b91ce66" />
+    <img width="1308" alt="image" src="https://github.com/user-attachments/assets/31f7978d-5870-4584-afe6-bc2ee60a9dc9" />
+  </li>
+  <li>본사 재고 단건 조회 
+    <img width="1316" alt="image" src="https://github.com/user-attachments/assets/f12e2c32-575c-4ca0-b1be-9d48a8a103fe" />
+    <img width="1299" alt="image" src="https://github.com/user-attachments/assets/052608a9-64d8-4c78-a197-975df458e174" />
+  </li>
+</ul>
+</details>
+
+<details>
+<summary>재료</summary>
+<ul>
+  <li>재료 전체 조회 
+    <img width="1310" alt="image" src="https://github.com/user-attachments/assets/9cd2f7b6-f0d9-4ae4-ae1e-47559701fb0d" />
+    <img width="1316" alt="image" src="https://github.com/user-attachments/assets/81034ad0-7080-4389-81ef-e7637da84db7" />
+  </li>
+</ul>
+</details>
+
+<details>
+<summary>지역</summary>
+<ul>
+  <li>구/군 목록 조회
+  
+  
+  </li>
+  <li>시/도 목록 조회 
+  
+  
+  </li>
+  <li>지역별 가맹점 조회 
+  
+  
+  </li>
+</ul>
+</details>
+
+<details>
+<summary>카테고리</summary>
+<ul>
+  <li>카테고리 전체 조회 
+    <img width="1332" alt="image" src="https://github.com/user-attachments/assets/c917e280-5008-4b4f-90e7-811e4a8041fe" />
+    <img width="1295" alt="image" src="https://github.com/user-attachments/assets/7ae88b1f-3a14-4dc0-8ea8-b96b9bc2573c" />
+  </li>
+  <li>카테고리의 메뉴 전체 조회 
+    <img width="1324" alt="image" src="https://github.com/user-attachments/assets/a1ae6587-3691-4199-a0aa-797104c8bc04" />
+    <img width="1318" alt="image" src="https://github.com/user-attachments/assets/eb40c785-7796-4837-b60a-1c4749201fc9" />
+  </li>
+</ul>
+</details>
+
+<details>
+<summary>회원</summary>
+<ul>
+  <li>가맹점주 계정 목록 확인
+  
+  
+  </li>
+  <li>본사 등록 계정 수정 
+  
+  
+  </li>
+  <li>가맹점 담당자 계정 목록 확인 
+  
+  
+  </li>
+  <li>본사 가맹점주 계정 등록
+  
+  
+  </li>
+  <li>본사 등록 계정 조회
+  
+  
+  </li>
+  <li>본사 생성 계정 전체 조회
+  
+  
+  </li>
+  <li>개인 계정 비밀번호 변경 
+  
+  
+  </li>
+  <li>개인 계정 정보 변경
+  
+  
+  </li>
+  <li>개인 계정 조회
+  
+  
+  </li>
+  <li>본사 가맹점 담당자 계정 등록
+  
+  
+  </li>
+  <li>AccessToken 재발급
+  
+  
+  </li>
+  <li>로그아웃
+  
+  
+  </li>
+  <li>로그인
+    <img width="1339" alt="image" src="https://github.com/user-attachments/assets/00884264-d258-48b2-9516-69c7060d600d" />
+    <img width="1303" alt="image" src="https://github.com/user-attachments/assets/fa289af6-d953-4817-a8fa-688c826aa602" />  
+  </li>
+  <li>본사 등록 계정 삭제 
+    
+  
+  </li>
+</ul>
+</details>

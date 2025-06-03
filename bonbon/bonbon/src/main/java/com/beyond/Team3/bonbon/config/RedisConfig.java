@@ -7,6 +7,7 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 
 @Configuration
@@ -20,17 +21,18 @@ public class RedisConfig {
     @Value("${spring.data.redis.port}")
     private int port;
 
-//    @Value("${spring.data.redis.password}")
-//    private String password;
+    @Value("${spring.data.redis.password}")
+    private String password;
 
     @Bean
     public RedisConnectionFactory redisConnectionFactory() {
         // Redis 연결 객체 생성
         LettuceConnectionFactory factory = new LettuceConnectionFactory(host, port);
         // 패스워드가 설정되어 있으면, Redis 서버에 패스워드 인증을 추가
-//        if (password != null && !password.isEmpty()) {
-//            factory.setPassword(password);
-//        }
+        if (password != null && !password.isEmpty()) {
+            factory.setPassword(password);
+        }
+        factory.afterPropertiesSet(); // 꼭 추가!
         return factory;
     }
 
@@ -45,7 +47,18 @@ public class RedisConfig {
         // redis에서 값을 저장할 떄 바이트 배열로 직렬화 해서 저장 -> 조회 시 역직렬화 해서 바이트 배열로 변환
         redisTEmplate.setKeySerializer(new StringRedisSerializer());
         redisTEmplate.setValueSerializer(new StringRedisSerializer());
+        redisTEmplate.setHashKeySerializer(new StringRedisSerializer());
+        redisTEmplate.setHashValueSerializer(new StringRedisSerializer());
+
+        redisTEmplate.afterPropertiesSet();  // ⚠️ 꼭 호출
 
         return redisTEmplate;
+    }
+
+    @Bean
+    public StringRedisTemplate stringRedisTemplate(RedisConnectionFactory redisConnectionFactory) {
+        StringRedisTemplate template = new StringRedisTemplate();
+        template.setConnectionFactory(redisConnectionFactory);
+        return template;
     }
 }

@@ -1,9 +1,14 @@
 package com.beyond.Team3.bonbon.user.repository;
 
+import com.beyond.Team3.bonbon.franchise.entity.Franchisee;
 import com.beyond.Team3.bonbon.franchise.entity.Manager;
 import com.beyond.Team3.bonbon.region.entity.Region;
 import com.beyond.Team3.bonbon.user.entity.User;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -16,5 +21,13 @@ public interface ManagerRepository extends JpaRepository<Manager, Long> {
 
     void deleteByUserId(User userId);
 
-    Manager findByRegionCode(Region region);
+    Optional<Manager> findByRegionCode(Region region);
+
+    User userId(User userId);
+
+    @Query("select m " +
+            "from Manager m " +
+            "left Join m.userId mu " +
+            "where mu.parentId = :parentId")
+    Page<Manager> findManagerFromHeadquarter(@Param("parentId") User parentId, Pageable pageable);
 }

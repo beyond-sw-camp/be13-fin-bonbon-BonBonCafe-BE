@@ -30,8 +30,10 @@ public class SalesRecord {
     @JoinColumn(name = "external_id")
     private ExternalFactor externalFactor;
 
+    @Column(name = "sales_amount")
     private int salesAmount = 0;    // 일 매출 총액
 
+    @Column(name = "sales_date")
     private LocalDate salesDate;
 
     // 가맹점 등록 시 생성하도록

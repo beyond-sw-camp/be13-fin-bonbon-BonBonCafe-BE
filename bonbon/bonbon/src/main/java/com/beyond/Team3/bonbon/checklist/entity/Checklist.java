@@ -23,19 +23,23 @@ import java.time.LocalDate;
 public class Checklist extends EntityDate {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private Long id;
 
     @OneToOne
     @JoinColumn(name = "franchise_id")
     private Franchise franchiseId;
 
+    @Column(name = "checklist_type")
     private String checklistType;
 
+    @Column(name = "next_check_date")
     private LocalDate nextCheckDate;    // 다음 점검일
 
-    @Column(columnDefinition = "TEXT")
+    @Column(columnDefinition = "TEXT", name = "notes")
     private String notes;   // 점검 메모
 
+    @Column(name = "photo")
     private String photo;
 
 }

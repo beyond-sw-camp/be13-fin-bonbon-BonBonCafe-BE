@@ -3,7 +3,6 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/be13-final.iml" filepath="$PROJECT_DIR$/.idea/be13-final.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/bonbon.main.iml" filepath="$PROJECT_DIR$/.idea/modules/bonbon.main.iml" />
     </modules>
   </component>
 </project>

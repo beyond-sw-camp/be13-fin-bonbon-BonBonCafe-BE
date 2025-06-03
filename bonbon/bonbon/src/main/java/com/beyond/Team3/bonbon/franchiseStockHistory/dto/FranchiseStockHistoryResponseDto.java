@@ -19,6 +19,7 @@ public class FranchiseStockHistoryResponseDto {
     private Long ingredientId;
     private Long headquarterId;
     private String ingredientName;
+    private String unit;
     private LocalDate date;
     private HistoryStatus historyStatus;
     private BigDecimal quantity;
@@ -31,6 +32,7 @@ public class FranchiseStockHistoryResponseDto {
                 history.getIngredientId().getIngredientId(),
                 history.getFranchiseId().getHeadquarterId().getHeadquarterId(),
                 history.getIngredientId().getIngredientName(),
+                history.getIngredientId().getUnit(),
                 history.getDate(),
                 history.getHistoryStatus(),
                 history.getQuantity(),

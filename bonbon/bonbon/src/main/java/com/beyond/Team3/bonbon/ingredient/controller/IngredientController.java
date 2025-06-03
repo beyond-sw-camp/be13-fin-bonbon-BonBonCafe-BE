@@ -1,14 +1,14 @@
 package com.beyond.Team3.bonbon.ingredient.controller;
 
+import com.beyond.Team3.bonbon.ingredient.dto.IngredientResponseDto;
 import com.beyond.Team3.bonbon.ingredient.entity.Ingredient;
 import com.beyond.Team3.bonbon.ingredient.repository.IngredientRepository;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -22,10 +22,17 @@ public class IngredientController {
     private final IngredientRepository ingredientRepository;
 
     @GetMapping
-    public ResponseEntity<List<IngredientDto>> getAllIngredients() {
-        List<Ingredient> ingredients = ingredientRepository.findAll();
-        List<IngredientDto> response = ingredients.stream()
-                .map(ing -> new IngredientDto(
+    public ResponseEntity<List<IngredientResponseDto>> getAllIngredients(@RequestParam(required = false) String search) {
+        List<Ingredient> ingredients;
+
+        if (search != null && !search.trim().isEmpty()) {
+            ingredients = ingredientRepository.findByIngredientNameContainingIgnoreCase(search);
+        } else {
+            ingredients = ingredientRepository.findAll();
+        }
+
+        List<IngredientResponseDto> response = ingredients.stream()
+                .map(ing -> new IngredientResponseDto(
                         ing.getIngredientId(),
                         ing.getIngredientName(),
                         ing.getUnit()
@@ -33,13 +40,5 @@ public class IngredientController {
                 .toList();
 
         return ResponseEntity.ok(response);
-    }
-
-    @Getter
-    @AllArgsConstructor
-    public static class IngredientDto {
-        private Long ingredientId;
-        private String ingredientName;
-        private String unit;
     }
 }

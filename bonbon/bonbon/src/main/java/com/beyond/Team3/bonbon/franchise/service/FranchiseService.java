@@ -1,22 +1,23 @@
 package com.beyond.Team3.bonbon.franchise.service;
 
-import com.beyond.Team3.bonbon.franchise.dto.FranchiseSummaryDto;
-import com.beyond.Team3.bonbon.franchise.dto.FranchiseLocationDto;
-import com.beyond.Team3.bonbon.franchise.dto.FranchisePageResponseDto;
-import com.beyond.Team3.bonbon.franchise.dto.FranchiseRequestDto;
-import com.beyond.Team3.bonbon.franchise.dto.FranchiseResponseDto;
-import com.beyond.Team3.bonbon.franchise.dto.FranchiseUpdateRequestDto;
+import com.beyond.Team3.bonbon.franchise.dto.*;
 import jakarta.validation.Valid;
+import org.springframework.data.domain.Page;
 
 import java.security.Principal;
 import java.util.List;
 
 public interface FranchiseService {
-    FranchisePageResponseDto findAll(int page, int size);
+    Page<FranchiseResponseDto> findAll(int page, int size, String region, String district, String name);
     FranchiseResponseDto findByFranchiseId(Long franchiseId);
     void createFranchise(Principal principal, @Valid FranchiseRequestDto requestDto);
-    void updateFranchiseInfo(Long franchiseId, @Valid FranchiseUpdateRequestDto requestDto);
-    List<FranchiseLocationDto> getFranchiseLocations();
+    void updateFranchiseInfo(Long franchiseId, @Valid FranchiseUpdateRequestDto requestDto, Principal principal);
+    FranchiseSummaryDto franchiseSummary(Long franchiseId);
+    void deleteFranchise(Long franchiseId, Principal principal);
 
-    FranchiseSummaryDto findByFranchiseNam(String name);
+    List<LocationResponseDto> findAllLocation();
+
+    List<LocationResponseDto> getLocationsTest();
+
+
 }

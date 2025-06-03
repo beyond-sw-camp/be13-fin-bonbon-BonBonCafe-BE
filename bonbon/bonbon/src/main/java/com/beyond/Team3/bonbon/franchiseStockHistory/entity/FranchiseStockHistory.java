@@ -14,22 +14,26 @@ import java.time.LocalDate;
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Table(name = "franchise_Stock_history")
+@Table(name = "franchise_stock_history")
 public class FranchiseStockHistory {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "history_id")
     private Long historyId;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ingredient_id")
     private Ingredient ingredientId;
 
+    @Column(name = "date")
     private LocalDate date;
 
     @Enumerated(EnumType.STRING)
+    @Column(name = "history_status")
     private HistoryStatus historyStatus;        // 재고 상태
 
+    @Column(name = "quantity")
     private BigDecimal quantity;        // 재고 수량
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -51,5 +55,9 @@ public class FranchiseStockHistory {
         this.quantity = quantity;
         this.date = LocalDate.now();
         this.historyStatus = status;
+    }
+
+    public void updateHistoryStatus(HistoryStatus historyStatus) {
+        this.historyStatus = historyStatus;
     }
 }

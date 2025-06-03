@@ -26,6 +26,7 @@ public class Menu extends EntityDate {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "menu_id")
     private Long menuId;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -36,15 +37,17 @@ public class Menu extends EntityDate {
     @Column(name = "menu_image", nullable = false) //ProductThumbnail 클래스 생성하기
     private String menuImage;
 
-    @Column(nullable = false)
+    @Column(nullable = false, name = "name")
     private String name;
 
+    @Column(name = "description")
     private String description;
 
-    @Column(nullable = false)
+    @Column(nullable = false, name = "price")
     private int price;
 
     @Enumerated(EnumType.STRING)
+    @Column(name = "status")
     private MenuStatus status = MenuStatus.ACTIVE;
 
     @Builder.Default

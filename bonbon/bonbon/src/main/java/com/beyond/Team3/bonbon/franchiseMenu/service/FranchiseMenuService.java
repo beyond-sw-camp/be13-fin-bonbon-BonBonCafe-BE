@@ -4,6 +4,7 @@ import com.beyond.Team3.bonbon.franchise.entity.Franchise;
 import com.beyond.Team3.bonbon.franchise.repository.FranchiseRepository;
 import com.beyond.Team3.bonbon.franchiseMenu.dto.FranchiseMenuRequestDto;
 import com.beyond.Team3.bonbon.franchiseMenu.dto.FranchiseMenuResponseDto;
+import com.beyond.Team3.bonbon.franchiseMenu.dto.FranchiseSimpleResponseDto;
 import com.beyond.Team3.bonbon.franchiseMenu.entity.FranchiseMenu;
 import com.beyond.Team3.bonbon.franchiseMenu.entity.FranchiseMenuId;
 import com.beyond.Team3.bonbon.franchiseMenu.repository.FranchiseMenuRepository;
@@ -21,6 +22,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.security.Principal;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import static com.beyond.Team3.bonbon.handler.message.ExceptionMessage.USER_NOT_FOUND;
 
@@ -33,17 +36,31 @@ public class FranchiseMenuService {
     private final FranchiseeRepository franchiseeRepository;
     private final FranchiseMenuRepository franchiseMenuRepository;
 
+    @Transactional(readOnly = true)
     public FranchiseMenuResponseDto getMenuByFranchise(Principal principal, Long menuId) {
         Franchise franchise = getFranchiseByPrincipal(principal);
 
         Menu menu = menuRepository.findById(menuId)
-                .orElseThrow(() -> new IllegalArgumentException("해당 메뉴가 존재하지 않습니다."));
-
+                .orElseThrow(() -> new IllegalArgumentException("해당 메뉴가 없습니다."));
+        ;
         if (!franchiseMenuRepository.existsByFranchiseIdAndMenuId(franchise, menu)) {
             throw new IllegalArgumentException("해당 가맹점은 이 메뉴를 판매하지 않습니다.");
         }
 
         return FranchiseMenuResponseDto.from(menu);
+    }
+
+    @Transactional(readOnly = true)
+    public List<FranchiseMenuResponseDto> findMenusByCategory(Principal principal, Long categoryId) {
+        Franchise franchise = getFranchiseByPrincipal(principal);
+
+        // 2. 해당 가맹점이 가지고 있는 메뉴들 중, 메뉴의 카테고리가 일치하는 것만 필터링
+        List<Menu> menus = franchiseMenuRepository.findByFranchiseAndCategory(franchise.getFranchiseId(), categoryId);
+
+        // 3. DTO 변환
+        return menus.stream()
+                .map(FranchiseMenuResponseDto::from)
+                .collect(Collectors.toList());
     }
 
     public Page<MenuResponseDto> getAllMenusByFranchise(Pageable pageable, Principal principal) {
@@ -71,7 +88,7 @@ public class FranchiseMenuService {
         Franchise franchise = getFranchiseByPrincipal(principal);
 
         Menu menu = menuRepository.findById(dto.getMenuId())
-                .orElseThrow(() -> new IllegalArgumentException("해당 메뉴가 존재하지 않습니다."));
+                .orElseThrow(() -> new IllegalArgumentException("해당 메뉴가 없습니다."));
 
         if (menu.getHeadquarter() == null || !menu.getHeadquarter().equals(franchise.getHeadquarterId())) {
             throw new IllegalArgumentException("해당 본사의 메뉴가 아닙니다");
@@ -92,7 +109,7 @@ public class FranchiseMenuService {
         Franchise franchise = getFranchiseByPrincipal(principal);
 
         Menu menu = menuRepository.findById(dto.getMenuId())
-                .orElseThrow(() -> new IllegalArgumentException("해당 메뉴가 존재하지 않습니다."));
+                .orElseThrow(() -> new IllegalArgumentException("해당 메뉴가 없습니다"));
 
         FranchiseMenuId id = new FranchiseMenuId(franchise.getFranchiseId(), menu.getMenuId());
 
@@ -112,5 +129,14 @@ public class FranchiseMenuService {
         return franchiseeRepository.findByUserId(user)
                 .orElseThrow(() -> new IllegalArgumentException("가맹점 정보 없음"))
                 .getFranchise();
+    }
+
+    @Transactional(readOnly = true)
+    public List<FranchiseSimpleResponseDto> getFranchisesByMenu(Long menuId) {
+        List<FranchiseMenu> franchiseMenus = franchiseMenuRepository.findByMenuId_MenuId(menuId);
+
+        return franchiseMenus.stream()
+                .map(fm -> FranchiseSimpleResponseDto.from(fm.getFranchiseId()))
+                .toList();
     }
 }

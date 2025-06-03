@@ -25,9 +25,13 @@ public abstract class UserRegisterDto {
 
     private String phone; // 전화번호
 
-    public Boolean passwordMatching(){
-        return this.password.equals(this.passwordConfirm);
-    }
+    private String userImage;
+
+    private Long headquarterId;
+
+//    public Boolean passwordMatching(){
+//        return this.password.equals(this.passwordConfirm);
+//    }
 
     public User toEntity(){
         return User.builder()
@@ -36,6 +40,7 @@ public abstract class UserRegisterDto {
                 .name(name)
                 .status(AccountStatus.ACTIVE)
                 .phone(phone)
+                .userImage(userImage)
                 .build();
     }
 

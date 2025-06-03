@@ -23,14 +23,19 @@ public class Headquarter extends EntityDate {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "headquarter_id")
     private Long headquarterId;
 
+    @Column(name = "name")
     private String name;
 
+    @Column(name = "headquarter_tel")
     private String headquarterTel;
 
+    @Column(name = "road_address")
     private String roadAddress;
 
+    @Column(name = "detail_address")
     private String detailAddress;
 
     @OneToMany(mappedBy = "headquarter", cascade = CascadeType.ALL, orphanRemoval = true)

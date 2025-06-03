@@ -1,5 +1,6 @@
 package com.beyond.Team3.bonbon.menu.service;
 
+import com.beyond.Team3.bonbon.common.validator.QuantityValidator;
 import com.beyond.Team3.bonbon.handler.exception.UserException;
 import com.beyond.Team3.bonbon.headquarter.repository.HeadquarterRepository;
 import com.beyond.Team3.bonbon.ingredient.entity.Ingredient;
@@ -50,12 +51,25 @@ public class MenuService {
     public MenuResponseDto getMenu(Long menuId, Principal principal) {
         User user = getLoginUser(principal);
         Menu menu = findMenuWithHeadquarterValidation(menuId, user.getHeadquarterId().getHeadquarterId());
+
+        if (!menu.hasSameHeadquarter(user.getHeadquarterId().getHeadquarterId())) {
+            throw new IllegalArgumentException("해당 본사의 메뉴가 아닙니다.");
+        }
+
         return MenuResponseDto.from(menu);
     }
 
     @Transactional
     public MenuResponseDto createMenu(MenuRequestDto dto, Principal principal) {
         User user = getLoginUser(principal);
+        QuantityValidator.validate(dto.getPrice());
+
+        // ✅ 메뉴 이름 비어있으면 예외 던짐
+        if (dto.getName() == null || dto.getName().trim().isEmpty()) {
+            throw new IllegalArgumentException("메뉴 이름을 입력해주세요!");
+        }
+
+        validateDuplicateMenu(dto.getName(), user.getHeadquarterId().getHeadquarterId());
 
         Menu menu = dto.toEntity(user.getHeadquarterId());
         menuRepository.save(menu);
@@ -69,6 +83,9 @@ public class MenuService {
     @Transactional
     public MenuResponseDto updateMenu(Long menuId, Principal principal, MenuRequestDto dto) {
         User user = getLoginUser(principal);
+        QuantityValidator.validate(dto.getPrice());
+
+        validateDuplicateMenu(dto.getName(), user.getHeadquarterId().getHeadquarterId(), menuId);
         Menu menu = findMenuWithHeadquarterValidation(menuId, user.getHeadquarterId().getHeadquarterId());
         menu.updateMenu(dto);
 
@@ -129,8 +146,11 @@ public class MenuService {
     private void applyIngredients(Menu menu, List<MenuDetailRequestDto> menuDetails) {
         if (menuDetails != null) {
             for (MenuDetailRequestDto detailDto : menuDetails) {
+                QuantityValidator.validateNonNegative(detailDto.getQuantity());
+
                 Ingredient ingredient = ingredientRepository.findById(detailDto.getIngredientId())
                         .orElseThrow(() -> new IllegalArgumentException("재료 없음"));
+
                 menu.addDetail(new MenuDetail(menu, ingredient, detailDto.getQuantity()));
             }
         }
@@ -139,5 +159,21 @@ public class MenuService {
     private User getLoginUser(Principal principal) {
         return userRepository.findByEmail(principal.getName())
                 .orElseThrow(() -> new UserException(USER_NOT_FOUND));
+    }
+
+    // create용 (단순 중복 검사)
+    private void validateDuplicateMenu(String name, Long headquarterId) {
+        boolean exists = menuRepository.existsByNameAndHeadquarter_HeadquarterId(name, headquarterId);
+        if (exists) {
+            throw new IllegalArgumentException("같은 이름의 메뉴가 이미 존재합니다.");
+        }
+    }
+
+    // update용 (자기 자신 제외하고 중복 검사)
+    private void validateDuplicateMenu(String name, Long headquarterId, Long excludeMenuId) {
+        boolean exists = menuRepository.existsByNameAndHeadquarter_HeadquarterIdAndMenuIdNot(name, headquarterId, excludeMenuId);
+        if (exists) {
+            throw new IllegalArgumentException("같은 이름의 메뉴가 이미 존재합니다.");
+        }
     }
 }

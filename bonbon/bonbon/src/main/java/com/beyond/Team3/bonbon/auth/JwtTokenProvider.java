@@ -10,6 +10,7 @@ import io.jsonwebtoken.security.Keys;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -33,17 +34,17 @@ import java.util.stream.Collectors;
 public class JwtTokenProvider {
 
     private final SecretKey key;  // JWT 서명에 사용될 비밀 키
-    private final long ACCESS_TOKEN_EXP = 1000L * 60L * 60L * 2;          // accessToken : 2시간
-    private final long REFRESH_TOKEN_EXP = 1000L * 60L * 60L * 24 * 7L;     // refreshToken : 7일
+    private final long ACCESS_TOKEN_EXP = 1000L * 60L * 30L;          // accessToken : 30분
+    private final long REFRESH_TOKEN_EXP = 1000L * 60L * 60L * 24L * 7L;     // refreshToken : 7일
 
     private final UserDetailsService userDetailsService;
-    private final RedisTemplate<String, String> redisTemplate;
+    private final StringRedisTemplate redisTemplate;
 
     // JwtTokenProvider 생성자
     public JwtTokenProvider(
             @Value("${jwt.secret.key}") String secretKey,
             UserDetailsService userDetailsService,
-            RedisTemplate<String, String> redisTemplate) {
+            StringRedisTemplate redisTemplate) {
 
         // Secret Key를 Base64로 디코딩 -> 바이트 배열로 변환
         byte[] keyBytes = Decoders.BASE64.decode(secretKey);
@@ -54,6 +55,7 @@ public class JwtTokenProvider {
         this.userDetailsService = userDetailsService;
 
         this.redisTemplate = redisTemplate;
+        log.info("RedisTemplate Class: {}", redisTemplate.getClass());
     }
 
 //    // Access Token 생성 메소드
@@ -74,10 +76,18 @@ public class JwtTokenProvider {
     public String createRefreshToken(String username) {
 
         String refreshToken = createToken(username, List.of(), REFRESH_TOKEN_EXP);
+        String redisKey = "refreshToken:" + username;
 
-        // 생성한 Refresh Token은 Redis 서버에 저장
-        redisTemplate.opsForValue().set("refreshToken:" + username, refreshToken, REFRESH_TOKEN_EXP, TimeUnit.MILLISECONDS);
+        log.info("[createRefreshToken] Generated refreshToken for '{}': {}", username, refreshToken);
+        log.info("RedisTemplate Class: {}", redisTemplate.getClass());
 
+        try {
+            redisTemplate.opsForValue().set(redisKey, refreshToken, REFRESH_TOKEN_EXP, TimeUnit.MILLISECONDS);
+            boolean saved = Boolean.TRUE.equals(redisTemplate.hasKey(redisKey));
+            log.info("[createRefreshToken] Redis save success? {} - key: {}", saved, redisKey);
+        } catch (Exception e) {
+            log.error("[createRefreshToken] Redis save failed for key: {}. Reason: {}", redisKey, e.getMessage(), e);
+        }
         return refreshToken;
     }
 

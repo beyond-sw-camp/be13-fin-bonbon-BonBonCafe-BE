@@ -1,6 +1,9 @@
 package com.beyond.Team3.bonbon.franchise.entity;
 
+import com.beyond.Team3.bonbon.user.dto.FranchiseeInfoDto;
+import com.beyond.Team3.bonbon.user.dto.FranchiseeRegisterDto;
 import com.beyond.Team3.bonbon.user.entity.User;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -26,6 +29,7 @@ public class Franchisee {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "franchisee_id")
     private Long franchiseeId;
 
     @OneToOne
@@ -35,5 +39,9 @@ public class Franchisee {
     @OneToOne
     @JoinColumn(name = "franchise_id", nullable = true)
     private Franchise franchise;
+
+    public void infoUpdate( ) {
+
+    }
 }
 

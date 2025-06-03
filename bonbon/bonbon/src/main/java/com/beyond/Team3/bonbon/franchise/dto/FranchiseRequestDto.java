@@ -1,6 +1,7 @@
 package com.beyond.Team3.bonbon.franchise.dto;
 
 import com.beyond.Team3.bonbon.common.enums.FranchiseStatus;
+import com.beyond.Team3.bonbon.common.enums.RegionName;
 import com.beyond.Team3.bonbon.franchise.entity.Franchise;
 import com.beyond.Team3.bonbon.franchise.entity.Manager;
 import com.beyond.Team3.bonbon.headquarter.entity.Headquarter;
@@ -18,7 +19,7 @@ public class FranchiseRequestDto {
 
     private String name;
 
-    private int regionCode;
+    private RegionName regionName;
 
     private String franchiseTel;
 
@@ -58,6 +59,8 @@ public class FranchiseRequestDto {
                 .openHours(openHours)
                 .build();
     }
+
+
 
 
 

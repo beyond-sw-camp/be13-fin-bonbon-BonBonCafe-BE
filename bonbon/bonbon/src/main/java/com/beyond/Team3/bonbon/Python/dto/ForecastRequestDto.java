@@ -11,6 +11,7 @@ import java.util.List;
 
 @Getter
 @AllArgsConstructor
+@NoArgsConstructor
 public class ForecastRequestDto {
     private List<DailySalesDto> history;
     private int periods;

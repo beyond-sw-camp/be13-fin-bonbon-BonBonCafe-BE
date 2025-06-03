@@ -54,7 +54,7 @@ public class HeadquarterStockService {
         User user = getLoginUser(principal);
         Headquarter headquarter = findHeadquarterOrThrow(user.getHeadquarterId().getHeadquarterId());
         Ingredient ingredient = findIngredientOrThrow(dto.getIngredientId());
-        if (headquarterStockRepository.existsByHeadquarterAndIngredient(headquarter, ingredient)) {
+        if (headquarterStockRepository.findWithLockByHeadquarterAndIngredient(headquarter, ingredient).isPresent()) {
             throw new IllegalArgumentException("이미 등록된 재료입니다.");
         }
 

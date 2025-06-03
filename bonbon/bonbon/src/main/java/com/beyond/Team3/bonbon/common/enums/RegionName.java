@@ -2,18 +2,33 @@ package com.beyond.Team3.bonbon.common.enums;
 
 import com.fasterxml.jackson.annotation.JsonValue;
 
-public enum  RegionName {
+public enum RegionName {
     // 서울특별시
-    SEOUL_JONGNOGU    ("서울특별시 종로구"),   // 11110
-    SEOUL_JUNGGU      ("서울특별시 중구"),     // 11140
-    SEOUL_YONGSANGU   ("서울특별시 용산구"),   // 11170
-    SEOUL_GANGNAMGU   ("서울특별시 강남구"),   // 11680
-    SEOUL_GANGDONGGU  ("서울특별시 강동구"),   // 11740
-    SEOUL_SEONGDONGGU ("서울특별시 성동구"),   // 11200
-    SEOUL_GWANGJINGU  ("서울특별시 광진구"),   // 11215
-    SEOUL_DONGDAEMUNGU("서울특별시 동대문구"), // 11230
-    SEOUL_JUNGRANGGU  ("서울특별시 중랑구"),   // 11260
-    SEOUL_SEONGBUKGU  ("서울특별시 성북구"),   // 11290
+    SEOUL_JONGNOGU     ("서울특별시 종로구"),     // 11110
+    SEOUL_JUNGGU       ("서울특별시 중구"),       // 11140
+    SEOUL_YONGSANGU    ("서울특별시 용산구"),     // 11170
+    SEOUL_SEONGDONGGU  ("서울특별시 성동구"),     // 11200
+    SEOUL_GWANGJINGU   ("서울특별시 광진구"),     // 11215
+    SEOUL_DONGDAEMUNGU ("서울특별시 동대문구"),   // 11230
+    SEOUL_JUNGRANGGU   ("서울특별시 중랑구"),     // 11260
+    SEOUL_SEONGBUKGU   ("서울특별시 성북구"),     // 11290
+    SEOUL_GANGBUKGU    ("서울특별시 강북구"),     // 11305
+    SEOUL_DOBONGGU     ("서울특별시 도봉구"),     // 11320
+    SEOUL_NOWONGU      ("서울특별시 노원구"),     // 11350
+    SEOUL_EUNPYEONGGU  ("서울특별시 은평구"),     // 11380
+    SEOUL_SEODAEMUNGU  ("서울특별시 서대문구"),   // 11410
+    SEOUL_MAPOGU       ("서울특별시 마포구"),     // 11440
+    SEOUL_YANGCHEONGU  ("서울특별시 양천구"),     // 11470
+    SEOUL_GANGSEOGU    ("서울특별시 강서구"),     // 11500
+    SEOUL_GUROGU       ("서울특별시 구로구"),     // 11530
+    SEOUL_GEUMCHEONGU  ("서울특별시 금천구"),     // 11545
+    SEOUL_YEONGDEUNGPOGU("서울특별시 영등포구"),  // 11560
+    SEOUL_DONGJAKGU    ("서울특별시 동작구"),     // 11590
+    SEOUL_GWANAKGU     ("서울특별시 관악구"),     // 11620
+    SEOUL_SEOCHOGU     ("서울특별시 서초구"),     // 11650
+    SEOUL_GANGNAMGU    ("서울특별시 강남구"),     // 11680
+    SEOUL_SONGPAGU     ("서울특별시 송파구"),     // 11710
+    SEOUL_GANGDONGGU   ("서울특별시 강동구"),     // 11740
 
     // 경기도
     GYEONGGI_SUWONSI     ("경기도 수원시"),     // 41010

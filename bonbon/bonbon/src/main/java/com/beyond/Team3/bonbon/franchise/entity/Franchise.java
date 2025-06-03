@@ -1,9 +1,11 @@
 package com.beyond.Team3.bonbon.franchise.entity;
 
+import com.beyond.Team3.bonbon.common.base.EntityDate;
 import com.beyond.Team3.bonbon.common.enums.FranchiseStatus;
 import com.beyond.Team3.bonbon.franchise.dto.FranchiseUpdateRequestDto;
 import com.beyond.Team3.bonbon.headquarter.entity.Headquarter;
 import com.beyond.Team3.bonbon.region.entity.Region;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -30,10 +32,11 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "franchise")
-public class Franchise {
+public class Franchise extends EntityDate {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "franchise_id")
     private Long franchiseId;
 
     @ManyToOne
@@ -44,39 +47,51 @@ public class Franchise {
     @JoinColumn(name = "headquarter_id")
     private Headquarter headquarterId;
 
+    @Column(name = "name")
     private String name;
 
+    @Column(name = "franchise_tel")
     private String franchiseTel;
 
+    @Column(name = "road_address")
     private String roadAddress;     // 도로명 주소
 
+    @Column(name = "detail_address")
     private String detailAddress;       // 상세 주소
 
+    @Column(name = "open_date")
     private LocalDate openDate;     // 개점 일자
 
+    @Column(name = "franchise_image")
     private String franchiseImage;      // 매장 사진
 
+    @Column(name = "store_size")
     private int storeSize;      // 매장 크기
 
+    @Column(name = "seating_capacity")
     private int seatingCapacity;    // 매장 내 좌석 수
 
+    @Column(name = "parking_availability")
     private boolean parkingAvailability;    // 주차 가능 여부
 
     @Enumerated(EnumType.STRING)
+    @Column(name = "status")
     private FranchiseStatus status;          // 운영 상태 - 폐점 / 휴점 / 정상 운영
 
+    @Column(name = "open_hours")
     private String openHours;       // 운영 시간
 
     @OneToOne(mappedBy = "franchise")
     private Franchisee franchisee;
 
     public void update(FranchiseUpdateRequestDto requestDto) {
-        this.name = requestDto.getName();
+//        this.name = requestDto.getName();
         this.franchiseTel = requestDto.getFranchiseTel();
         this.franchiseImage = requestDto.getFranchiseImage();
         this.storeSize = requestDto.getStoreSize();
         this.seatingCapacity = requestDto.getSeatingCapacity();
         this.parkingAvailability = requestDto.isParkingAvailability();
+        this.status = requestDto.getStatus();
         this.openHours = requestDto.getOpenHours();
     }
 
@@ -86,4 +101,34 @@ public class Franchise {
             this.franchisee = null;
         }
     }
+
+    public void closeTemporarily() {
+        if (this.status != FranchiseStatus.OPERATING) {
+            throw new IllegalStateException("운영 중인 상태에서만 임시 휴점 가능합니다.");
+        }
+        this.status = FranchiseStatus.CLOSED_TEMP;
+    }
+
+//    public void closePermanently() {
+//        if (this.status != FranchiseStatus.CLOSED_TEMP) {
+//            throw new IllegalStateException("임시 휴점 상태에서만 영구 폐점 가능합니다.");
+//        }
+//        this.status = FranchiseStatus.PREPARING;
+//    }
+
+    public void closePermanently() {
+        if (this.status != FranchiseStatus.OPERATING) {
+            throw new IllegalStateException("운영 중인 가맹점만 영구 폐점할 수 있습니다.");
+        }
+        this.status = FranchiseStatus.CLOSED_PERM;
+    }
+
+    public void closePermanentlyFromAnyStatus() {
+        if (this.status == FranchiseStatus.CLOSED_PERM) {
+            throw new IllegalStateException("이미 영구 폐점된 가맹점입니다.");
+        }
+        this.status = FranchiseStatus.CLOSED_PERM;
+    }
+
+
 }

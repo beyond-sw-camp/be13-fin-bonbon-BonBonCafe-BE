@@ -10,6 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -73,7 +74,8 @@ public class SecurityConfig {
                                 .requestMatchers("/swagger-ui/**", "/v3/api-docs/**", "/actuator/health").permitAll()
                                 .requestMatchers("/s3/*").permitAll()
                                 .requestMatchers("/health").permitAll()
-                                .requestMatchers("/bonbon/user/login").permitAll() // 로그인 하지 않는 사용자 login 페이지 접근 가능
+                                .requestMatchers(HttpMethod.POST, "/bonbon/user/franchisee").permitAll()
+                                .requestMatchers("/bonbon/user/login", "/bonbon/user/manager", "/bonbon/user/franchisee", "/bonbon/email/send", "/bonbon/user/email-check", "/bonbon/email/verify", "/bonbon/user/headquarters", "/bonbon/user/franchisee/without-owner", "/bonbon/user/region").permitAll() // 로그인 하지 않는 사용자 login 페이지 접근 가능
                                 .anyRequest().authenticated());  // 위에 명시된 경로 외의 다른 모든 요청은 인증된 사용자만 접근할 수 있도록 설정
                 // JWT Token 인증 방식의 미리 만들어둔 Filter를 Filter Chain에 추가
 
@@ -94,11 +96,11 @@ public class SecurityConfig {
             CorsConfiguration configuration = new CorsConfiguration();
 
             // CORS 요청에서 허용할 출처를 설정한다.
-            configuration.setAllowedOrigins(Arrays.asList("http://localhost:8080", "https://www.be13-bonbon.com", "https://api.be13-bonbon.com"));
+            configuration.setAllowedOrigins(Arrays.asList("http://localhost:8080", "http://localhost:5173", "https://www.be13-bonbon.com", "https://api.be13-bonbon.com"));
 //             configuration.setAllowedOriginPatterns(List.of("*"));
 
             // CORS 요청에서 허용할 HTTP 메소드를 지정한다.
-            configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+            configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
 
             // 클라이언트가 요청 시 사용할 수 있는 헤더를 지정한다.
             configuration.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type"));

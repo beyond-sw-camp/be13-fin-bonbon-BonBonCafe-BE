@@ -1,4 +1,4 @@
-<img width="1343" alt="image" src="https://github.com/user-attachments/assets/05c4009c-ef1c-428c-862c-8b8f4785a968" /># 📄 bonbon - 영업 관리 시스템
+# 📄 bonbon - 영업 관리 시스템
 
 ## 📚 목차
 

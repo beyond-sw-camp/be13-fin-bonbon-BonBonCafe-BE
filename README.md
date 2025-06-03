@@ -208,13 +208,7 @@
 <details>
 <summary>가맹점 메뉴</summary>
 <ul>
-  <li>가맹점 전체 조회 <img src="이미지링크" /></li>
-  <li>가맹점 메뉴 삭제 <img src="이미지링크" /></li>
-  <li>가맹점 메뉴 등록 <img src="이미지링크" /></li>
-  <li>카테고리별 가맹점 메뉴 조회 <img src="이미지링크" /></li>
-  <li>특정 가맹점 메뉴 조회(본사 전용) <img src="이미지링크" /></li>
-  <li>가맹점 메뉴 단건 조회 <img src="이미지링크" /></li>
-  <li>본인 가맹점의 메뉴 전체 조회 <img src="이미지링크" /></li>
+  <li>가맹점 전용 메뉴 추가 <img src="https://github.com/user-attachments/assets/9fa01b54-1b91-49ff-b866-68cd4c14d808" /></li>
 </ul>
 </details>
 
@@ -268,12 +262,9 @@
 <details>
 <summary>메뉴</summary>
 <ul>
-  <li>카테고리로 메뉴 조회 <img src="이미지링크" /></li>
-  <li>메뉴 삭제 <img src="이미지링크" /></li>
-  <li>메뉴 수정 <img src="이미지링크" /></li>
-  <li>메뉴 등록 <img src="이미지링크" /></li>
-  <li>메뉴 단일 조회 <img src="이미지링크" /></li>
-  <li>메뉴 전체 조회 <img src="이미지링크" /></li>
+  <li>메뉴 등록 <img src="https://github.com/user-attachments/assets/4ec94851-8e31-4235-bb08-6b8ab9a76cb7" /></li>
+  <li>메뉴 삭제 <img src="https://github.com/user-attachments/assets/0034f171-e940-436e-bd89-75ea5a5c5acd" /></li>
+
 </ul>
 </details>
 

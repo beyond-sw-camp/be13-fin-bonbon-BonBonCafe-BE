@@ -191,7 +191,7 @@
 </details>
 
 <details>
-<summary>📌 UX/UI 테스트</summary>
+<summary>📌FRONTEND - UX/UI 테스트</summary>
 
 <details>
 <summary>가맹점</summary>
@@ -307,4 +307,153 @@
 </ul>
 </details>
 
+</details>
+<summary>📌BACKEND - UX/UI 테스트</summary>
+
+<details>
+<summary>가맹점</summary>
+<ul>
+  <li>가맹점 수정 <img src="이미지링크" /></li>
+  <li>가맹점 등록 <img src="이미지링크" /></li>
+  <li>가맹점 삭제 <img src="이미지링크" /></li>
+  <li>전체 가맹점 위치 조회 <img src="이미지링크" /></li>
+  <li>가맹점 요약 조회 <img src="이미지링크" /></li>
+  <li>특정 가맹점 조회 <img src="이미지링크" /></li>
+</ul>
+</details>
+
+<details>
+<summary>가맹점 메뉴</summary>
+<ul>
+  <li>가맹점 전체 조회 <img src="이미지링크" /></li>
+  <li>가맹점 메뉴 삭제 <img src="이미지링크" /></li>
+  <li>가맹점 메뉴 등록 <img src="이미지링크" /></li>
+  <li>카테고리별 가맹점 메뉴 조회 <img src="이미지링크" /></li>
+  <li>특정 가맹점 메뉴 조회(본사 전용) <img src="이미지링크" /></li>
+  <li>가맹점 메뉴 단건 조회 <img src="이미지링크" /></li>
+  <li>본인 가맹점의 메뉴 전체 조회 <img src="이미지링크" /></li>
+</ul>
+</details>
+
+<details>
+<summary>가맹점 재고</summary>
+<ul>
+  <li>가맹점 재고 단건 조회 <img src="이미지링크" /></li>
+  <li>가맹점 재고 전체 조회 <img src="이미지링크" /></li>
+</ul>
+</details>
+
+<details>
+<summary>가맹점 주문 내역</summary>
+<ul>
+  <li>재고 신청 삭제 <img src="이미지링크" /></li>
+  <li>재고 신청 수정 <img src="이미지링크" /></li>
+  <li>재고 신청 <img src="이미지링크" /></li>
+  <li>가맹점 재고 신청 내역 전체 조회 (본사용) <img src="이미지링크" /></li>
+  <li>재고 신청 내역 단건 조회 <img src="이미지링크" /></li>
+  <li>본인 가맹점 재고 신청 내역 전체 조회 <img src="이미지링크" /></li>
+</ul>
+</details>
+
+<details>
+<summary>게시판</summary>
+<ul>
+  <li>게시글 삭제 <img src="이미지링크" /></li>
+  <li>게시글 수정 <img src="이미지링크" /></li>
+  <li>문자 일괄 전송 <img src="이미지링크" /></li>
+  <li>게시글 등록 <img src="이미지링크" /></li>
+  <li>게시글 전체 조회 <img src="이미지링크" /></li>
+  <li>게시글 단건 조회 <img src="이미지링크" /></li>
+</ul>
+</details>
+
+<details>
+<summary>매출</summary>
+<ul>
+  <li>전체 가맹점 기간 매출 조회 <img src="이미지링크" /></li>
+  <li>전체 가맹점 매출 순위 조회 <img src="이미지링크" /></li>
+  <li>전체 가맹점 메뉴 판매 순위 조회 <img src="이미지링크" /></li>
+  <li>전체 가맹점 예상 매출 조회 <img src="이미지링크" /></li>
+  <li>가맹점 기간별 예상 매출 조회 <img src="이미지링크" /></li>
+  <li>가맹점 기간별 매출 조회 <img src="이미지링크" /></li>
+  <li>가맹점 메뉴별 판매 순위 조회 <img src="이미지링크" /></li>
+  <li>지역별 매출 순위 조회 <img src="이미지링크" /></li>
+  <li>가맹점 일 매출 조회 <img src="이미지링크" /></li>
+</ul>
+</details>
+
+<details>
+<summary>메뉴</summary>
+<ul>
+  <li>카테고리로 메뉴 조회 <img src="이미지링크" /></li>
+  <li>메뉴 삭제 <img src="이미지링크" /></li>
+  <li>메뉴 수정 <img src="이미지링크" /></li>
+  <li>메뉴 등록 <img src="이미지링크" /></li>
+  <li>메뉴 단일 조회 <img src="이미지링크" /></li>
+  <li>메뉴 전체 조회 <img src="이미지링크" /></li>
+</ul>
+</details>
+
+<details>
+<summary>본사</summary>
+<ul>
+  <li>본사 정보 수정 <img src="이미지링크" /></li>
+  <li>본인 본사 조회 <img src="이미지링크" /></li>
+</ul>
+</details>
+
+<details>
+<summary>본사 재고</summary>
+<ul>
+  <li>본사의 재고 목록 조회 <img src="이미지링크" /></li>
+  <li>본사 재고 수정 <img src="이미지링크" /></li>
+  <li>본사 재고 삭제 <img src="이미지링크" /></li>
+  <li>본사 재고 등록 <img src="이미지링크" /></li>
+  <li>본사 재고 전체 조회 <img src="이미지링크" /></li>
+  <li>본사 재고 단건 조회 <img src="이미지링크" /></li>
+</ul>
+</details>
+
+<details>
+<summary>재료</summary>
+<ul>
+  <li>재료 전체 조회 <img src="이미지링크" /></li>
+</ul>
+</details>
+
+<details>
+<summary>지역</summary>
+<ul>
+  <li>구/군 목록 조회 <img src="이미지링크" /></li>
+  <li>시/도 목록 조회 <img src="이미지링크" /></li>
+  <li>지역별 가맹점 조회 <img src="이미지링크" /></li>
+</ul>
+</details>
+
+<details>
+<summary>카테고리</summary>
+<ul>
+  <li>카테고리의 메뉴 전체 조회 <img src="이미지링크" /></li>
+  <li>카테고리 전체 조회 <img src="이미지링크" /></li>
+</ul>
+</details>
+
+<details>
+<summary>회원</summary>
+<ul>
+  <li>가맹점주 계정 목록 확인 <img src="이미지링크" /></li>
+  <li>본사 등록 계정 수정 <img src="이미지링크" /></li>
+  <li>가맹점 담당자 계정 목록 확인 <img src="이미지링크" /></li>
+  <li>본사 가맹점주 계정 등록 <img src="이미지링크" /></li>
+  <li>본사 등록 계정 조회 <img src="이미지링크" /></li>
+  <li>본사 생성 계정 전체 조회 <img src="이미지링크" /></li>
+  <li>개인 계정 비밀번호 변경 <img src="이미지링크" /></li>
+  <li>개인 계정 정보 변경 <img src="이미지링크" /></li>
+  <li>개인 계정 조회 <img src="이미지링크" /></li>
+  <li>본사 가맹점 담당자 계정 등록 <img src="이미지링크" /></li>
+  <li>AccessToken 재발급 <img src="이미지링크" /></li>
+  <li>로그아웃 <img src="이미지링크" /></li>
+  <li>로그인 <img src="이미지링크" /></li>
+  <li>본사 등록 계정 삭제 <img src="이미지링크" /></li>
+</ul>
 </details>

@@ -119,48 +119,6 @@ public class FranchiseServiceImpl implements FranchiseService {
                 })
                 .toList();
 
-
-//        if (region != null && district != null) {
-//            // 조건에 맞는 가맹점만 조회
-//            franchisePage = franchiseRepository.findByRegionAndDistrict(region, district, pageable);
-//        } else {
-//            // 전체 목록
-//            franchisePage = franchiseRepository.findAll(pageable);
-//        }
-
-
-//        if (franchisePage.isEmpty()) {
-//            throw new IllegalArgumentException("franchise is empty");
-//        }
-//
-//        List<FranchiseResponseDto> responseDto = franchisePage.getContent().stream()
-//                .map(franchise -> {
-//                    // 지역 이름 조회 (RegionName enum)
-//                    RegionName regionName = franchise.getRegionCode() != null
-//                            ? franchise.getRegionCode().getRegionName()
-//                            : null;
-//                    // 점주 이름 조회
-//                    String franchiseeName = franchiseeRepository.findByFranchise(franchise)
-//                            .map(franchisee -> {
-//                                Long userId = franchisee.getUserId() != null ? franchisee.getUserId().getUserId() : null;
-//                                if (userId != null) {
-//                                    return userRepository.findById(userId)
-//                                            .map(User::getName)
-//                                            .orElse(null);
-//                                } else {
-//                                    return null;
-//                                }
-//                            })
-//                            .orElse(null); // 점주 없으면 null
-//
-//                    return new FranchiseResponseDto(franchise, regionName, franchiseeName);
-//
-//                })
-//                .toList();
-
-//        FranchisePageResponseDto pageResponseDto = new FranchisePageResponseDto(responseDto, franchisePage.getTotalElements());
-
-//        return pageResponseDto;
         return new PageImpl<>(responseDto, pageable, franchisePage.getTotalElements());
     }
 
@@ -393,8 +351,17 @@ public class FranchiseServiceImpl implements FranchiseService {
     }
 
     @Override
-    public List<LocationResponseDto> findAllLocation() {
-        List<FranchiseLocation> franchiseLocation = franchiseLocationRepository.findAll();
+    public List<LocationResponseDto> findAllLocation(String keyword) {
+        List<FranchiseLocation> franchiseLocation;
+
+        if (keyword != null && !keyword.trim().isEmpty()) {
+            franchiseLocation = franchiseLocationRepository
+                    .findByFranchise_NameContainingOrFranchise_RoadAddressContaining(keyword.trim(), keyword.trim());
+        } else {
+            franchiseLocation = franchiseLocationRepository.findAll();
+        }
+
+
 
         return franchiseLocation.stream()
                 .map(location -> new LocationResponseDto(

@@ -43,6 +43,10 @@ public class FranchiseController {
             @RequestParam(name = "district", required = false) String district,  // 예: 강남구
             @RequestParam(required = false) String name
     ){
+
+        log.info("region{}",region);
+        log.info("district{}",district);
+        log.info("name{}",name);
         Page<FranchiseResponseDto> responseDto = franchiseService.findAll(page, size, region, district, name);
 
         return ResponseEntity.ok(responseDto);
@@ -103,10 +107,13 @@ public class FranchiseController {
     @GetMapping("/locations")
     @Operation(
             summary = "가맹점 위치 조회",
-            description = "지도에 표시하기 위해 모든 가맹점의 위치 정보를 조회합니다. 위치 정보는 위도와 경도를 포함합니다."
+            description = "지도에 표시하기 위해 가맹점 위치 정보를 조회합니다. 'keyword'를 통해 가맹점 이름으로 검색할 수 있습니다."
     )
-    public ResponseEntity<List<LocationResponseDto>> getLocation() {
-        List<LocationResponseDto> responseDto = franchiseService.findAllLocation();
+    public ResponseEntity<List<LocationResponseDto>> getLocation(
+            @RequestParam(value = "keyword", required = false) String keyword
+    ) {
+        log.info("keyword: {}", keyword);
+        List<LocationResponseDto> responseDto = franchiseService.findAllLocation(keyword);
         return ResponseEntity.ok(responseDto);
     }
 

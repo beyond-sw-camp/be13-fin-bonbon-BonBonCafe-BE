@@ -202,6 +202,7 @@
   <li>전체 가맹점 위치 조회 <img src="이미지링크" /></li>
   <li>가맹점 요약 조회 <img src="이미지링크" /></li>
   <li>특정 가맹점 조회 <img src="이미지링크" /></li>
+  <li>가맹점 전체 조회 <img src="이미지링크" /></li>
 </ul>
 </details>
 
@@ -320,19 +321,39 @@
   <li>전체 가맹점 위치 조회 <img src="이미지링크" /></li>
   <li>가맹점 요약 조회 <img src="이미지링크" /></li>
   <li>특정 가맹점 조회 <img src="이미지링크" /></li>
+  
+  <li>가맹점 전체 조회
+   <img src="이미지링크" />
+  </li>
 </ul>
 </details>
 
 <details>
 <summary>가맹점 메뉴</summary>
 <ul>
-  <li>가맹점 전체 조회 <img src="이미지링크" /></li>
-  <li>가맹점 메뉴 삭제 <img src="이미지링크" /></li>
-  <li>가맹점 메뉴 등록 <img src="이미지링크" /></li>
-  <li>카테고리별 가맹점 메뉴 조회 <img src="이미지링크" /></li>
-  <li>특정 가맹점 메뉴 조회(본사 전용) <img src="이미지링크" /></li>
-  <li>가맹점 메뉴 단건 조회 <img src="이미지링크" /></li>
-  <li>본인 가맹점의 메뉴 전체 조회 <img src="이미지링크" /></li>
+  <li>가맹점 메뉴 등록 
+    <img width="1342" alt="image" src="https://github.com/user-attachments/assets/040fe9f4-88d2-40fb-b647-b4d37be27a26" />
+    <img width="1307" alt="image" src="https://github.com/user-attachments/assets/a45572d7-4368-4f5e-806b-d61aa5a38974" />
+
+
+  </li>
+  <li>가맹점 메뉴 삭제 
+    <img src="https://github.com/user-attachments/assets/65911ea5-a89a-4148-ab4e-0363ea78fdfc" />
+    <img src="https://github.com/user-attachments/assets/7bb3ff4b-1d44-4b97-b1f5-f5bb1cfdf023" />
+  </li>
+  <li>카테고리별 가맹점 메뉴 조회 
+    
+  </li>
+  <li>특정 가맹점 메뉴 조회(본사 전용) 
+    
+  </li>
+  <li>가맹점 메뉴 단건 조회 
+    
+  </li>
+  <li>본인 가맹점의 메뉴 전체 조회 
+    <img src="https://github.com/user-attachments/assets/79b81e91-b34b-4795-adcc-08a6a150bce3" />
+    <img width="1068" alt="image" src="https://github.com/user-attachments/assets/124dcd96-6c2d-4513-89cc-f40f778029ac" />
+  </li>
 </ul>
 </details>
 

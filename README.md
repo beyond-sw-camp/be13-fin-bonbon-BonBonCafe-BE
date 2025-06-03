@@ -387,7 +387,7 @@
     <img width="1345" alt="image" src="https://github.com/user-attachments/assets/b7cb64c6-087b-4853-ab1d-23eb89a6a206" />
     <img width="1287" alt="image" src="https://github.com/user-attachments/assets/ccb57e59-674d-4e8d-bb57-e734b160dc89" />
   </li>
-  <li>재고 신청 삭제 <img src="이미지링크" />
+  <li>재고 신청 삭제
     <img width="1320" alt="image" src="https://github.com/user-attachments/assets/cd18779f-e364-45d9-b011-27abaccd29d6" />
   </li>
   <li>재고 신청 수정 
@@ -482,20 +482,44 @@
 <details>
 <summary>본사</summary>
 <ul>
-  <li>본사 정보 수정 <img src="이미지링크" /></li>
-  <li>본인 본사 조회 <img src="이미지링크" /></li>
+  <li>본사 조회
+    <img width="1323" alt="image" src="https://github.com/user-attachments/assets/06b343a7-ae7b-4810-b4d2-8e5a54afbee7" />
+    <img width="1295" alt="image" src="https://github.com/user-attachments/assets/f7fc0a87-c968-4269-a5e5-fce93efd8126" />
+  </li>
+  <li>본사 정보 수정
+    <img width="1339" alt="image" src="https://github.com/user-attachments/assets/e1809bf5-21b4-4223-b942-3bf7068d1845" />
+    <img width="1318" alt="image" src="https://github.com/user-attachments/assets/d4a36648-02e3-4b7e-911c-b001a71f3da0" />
+  </li>
 </ul>
 </details>
 
 <details>
 <summary>본사 재고</summary>
 <ul>
-  <li>본사의 재고 목록 조회 <img src="이미지링크" /></li>
-  <li>본사 재고 수정 <img src="이미지링크" /></li>
-  <li>본사 재고 삭제 <img src="이미지링크" /></li>
-  <li>본사 재고 등록 <img src="이미지링크" /></li>
-  <li>본사 재고 전체 조회 <img src="이미지링크" /></li>
-  <li>본사 재고 단건 조회 <img src="이미지링크" /></li>
+  <li>본사의 재고 목록 조회
+    <img width="1337" alt="image" src="https://github.com/user-attachments/assets/81d0a9a1-f5e0-43f6-93b0-b687cf0f6450" />
+    <img width="1328" alt="image" src="https://github.com/user-attachments/assets/200f6f2d-b122-4a26-ac41-f2fa858fd941" />
+  </li>
+  <li>본사 재고 등록 
+    <img width="1326" alt="image" src="https://github.com/user-attachments/assets/8d451b05-d2cd-4020-9a19-bd17c4da5fa1" />
+    <img width="1308" alt="image" src="https://github.com/user-attachments/assets/847d27d1-df9e-4cfe-a9e0-389609a4c513" />
+  </li>
+  <li>본사 재고 수정 <img src="이미지링크" />
+    <img width="1306" alt="image" src="https://github.com/user-attachments/assets/035fb225-eaf5-4c9b-b89a-ad876a8e826f" />
+    <img width="1325" alt="image" src="https://github.com/user-attachments/assets/8c5c2ffd-2f09-424d-b13c-235c6999fbaa" />
+  </li>
+  <li>본사 재고 삭제 <img src="이미지링크" />
+    <img width="1342" alt="image" src="https://github.com/user-attachments/assets/45f2d9f9-a588-485e-913d-d5b1f2748c69" />
+    <img width="1319" alt="image" src="https://github.com/user-attachments/assets/53e1f84a-4393-4131-b5c5-b0d9a38fd71d" />
+  </li>
+  <li>본사 재고 전체 조회 
+    <img width="1324" alt="image" src="https://github.com/user-attachments/assets/4774fae9-195b-488b-8660-a8990b91ce66" />
+    <img width="1308" alt="image" src="https://github.com/user-attachments/assets/31f7978d-5870-4584-afe6-bc2ee60a9dc9" />
+  </li>
+  <li>본사 재고 단건 조회 
+    <img width="1316" alt="image" src="https://github.com/user-attachments/assets/f12e2c32-575c-4ca0-b1be-9d48a8a103fe" />
+    <img width="1299" alt="image" src="https://github.com/user-attachments/assets/052608a9-64d8-4c78-a197-975df458e174" />
+  </li>
 </ul>
 </details>
 

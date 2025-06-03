@@ -12,9 +12,9 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 @OpenAPIDefinition(
         info = @Info(
-                title = "bonbon project ver_1.0.2",
+                title = "bonbon project ver_1.1.2",
                 description = "BonBon Cafe Service API",
-                version = "v1.0.2"
+                version = "v1.1.2"
         )
 )
 public class SwaggerConfig {

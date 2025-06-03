@@ -208,7 +208,7 @@
 <details>
 <summary>가맹점 메뉴</summary>
 <ul>
-  <li>가맹점 전용 메뉴 추가 <img src="https://github.com/user-attachments/assets/9fa01b54-1b91-49ff-b866-68cd4c14d808" /></li>
+  <li>가맹점 전용 메뉴 추가, 조회 <img src="https://github.com/user-attachments/assets/9fa01b54-1b91-49ff-b866-68cd4c14d808" /></li>
 </ul>
 </details>
 
@@ -264,15 +264,13 @@
 <ul>
   <li>메뉴 등록 <img src="https://github.com/user-attachments/assets/4ec94851-8e31-4235-bb08-6b8ab9a76cb7" /></li>
   <li>메뉴 삭제 <img src="https://github.com/user-attachments/assets/0034f171-e940-436e-bd89-75ea5a5c5acd" /></li>
-
 </ul>
 </details>
 
 <details>
 <summary>본사</summary>
 <ul>
-  <li>본사 정보 수정 <img src="이미지링크" /></li>
-  <li>본인 본사 조회 <img src="이미지링크" /></li>
+  <li>본사 정보 조회, 수정 <img src="https://github.com/user-attachments/assets/5bce534a-b048-4815-b5c8-6d8d8ed88904" /></li>
 </ul>
 </details>
 

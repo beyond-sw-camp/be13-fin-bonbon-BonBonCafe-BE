@@ -496,7 +496,7 @@
 <details>
 <summary>본사 재고</summary>
 <ul>
-  <li>본사의 재고 목록 조회
+  <li>본사의 재료 목록 조회
     <img width="1337" alt="image" src="https://github.com/user-attachments/assets/81d0a9a1-f5e0-43f6-93b0-b687cf0f6450" />
     <img width="1328" alt="image" src="https://github.com/user-attachments/assets/200f6f2d-b122-4a26-ac41-f2fa858fd941" />
   </li>
@@ -526,7 +526,10 @@
 <details>
 <summary>재료</summary>
 <ul>
-  <li>재료 전체 조회 <img src="이미지링크" /></li>
+  <li>재료 전체 조회 
+    <img width="1310" alt="image" src="https://github.com/user-attachments/assets/9cd2f7b6-f0d9-4ae4-ae1e-47559701fb0d" />
+    <img width="1316" alt="image" src="https://github.com/user-attachments/assets/81034ad0-7080-4389-81ef-e7637da84db7" />
+  </li>
 </ul>
 </details>
 
@@ -542,8 +545,14 @@
 <details>
 <summary>카테고리</summary>
 <ul>
-  <li>카테고리의 메뉴 전체 조회 <img src="이미지링크" /></li>
-  <li>카테고리 전체 조회 <img src="이미지링크" /></li>
+  <li>카테고리 전체 조회 
+    <img width="1332" alt="image" src="https://github.com/user-attachments/assets/c917e280-5008-4b4f-90e7-811e4a8041fe" />
+    <img width="1295" alt="image" src="https://github.com/user-attachments/assets/7ae88b1f-3a14-4dc0-8ea8-b96b9bc2573c" />
+  </li>
+  <li>카테고리의 메뉴 전체 조회 
+    <img width="1324" alt="image" src="https://github.com/user-attachments/assets/a1ae6587-3691-4199-a0aa-797104c8bc04" />
+    <img width="1318" alt="image" src="https://github.com/user-attachments/assets/eb40c785-7796-4837-b60a-1c4749201fc9" />
+  </li>
 </ul>
 </details>
 

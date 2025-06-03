@@ -60,13 +60,13 @@ public class FranchiseController {
 
 
     // 모든 권한 횽
-    @GetMapping("/summary/{name}")
+    @GetMapping("/summary/{franchiseId}")
     @Operation(
             summary = "가맹점 요약 조회",
             description = "가맹점 이름을 기준으로 해당 가맹점의 요약 정보를 조회합니다."
     )
-    public ResponseEntity<FranchiseSummaryDto> findByFranchiseName(@PathVariable String name){
-        FranchiseSummaryDto summaryDto = franchiseService.findByFranchiseName(name);
+    public ResponseEntity<FranchiseSummaryDto> findByFranchiseName(@PathVariable Long franchiseId){
+        FranchiseSummaryDto summaryDto = franchiseService.franchiseSummary(franchiseId);
         return ResponseEntity.ok(summaryDto);
     }
 

@@ -12,7 +12,7 @@ public interface FranchiseService {
     FranchiseResponseDto findByFranchiseId(Long franchiseId);
     void createFranchise(Principal principal, @Valid FranchiseRequestDto requestDto);
     void updateFranchiseInfo(Long franchiseId, @Valid FranchiseUpdateRequestDto requestDto, Principal principal);
-    FranchiseSummaryDto findByFranchiseName(String name);
+    FranchiseSummaryDto franchiseSummary(Long franchiseId);
     void deleteFranchise(Long franchiseId, Principal principal);
 
     List<LocationResponseDto> findAllLocation();

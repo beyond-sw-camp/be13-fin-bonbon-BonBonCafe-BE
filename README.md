@@ -209,38 +209,24 @@
 <summary>가맹점 메뉴</summary>
 <ul>
   <li>가맹점 전용 메뉴 추가, 조회 <img src="https://github.com/user-attachments/assets/9fa01b54-1b91-49ff-b866-68cd4c14d808" /></li>
+  <li>가맹점 전용 메뉴 삭제 <img src="" /></li>
 </ul>
 </details>
 
 <details>
-<summary>가맹점 재고</summary>
+<summary>재고</summary>
 <ul>
-  <li>가맹점 재고 단건 조회 <img src="이미지링크" /></li>
-  <li>가맹점 재고 전체 조회 <img src="이미지링크" /></li>
-</ul>
-</details>
-
-<details>
-<summary>가맹점 주문 내역</summary>
-<ul>
-  <li>재고 신청 삭제 <img src="이미지링크" /></li>
-  <li>재고 신청 수정 <img src="이미지링크" /></li>
-  <li>재고 신청 <img src="이미지링크" /></li>
-  <li>가맹점 재고 신청 내역 전체 조회 (본사용) <img src="이미지링크" /></li>
-  <li>재고 신청 내역 단건 조회 <img src="이미지링크" /></li>
-  <li>본인 가맹점 재고 신청 내역 전체 조회 <img src="이미지링크" /></li>
+  <li>가맹점 재고 주문 및 조회, 본사 주문 처리 <img src="https://github.com/user-attachments/assets/672c15fa-ed4f-4474-bc01-d2d4965f490d" /></li>
+  <li>본사 재고 등록<img src="https://github.com/user-attachments/assets/9df1248f-6a0d-4b06-bf34-f5e7043abd83" /></li>
+  <li>본사 재고 삭제<img src="https://github.com/user-attachments/assets/c72a9cdc-5b86-41bd-8d1f-ecb24ecf7eac" /></li>
 </ul>
 </details>
 
 <details>
 <summary>게시판</summary>
 <ul>
-  <li>게시글 삭제 <img src="이미지링크" /></li>
-  <li>게시글 수정 <img src="이미지링크" /></li>
-  <li>문자 일괄 전송 <img src="이미지링크" /></li>
-  <li>게시글 등록 <img src="이미지링크" /></li>
-  <li>게시글 전체 조회 <img src="이미지링크" /></li>
-  <li>게시글 단건 조회 <img src="이미지링크" /></li>
+  <li>게시글 등록, 수정, 삭제 <img src="https://github.com/user-attachments/assets/d95e03e3-20ae-4fcf-8b93-57c095f01489" /></li>
+  <li>문자 일괄 전송 <img src="https://github.com/user-attachments/assets/7c784913-b19b-4b4a-8efb-b4bf1f3e7622" /></li>
 </ul>
 </details>
 
@@ -263,7 +249,10 @@
 <summary>메뉴</summary>
 <ul>
   <li>메뉴 등록 <img src="https://github.com/user-attachments/assets/4ec94851-8e31-4235-bb08-6b8ab9a76cb7" /></li>
+  <li>메뉴 조회, 수정, 판매중인 가맹점 조회 <img src="https://github.com/user-attachments/assets/bd02f042-b2a1-406c-a6a7-27bfdd141640" /></li>
   <li>메뉴 삭제 <img src="https://github.com/user-attachments/assets/0034f171-e940-436e-bd89-75ea5a5c5acd" /></li>
+  <li>카테고리별 메뉴 조회 <img src="https://github.com/user-attachments/assets/af65c697-8bf1-455a-924a-c9b61fa86862" /></li>
+
 </ul>
 </details>
 
@@ -271,18 +260,6 @@
 <summary>본사</summary>
 <ul>
   <li>본사 정보 조회, 수정 <img src="https://github.com/user-attachments/assets/5bce534a-b048-4815-b5c8-6d8d8ed88904" /></li>
-</ul>
-</details>
-
-<details>
-<summary>본사 재고</summary>
-<ul>
-  <li>본사의 재고 목록 조회 <img src="이미지링크" /></li>
-  <li>본사 재고 수정 <img src="이미지링크" /></li>
-  <li>본사 재고 삭제 <img src="이미지링크" /></li>
-  <li>본사 재고 등록 <img src="이미지링크" /></li>
-  <li>본사 재고 전체 조회 <img src="이미지링크" /></li>
-  <li>본사 재고 단건 조회 <img src="이미지링크" /></li>
 </ul>
 </details>
 

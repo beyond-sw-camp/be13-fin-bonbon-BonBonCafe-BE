@@ -3,6 +3,9 @@ package com.beyond.Team3.bonbon.user.controller;
 import com.beyond.Team3.bonbon.common.enums.Role;
 import com.beyond.Team3.bonbon.handler.exception.PageException;
 import com.beyond.Team3.bonbon.handler.message.ExceptionMessage;
+import com.beyond.Team3.bonbon.headquarter.dto.HeadquarterResponseDto;
+import com.beyond.Team3.bonbon.headquarter.entity.Headquarter;
+import com.beyond.Team3.bonbon.headquarter.repository.HeadquarterRepository;
 import com.beyond.Team3.bonbon.region.entity.Region;
 import com.beyond.Team3.bonbon.region.repository.RegionRepository;
 import com.beyond.Team3.bonbon.user.dto.FranchiseInfoDto;
@@ -38,6 +41,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.security.Principal;
+import java.util.List;
 
 @Slf4j
 @RestController
@@ -49,19 +53,20 @@ public class UserController {
     private final UserService userService;
     private final UserRepository userRepository;
     private final RegionRepository regionRepository;
+    private final HeadquarterRepository headquarterRepository;
 
     @PostMapping("/manager")
-    @PreAuthorize("hasRole('ROLE_HEADQUARTER')")
     @Operation(summary = "MANAGER 계정 등록", description = "Headquarter만 MANAGER 계정 등록")
     public ResponseEntity<String> join(
-            @RequestBody ManagerRegisterDto managerRegisterDto, Principal principal
+            @RequestBody ManagerRegisterDto managerRegisterDto,
+            Principal principal
     ){
-        userService.joinManager(managerRegisterDto, principal);
+        userService.joinManager(managerRegisterDto);
         return ResponseEntity.ok("Manager 계정 생성이 완료되었습니다.");
     }
 
     @GetMapping("/manager")
-    @PreAuthorize("hasRole('ROLE_HEADQUARTER')")
+//    @PreAuthorize("hasRole('ROLE_HEADQUARTER')")
     @Operation(summary = "등록한 MANAGER 계정 전체 조회", description = "Headquarter에서 등록한 MANAGER 계정 정보를 확인한다.")
     public ResponseEntity<Page<ManagerInfoDto>> managerAccounts(
             @RequestParam(name = "page", defaultValue = "0") int page,
@@ -108,7 +113,6 @@ public class UserController {
     }
 
     @GetMapping("/region")
-    @PreAuthorize("hasRole('ROLE_HEADQUARTER')")
     @Operation(summary = "등록한 MANAGER 단일 계정 삭제", description = "Headquarter에서 등록한 MANAGER 계정을 삭제한다.")
     public ResponseEntity<Page<Region>> getRegionList(
             @RequestParam(name = "page", defaultValue = "0") int page,
@@ -124,12 +128,11 @@ public class UserController {
     }
 
     @PostMapping("/franchisee")
-    @PreAuthorize("hasRole('ROLE_HEADQUARTER')")
     @Operation(summary = "FRANCHISEE 계정 등록", description = "Headquarter만 FRANCHISEE 계정 등록")
     public ResponseEntity<String> join(
-            @RequestBody FranchiseeRegisterDto franchiseeRegisterDto, Principal principal
+            @RequestBody FranchiseeRegisterDto franchiseeRegisterDto
     ){
-        userService.joinFranchisee(franchiseeRegisterDto, principal);
+        userService.joinFranchisee(franchiseeRegisterDto);
         return ResponseEntity.ok("Manager 계정 생성이 완료되었습니다.");
     }
 
@@ -171,16 +174,39 @@ public class UserController {
 
 //    // 가맹점주가 없는 가맹점 검색
     @GetMapping("/franchisee/without-owner")
-    @PreAuthorize("hasRole('ROLE_HEADQUARTER')")
     @Operation(summary = "가맹점주가 없는 가맹점 확인", description = "가맹점주가 없는 가맹점 리스트를 조회한다.")
     public ResponseEntity<Page<FranchiseFilterDto>> getFranchisesWithoutOwner(
             @RequestParam(name = "page", defaultValue = "0") int page,
             @RequestParam(name = "size", defaultValue = "10") int size,
-            Principal principal) {
+            @RequestParam(name = "headquarterId", required = false) Long headquarterId) {
 
-        Page<FranchiseFilterDto> franchiseWithoutOwner = userService.findFranchiseWithoutOwner(page, size, principal);
+        Page<FranchiseFilterDto> franchiseWithoutOwner = userService.findFranchiseWithoutOwner(page, size, headquarterId);
 
         return ResponseEntity.ok(franchiseWithoutOwner);
+    }
+
+    @GetMapping("/franchisee/without-owner/principal")
+    @Operation(summary = "가맹점주가 없는 가맹점 확인", description = "가맹점주가 없는 가맹점 리스트를 조회한다.")
+    public ResponseEntity<Page<FranchiseFilterDto>> getFranchisesWithoutOwnerPrincipal(
+            @RequestParam(name = "page", defaultValue = "0") int page,
+            @RequestParam(name = "size", defaultValue = "10") int size,
+            Principal principal) {
+
+        Page<FranchiseFilterDto> franchiseWithoutOwner = userService.findFranchiseWithoutOwnerPrincipal(page, size, principal);
+
+        return ResponseEntity.ok(franchiseWithoutOwner);
+    }
+
+    @GetMapping("headquarters")
+    @Operation(summary = "가맹점주가 없는 가맹점 확인", description = "가맹점주가 없는 가맹점 리스트를 조회한다.")
+    public ResponseEntity<List<HeadquarterResponseDto>> getHeadquarterList() {
+
+        List<Headquarter> allHeadquarter = headquarterRepository.findAll();
+        List<HeadquarterResponseDto> responseList = allHeadquarter.stream()
+                .map(HeadquarterResponseDto::from)
+                .toList();
+
+        return ResponseEntity.ok(responseList);
     }
 
     @GetMapping
@@ -274,12 +300,13 @@ public class UserController {
     }
 
     @GetMapping("/email-check")
-    @PreAuthorize("hasRole('ROLE_HEADQUARTER')")
     @Operation(summary = "이메일 중복확인", description = "이메일 중복확인")
     public ResponseEntity<Boolean> emailCheck(
-            @RequestParam String email,
-            Principal principal)
+            @RequestParam String email)
     {
+        if (email == null || email.isBlank()) {
+            throw new IllegalArgumentException("이메일은 필수입니다.");
+        }
         boolean res = userRepository.existsByEmail(email);
         return ResponseEntity.ok(res);
     }

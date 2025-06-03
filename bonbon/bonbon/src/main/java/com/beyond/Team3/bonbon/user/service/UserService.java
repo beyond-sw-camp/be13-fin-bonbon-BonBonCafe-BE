@@ -18,9 +18,9 @@ import java.security.Principal;
 
 public interface UserService {
 
-    void joinManager(ManagerRegisterDto managerRegisterDto, Principal principal);
+    void joinManager(ManagerRegisterDto managerRegisterDto);
 
-    void joinFranchisee(FranchiseeRegisterDto franchiseeRegisterDto, Principal principal);
+    void joinFranchisee(FranchiseeRegisterDto franchiseeRegisterDto);
 
     UserInfo getUser(Principal principal);
 
@@ -44,11 +44,13 @@ public interface UserService {
 
     void deleteManager(Long userId, Principal principal);
 
-    Page<FranchiseFilterDto> findFranchiseWithoutOwner(int page, int size, Principal principal);
+    Page<FranchiseFilterDto> findFranchiseWithoutOwner(int page, int size, Long headquarterId);
 
     Page<FranchiseFilterDto> getFranchiseInRegion(int regionCode, int page, int size, Principal principal);
 
     void franchiseeUpdate(Long userId, FranchiseeModifyDto franchiseeModifyDto, Principal principal);
 
     void managerUpdate(Long managerId, ManagerModifyDto managerModifyDto, Principal principal);
+
+    Page<FranchiseFilterDto> findFranchiseWithoutOwnerPrincipal(int page, int size, Principal principal);
 }

@@ -7,6 +7,8 @@ import com.beyond.Team3.bonbon.franchise.entity.Franchisee;
 import com.beyond.Team3.bonbon.franchise.entity.Manager;
 import com.beyond.Team3.bonbon.franchise.repository.FranchiseRepository;
 import com.beyond.Team3.bonbon.handler.exception.FranchiseException;
+import com.beyond.Team3.bonbon.headquarter.entity.Headquarter;
+import com.beyond.Team3.bonbon.headquarter.repository.HeadquarterRepository;
 import com.beyond.Team3.bonbon.region.entity.Region;
 import com.beyond.Team3.bonbon.region.repository.RegionRepository;
 import com.beyond.Team3.bonbon.user.dto.FranchiseFilterDto;
@@ -52,13 +54,14 @@ public class UserServiceImpl implements UserService {
     private final FranchiseeRepository franchiseeRepository;
     private final FranchiseRepository franchiseRepository;
     private final RegionRepository regionRepository;
+    private final HeadquarterRepository headquarterRepository;
 
     // Manger 계정 생성
     @Override
     @Transactional
-    public void joinManager(ManagerRegisterDto managerRegisterDto, Principal principal) {
+    public void joinManager(ManagerRegisterDto managerRegisterDto) {
 
-        User registUser = join(managerRegisterDto, principal, Role.MANAGER);
+        User registUser = join(managerRegisterDto, managerRegisterDto.getHeadquarterId(), Role.MANAGER);
 
         if(managerRegisterDto.getRegionCode() != 0){
             Region byRegionCode = regionRepository.findByRegionCode(managerRegisterDto.getRegionCode());
@@ -83,9 +86,9 @@ public class UserServiceImpl implements UserService {
     // 가맹점주 등록
     @Override
     @Transactional
-    public void joinFranchisee(FranchiseeRegisterDto franchiseeRegisterDto, Principal principal) {
+    public void joinFranchisee(FranchiseeRegisterDto franchiseeRegisterDto) {
 
-        User registUser = join(franchiseeRegisterDto, principal, Role.FRANCHISEE);
+        User registUser = join(franchiseeRegisterDto, franchiseeRegisterDto.getHeadquarterId(), Role.FRANCHISEE);
 
         // 가맹점 등록까지 같이 하는 경우
         if(franchiseeRegisterDto.getFranchiseId() != null){
@@ -199,6 +202,21 @@ public class UserServiceImpl implements UserService {
 
     }
 
+    @Override
+    public Page<FranchiseFilterDto> findFranchiseWithoutOwnerPrincipal(int page, int size, Principal principal) {
+        // 본사 정보 가져오기
+        User currentUser = getCurrentUser(principal);
+
+        Pageable pageable = PageRequest.of(page, size);
+        if(page < 0 || size <= 0){
+            throw new PageException(ExceptionMessage.INVALID_PAGE_PARAMETER);
+        }
+
+        Page<Franchise> withoutOwner = franchiseRepository.findWithoutOwner(currentUser.getHeadquarterId(), pageable);
+
+        return withoutOwner.map(FranchiseFilterDto::new);
+    }
+
     // 생성한 Franchisee 계정 전체 조회
     @Override
     @Transactional(readOnly = true)
@@ -206,6 +224,11 @@ public class UserServiceImpl implements UserService {
 
         // 본사 정보 가져오기
         User parentId = getCurrentUser(principal);
+
+        // 매니저인지 확인
+        if(!parentId.getUserType().equals(Role.HEADQUARTER)){
+            throw new UserException(ExceptionMessage.INVALID_USER_ROLE);
+        }
 
         Pageable pageable = PageRequest.of(page, size);
         if(page < 0 || size <= 0){
@@ -330,16 +353,18 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public Page<FranchiseFilterDto> findFranchiseWithoutOwner(int page, int size, Principal principal) {
+    public Page<FranchiseFilterDto> findFranchiseWithoutOwner(int page, int size, Long headquarterId) {
         // 본사 정보 가져오기
-        User headquarter = getCurrentUser(principal);
+
+        Headquarter headquarter = headquarterRepository.findById(headquarterId)
+                .orElseThrow(() -> new UserException(ExceptionMessage.USER_NOT_FOUND));
 
         Pageable pageable = PageRequest.of(page, size);
         if(page < 0 || size <= 0){
             throw new PageException(ExceptionMessage.INVALID_PAGE_PARAMETER);
         }
 
-        Page<Franchise> withoutOwner = franchiseRepository.findWithoutOwner(headquarter.getHeadquarterId(), pageable);
+        Page<Franchise> withoutOwner = franchiseRepository.findWithoutOwner(headquarter, pageable);
 
         return withoutOwner.map(FranchiseFilterDto::new);
     }
@@ -413,15 +438,16 @@ public class UserServiceImpl implements UserService {
                 .orElseThrow(() -> new UserException(ExceptionMessage.USER_NOT_FOUND));
     }
 
-    // 사용자 계정 등록
-    public User join(UserRegisterDto userRegisterDto, Principal principal, Role role) {
+    // 사용자 계정 등록 -> 이건 본사 확인 딱히 필요 없지 않음?
+    public User join(UserRegisterDto userRegisterDto, Long headquarterId, Role role) {
 
         // 본사 확인
-        User headquarter = getCurrentUser(principal);
+        Headquarter headquarter = headquarterRepository.findById(headquarterId)
+                .orElseThrow(() -> new UserException(ExceptionMessage.USER_NOT_FOUND));
 
-        if(!headquarter.getUserType().equals(Role.HEADQUARTER)){
-            throw new UserException(ExceptionMessage.INVALID_USER_ROLE);
-        }
+        // 본사 계정 확인
+        User heaquarterAccount = userRepository.findByUserTypeAndHeadquarterId(Role.HEADQUARTER, headquarter)
+                .orElseThrow(() -> new UserException(ExceptionMessage.USER_NOT_FOUND));
 
         // 등록하려는 email 중복 확인
         checkEmailDuplication(userRegisterDto.getEmail());
@@ -434,10 +460,11 @@ public class UserServiceImpl implements UserService {
         // 사용자 생성, 비밀번호 encoding
         User user = userRegisterDto.toEntity();
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-        // 계정 생성자 ID
-        user.setParentId(headquarter);
-        // 본사 ID
-        user.setHeadquarterId(headquarter.getHeadquarterId());
+
+        // 본사 계정을 부모 ID로 추가
+        user.setParentId(heaquarterAccount);
+        // 본사 ID 추가
+        user.setHeadquarterId(headquarter);
         user.setUserType(role);
         userRepository.save(user);
 

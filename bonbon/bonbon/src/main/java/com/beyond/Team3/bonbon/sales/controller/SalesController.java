@@ -73,7 +73,7 @@ public class SalesController {
     }
 
     @GetMapping("/menu/ranking/{franchiseId}")
-    @Operation(summary = "메뉴별 판매 순위 조회", description = "기간 설정해서 해당 지점의 메뉴 판매 순위를 조회한다.(default = 7")
+    @Operation(summary = "가맹점 메뉴별 판매 순위 조회", description = "기간 설정해서 해당 지점의 메뉴 판매 순위를 조회한다.(default = 7")
     public ResponseEntity<List<MenuRankingDto>> getMenuSalesRanking(
             Principal principal,
             @PathVariable("franchiseId") Long franchiseId,
@@ -134,7 +134,7 @@ public class SalesController {
 
     @GetMapping("/all/sales/period")
     @Operation(
-            summary = "본사 전체 가맹점 일별 매출 조회",
+            summary = "본사 전체 가맹점 기간별 매출 조회",
             description = "지정한 기간 동안 모든 가맹점의 매출을 날짜별로 합산하여 조회한다."
     )
     public ResponseEntity<List<DailySalesDto>> getHeadQuarterSalesByPeriod(

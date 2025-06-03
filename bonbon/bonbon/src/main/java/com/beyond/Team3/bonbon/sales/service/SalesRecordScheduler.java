@@ -56,4 +56,37 @@ public class SalesRecordScheduler {
         }
 
     }
+
+
+//    // DDL 생성 후 한번만
+//    @Scheduled(initialDelay = 0, fixedDelay = 60_000)
+//    @Transactional
+//    public void loadFiveYearsByLoop() {
+//        LocalDate start = LocalDate.now().minusYears(4);
+//        LocalDate end   = LocalDate.now().minusDays(1);
+//
+//        for (LocalDate d = start; !d.isAfter(end); d = d.plusDays(1)) {
+//
+//            LocalDate targetDate = d;
+//
+//            List<DailyTotalDto> totals = salesDetailRepository.findDailyTotalsByDate(targetDate);
+//            for (DailyTotalDto dto : totals) {
+//                Franchise franchise = franchiseRepository.findByFranchiseId(dto.getFranchiseId())
+//                        .orElseThrow(() -> new FranchiseException(ExceptionMessage.FRANCHISE_NOT_FOUND));
+//
+//                SalesRecord record = salesRecordRepository
+//                        .findByFranchiseAndSalesDate(franchise, targetDate)
+//                        .orElseGet(() -> salesRecordRepository.save(
+//                                SalesRecord.builder()
+//                                        .franchise(franchise)
+//                                        .salesDate(targetDate)
+//                                        .salesAmount(dto.getTotalAmount())
+//                                        .build()
+//                        ));
+//
+//                record.updateSalesAmount(dto.getTotalAmount());
+//                salesRecordRepository.save(record);
+//            }
+//        }
+//    }
 }

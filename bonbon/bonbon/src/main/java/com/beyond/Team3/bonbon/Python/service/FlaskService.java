@@ -19,7 +19,9 @@ import org.springframework.web.client.RestTemplate;
 
 import java.security.Principal;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
@@ -29,9 +31,9 @@ public class FlaskService {
     private final ObjectMapper objectMapper;
     private final RestTemplate restTemplate = new RestTemplate();
 
-    private final String GLOBAL_URL = "http://127.0.0.1:8082/forecast/global";
-    private final String FRANCHISE_URL = "http://127.0.0.1:8082/forecast/franchise/%d";
-
+//    private final String GLOBAL_URL = "http://127.0.0.1:8082/forecast/global";
+//    private final String FRANCHISE_URL = "http://127.0.0.1:8082/forecast/franchise/%d";
+    private final String FORECAST_URL = "http://127.0.0.1:8082/forecast";
     // 전체 가맹점 예측
     public List<ForecastResponseDto> getGlobalForecast(List<DailySalesDto> history, int periods)
             throws JsonProcessingException {
@@ -48,7 +50,7 @@ public class FlaskService {
         HttpEntity<String> entity = new HttpEntity<>(body,headers);
 
         ForecastResponseDto[] arr =
-                restTemplate.postForObject(GLOBAL_URL, entity, ForecastResponseDto[].class);
+                restTemplate.postForObject(FORECAST_URL, entity, ForecastResponseDto[].class);
 
         return Arrays.asList(arr);
     }
@@ -62,15 +64,17 @@ public class FlaskService {
 
         // 바디 객체 생성
         ForecastRequestDto requestDto = new ForecastRequestDto(history, periods);
-        // 자바 객체 -> JSON 문자열로 변환
-        String body = objectMapper.writeValueAsString(requestDto);
 
+        Map<String,Object> wrapper = new HashMap<>();
+        wrapper.put("franchiseId", franchiseId);
+        wrapper.put("history", requestDto.getHistory());
+        wrapper.put("periods", requestDto.getPeriods());
+
+        String body = objectMapper.writeValueAsString(requestDto);
         HttpEntity<String> entity = new HttpEntity<>(body,headers);
 
-        String url = String.format(FRANCHISE_URL,franchiseId);
-
         ForecastResponseDto[] arr =
-                restTemplate.postForObject(url, entity, ForecastResponseDto[].class);
+                restTemplate.postForObject(FORECAST_URL, entity, ForecastResponseDto[].class);
 
         return Arrays.asList(arr);
     }

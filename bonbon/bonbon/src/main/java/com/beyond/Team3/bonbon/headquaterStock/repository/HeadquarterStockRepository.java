@@ -21,6 +21,10 @@ public interface HeadquarterStockRepository extends JpaRepository<HeadquarterSto
 
     boolean existsByHeadquarterAndIngredient(Headquarter headquarter, Ingredient ingredient);
 
+    @Lock(LockModeType.PESSIMISTIC_WRITE)
+    @Query("SELECT h FROM HeadquarterStock h WHERE h.headquarter = :headquarter AND h.ingredient = :ingredient")
+    Optional<HeadquarterStock> findWithLockByHeadquarterAndIngredient(Headquarter headquarter, Ingredient ingredient);
+
     Optional<HeadquarterStock> findByHeadquarter_HeadquarterIdAndIngredient_IngredientId(Long headquarterId, Long ingredientId);
 
     List<HeadquarterStock> findByHeadquarterIdWithIngredient(Long headquarterId);

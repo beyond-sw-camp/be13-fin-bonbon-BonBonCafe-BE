@@ -210,7 +210,7 @@
 <summary>가맹점 메뉴</summary>
 <ul>
   <li>가맹점 전용 메뉴 추가, 조회 <img src="https://github.com/user-attachments/assets/9fa01b54-1b91-49ff-b866-68cd4c14d808" /></li>
-  <li>가맹점 전용 메뉴 삭제 <img src="" /></li>
+  <li>가맹점 전용 메뉴 삭제 <img src="https://github.com/user-attachments/assets/1143ba36-879f-4c17-8e3b-1e6236f75951"/></li>
 </ul>
 </details>
 

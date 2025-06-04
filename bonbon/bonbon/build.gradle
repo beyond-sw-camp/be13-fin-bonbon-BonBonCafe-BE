@@ -53,6 +53,7 @@ dependencies {
 	implementation 'com.theokanning.openai-gpt3-java:service:0.18.2'
 	// websocket
 	implementation 'org.springframework.boot:spring-boot-starter-websocket'
+	implementation 'org.springframework:spring-websocket'
 
 	//Querydsl 의존성 추가
 	implementation "com.querydsl:querydsl-jpa:${querydslVersion}:jakarta"
@@ -79,6 +80,12 @@ dependencies {
 
 	implementation "io.awspring.cloud:spring-cloud-aws-starter:3.3.0"
 	implementation group: 'com.amazonaws', name: 'aws-java-sdk-s3', version: '1.12.782'
+
+	implementation "org.springframework.boot:spring-boot-starter-mail:3.5.0"
+
+	implementation "org.springframework.boot:spring-boot-starter-thymeleaf:3.5.0"
+
+	implementation 'org.springframework:spring-websocket'
 
 }
 

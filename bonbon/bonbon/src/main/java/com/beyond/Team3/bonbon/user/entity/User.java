@@ -42,21 +42,27 @@ public class User {
     @Column(name = "user_id")
     private Long userId;
 
+    @Column(name = "email")
     private String email;
 
+    @Column(name = "password")
     private String password;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "user_type")
     private Role userType;
 
+    @Column(name = "phone")
     private String phone;
 
+    @Column(name = "name")
     private String name;
 
     @Enumerated(EnumType.STRING)
+    @Column(name = "status")
     private AccountStatus status;
 
+    @Column(name = "deleted_at")
     private LocalDateTime deletedAt;
 
     @Column(name = "user_image")

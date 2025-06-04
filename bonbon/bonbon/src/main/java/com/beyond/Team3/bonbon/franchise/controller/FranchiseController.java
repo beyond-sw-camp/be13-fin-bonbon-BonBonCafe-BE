@@ -40,9 +40,10 @@ public class FranchiseController {
             @RequestParam(name = "page", defaultValue = "0") int page,
             @RequestParam(name = "size", defaultValue = "10") int size,
             @RequestParam(name = "region", required = false) String region,     // 예: 서울특별시
-            @RequestParam(name = "district", required = false) String district  // 예: 강남구
+            @RequestParam(name = "district", required = false) String district,  // 예: 강남구
+            @RequestParam(required = false) String name
     ){
-        Page<FranchiseResponseDto> responseDto = franchiseService.findAll(page, size, region, district);
+        Page<FranchiseResponseDto> responseDto = franchiseService.findAll(page, size, region, district, name);
 
         return ResponseEntity.ok(responseDto);
     }

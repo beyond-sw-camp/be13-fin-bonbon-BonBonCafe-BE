@@ -8,7 +8,7 @@ import java.security.Principal;
 import java.util.List;
 
 public interface FranchiseService {
-    Page<FranchiseResponseDto> findAll(int page, int size, String region, String district);
+    Page<FranchiseResponseDto> findAll(int page, int size, String region, String district, String name);
     FranchiseResponseDto findByFranchiseId(Long franchiseId);
     void createFranchise(Principal principal, @Valid FranchiseRequestDto requestDto);
     void updateFranchiseInfo(Long franchiseId, @Valid FranchiseUpdateRequestDto requestDto, Principal principal);

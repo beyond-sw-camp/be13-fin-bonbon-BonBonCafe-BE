@@ -9,7 +9,7 @@
 5. [문서 리스트](#5-문서-리스트)  
 
 ## 1. 프로젝트 개요
-> **BonBon - 본사-가맹점 영업 관리 시스템**
+> **BonBon - 본사-가맹점 영업 관리 시스템** 
 
 **본사와 가맹점 간의 운영을 효율화하기 위해 개발된 통합 영업 관리 시스템입니다.**  
 **Spring Boot 기반의 REST API 서버로, 본사와 가맹점 간의 재고 흐름, 메뉴 지정, 가맹점 주문, 공지사항 관리, 가맹점별 메뉴 관리 등 다양한 비즈니스 로직을 처리합니다.**
@@ -210,7 +210,7 @@
 <summary>가맹점 메뉴</summary>
 <ul>
   <li>가맹점 전용 메뉴 추가, 조회 <img src="https://github.com/user-attachments/assets/9fa01b54-1b91-49ff-b866-68cd4c14d808" /></li>
-  <li>가맹점 전용 메뉴 삭제 <img src="" /></li>
+  <li>가맹점 전용 메뉴 삭제 <img src="https://github.com/user-attachments/assets/1143ba36-879f-4c17-8e3b-1e6236f75951"/></li>
 </ul>
 </details>
 

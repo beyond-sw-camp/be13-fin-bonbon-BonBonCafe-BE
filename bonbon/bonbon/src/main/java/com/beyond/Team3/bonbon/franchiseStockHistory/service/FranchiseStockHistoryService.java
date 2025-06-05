@@ -5,6 +5,7 @@ import com.beyond.Team3.bonbon.common.enums.Role;
 import com.beyond.Team3.bonbon.common.validator.QuantityValidator;
 import com.beyond.Team3.bonbon.franchise.entity.Franchise;
 import com.beyond.Team3.bonbon.franchise.entity.Franchisee;
+import com.beyond.Team3.bonbon.franchise.entity.Manager;
 import com.beyond.Team3.bonbon.franchise.repository.FranchiseRepository;
 import com.beyond.Team3.bonbon.franchiseStock.entity.FranchiseStock;
 import com.beyond.Team3.bonbon.franchiseStock.repository.FranchiseStockRepository;
@@ -21,15 +22,18 @@ import com.beyond.Team3.bonbon.ingredient.entity.Ingredient;
 import com.beyond.Team3.bonbon.ingredient.repository.IngredientRepository;
 import com.beyond.Team3.bonbon.user.entity.User;
 import com.beyond.Team3.bonbon.user.repository.FranchiseeRepository;
+import com.beyond.Team3.bonbon.user.repository.ManagerRepository;
 import com.beyond.Team3.bonbon.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.security.Principal;
+import java.util.List;
 import java.util.Objects;
 
 import static com.beyond.Team3.bonbon.handler.message.ExceptionMessage.USER_NOT_FOUND;
@@ -38,6 +42,7 @@ import static com.beyond.Team3.bonbon.handler.message.ExceptionMessage.USER_NOT_
 @RequiredArgsConstructor
 public class FranchiseStockHistoryService {
     private final UserRepository userRepository;
+    private final ManagerRepository managerRepository;
     private final FranchiseRepository franchiseRepository;
     private final IngredientRepository ingredientRepository;
     private final FranchiseeRepository franchiseeRepository;
@@ -76,18 +81,40 @@ public class FranchiseStockHistoryService {
         return FranchiseStockHistoryResponseDto.from(history);
     }
 
+    // 본사 전용
     @Transactional(readOnly = true)
     public Page<FranchiseStockHistoryResponseDto> getAllFranchiseHistory(Pageable pageable, Principal principal, HistoryStatus status) {
-        // 본사 입장
         User user = getLoginUser(principal);
 
-        Page<FranchiseStockHistory> histories = franchiseStockHistoryRepository.getAllFranchiseHistory(pageable, user.getHeadquarterId().getHeadquarterId(), status);
+        Page<FranchiseStockHistory> histories;
+
+        if (user.getUserType() == Role.HEADQUARTER) {
+            histories = franchiseStockHistoryRepository
+                    .getAllFranchiseHistory(pageable, user.getHeadquarterId().getHeadquarterId(), status);
+
+        } else if (user.getUserType() == Role.MANAGER) {
+            Manager manager = managerRepository.findByUserId(user)
+                    .orElseThrow(() -> new IllegalStateException("매니저 정보 없음"));
+            int regionCode = manager.getRegionCode().getRegionCode();
+
+            List<Long> franchiseIds = franchiseRepository.findByRegionCode_RegionCode(regionCode).stream()
+                    .map(Franchise::getFranchiseId)
+                    .toList();
+
+            // 4. 재고 신청 내역 조회
+            histories = franchiseStockHistoryRepository.getAllFranchiseHistoryByFranchiseIds(pageable, franchiseIds, status);
+
+            return histories.map(FranchiseStockHistoryResponseDto::from);
+        } else {
+            throw new AccessDeniedException("접근 권한이 없습니다.");
+        }
+
         return histories.map(FranchiseStockHistoryResponseDto::from);
     }
 
+    // 가맹점 전용
     @Transactional(readOnly = true)
     public Page<FranchiseStockHistoryResponseDto> getAllHistory(Pageable pageable, Principal principal, HistoryStatus status) {
-        User user = getLoginUser(principal);
         Franchisee franchisee = getFranchiseeByPrincipal(principal);
         Long franchiseId = franchisee.getFranchise().getFranchiseId();
 
@@ -185,6 +212,7 @@ public class FranchiseStockHistoryService {
         User user = getLoginUser(principal);
 
         // 권한 체크
+        // 권한 체크
         if (user.getUserType() == Role.FRANCHISEE) {
             Franchisee franchisee = getFranchiseeByPrincipal(principal);
 
@@ -193,10 +221,22 @@ public class FranchiseStockHistoryService {
                 throw new IllegalArgumentException("본인의 신청 내역이 아닙니다.");
             }
 
-        } else if (user.getUserType() == Role.HEADQUARTER) {
-            if (!history.getFranchiseId().getHeadquarterId().getHeadquarterId()
-                    .equals(user.getHeadquarterId().getHeadquarterId())) {
-                throw new IllegalArgumentException("해당 본사의 가맹점이 아닙니다.");
+        } else if (user.getUserType() == Role.HEADQUARTER || user.getUserType() == Role.MANAGER) {
+            boolean isNotMyFranchise = false;
+
+            if (user.getUserType() == Role.HEADQUARTER) {
+                isNotMyFranchise = !history.getFranchiseId().getHeadquarterId().getHeadquarterId()
+                        .equals(user.getHeadquarterId().getHeadquarterId());
+            } else {
+                Manager manager = managerRepository.findByUserId(user)
+                        .orElseThrow(() -> new IllegalStateException("매니저 정보 없음"));
+
+                int regionCode = manager.getRegionCode().getRegionCode();
+                isNotMyFranchise = history.getFranchiseId().getRegionCode().getRegionCode() != regionCode;
+            }
+
+            if (isNotMyFranchise) {
+                throw new IllegalArgumentException("관할 가맹점의 신청 내역이 아닙니다.");
             }
 
         } else {
@@ -261,7 +301,7 @@ public class FranchiseStockHistoryService {
 
         if (user.getUserType() == Role.FRANCHISEE) {
             history.updateHistory(newQuantity, dto.getStatus());
-        } else if (user.getUserType() == Role.HEADQUARTER) {
+        } else if (user.getUserType() == Role.HEADQUARTER || user.getUserType() == Role.MANAGER) {
             if (dto.getStatus() == HistoryStatus.CANCELLED || dto.getStatus() == HistoryStatus.REJECTED) {
                 if (!oldIngredient.getIngredientId().equals(newIngredient.getIngredientId())) {
                     HeadquarterStock stock = getHeadquarterStock(franchise.getHeadquarterId().getHeadquarterId(), newIngredient.getIngredientId());

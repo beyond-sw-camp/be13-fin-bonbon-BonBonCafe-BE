@@ -111,4 +111,36 @@ public class FranchiseStockHistoryRepositoryImpl implements FranchiseStockHistor
         return new PageImpl<>(content, pageable, total == null ? 0 : total);
     }
 
+    @Override
+    public Page<FranchiseStockHistory> getAllFranchiseHistoryByFranchiseIds(Pageable pageable, List<Long> franchiseIds, HistoryStatus historyStatus) {
+        QFranchiseStockHistory history = QFranchiseStockHistory.franchiseStockHistory;
+        QIngredient ingredient = QIngredient.ingredient;
+        QFranchise franchise = QFranchise.franchise;
+
+        // 조건 생성
+        BooleanExpression condition = history.franchiseId.franchiseId.in(franchiseIds);
+        if (historyStatus != null) {
+            condition = condition.and(history.historyStatus.eq(historyStatus));
+        }
+
+        List<FranchiseStockHistory> content = queryFactory
+                .selectFrom(history)
+                .leftJoin(history.ingredientId, ingredient).fetchJoin()
+                .leftJoin(history.franchiseId, franchise).fetchJoin()
+                .where(condition)
+                .orderBy(history.historyId.desc())
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize())
+                .fetch();
+
+        Long total = queryFactory
+                .select(history.count())
+                .from(history)
+                .leftJoin(history.franchiseId, franchise)
+                .where(condition)
+                .fetchOne();
+
+        return new PageImpl<>(content, pageable, total == null ? 0 : total);
+    }
+
 }

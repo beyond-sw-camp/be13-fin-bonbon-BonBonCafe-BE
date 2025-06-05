@@ -36,7 +36,7 @@ public class HeadquarterStockController {
         return ResponseEntity.status(HttpStatus.OK).body(headquarterStockResponseDto);
     }
 
-    @PreAuthorize("hasRole('ROLE_HEADQUARTER')")
+    @PreAuthorize("hasAnyRole('ROLE_HEADQUARTER', 'ROLE_MANAGER')")
     @Operation(summary = "본사의 재고 전체 조회")
     @GetMapping("") //headquarterId 제거
     public ResponseEntity<Page<HeadquarterStockResponseDto>> getAllStock(

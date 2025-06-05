@@ -1,6 +1,5 @@
 package com.beyond.Team3.bonbon.user.repository;
 
-import com.beyond.Team3.bonbon.franchise.entity.Franchisee;
 import com.beyond.Team3.bonbon.franchise.entity.Manager;
 import com.beyond.Team3.bonbon.region.entity.Region;
 import com.beyond.Team3.bonbon.user.entity.User;
@@ -11,7 +10,6 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
 import java.util.Optional;
 
 

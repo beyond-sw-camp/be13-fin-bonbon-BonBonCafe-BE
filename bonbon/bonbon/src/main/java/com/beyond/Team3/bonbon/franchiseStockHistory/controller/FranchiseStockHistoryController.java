@@ -34,7 +34,7 @@ public class FranchiseStockHistoryController {
         return ResponseEntity.status(HttpStatus.OK).body(franchiseStockHistoryResponseDto);
     }
 
-    @PreAuthorize("hasRole('ROLE_HEADQUARTER')")
+    @PreAuthorize("hasAnyRole('ROLE_HEADQUARTER', 'ROLE_MANAGER')")
     @Operation(summary = "가맹점의 재고 신청 내역 전체 조회 - 본사")
     @GetMapping("/headquarter/franchise-history-list")
     public ResponseEntity<Page<FranchiseStockHistoryResponseDto>> getAllFranchiseHistory(

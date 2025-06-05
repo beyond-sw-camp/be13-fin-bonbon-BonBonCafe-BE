@@ -56,8 +56,8 @@ public class FranchiseMenuController {
         return ResponseEntity.ok(menus);
     }
 
-    @PreAuthorize("hasRole('ROLE_HEADQUARTER')")
-    @Operation(summary = "특정 가맹점 메뉴 조회 (본사 전용)")
+    @PreAuthorize("hasAnyRole('ROLE_HEADQUARTER', 'ROLE_MANAGER')")
+    @Operation(summary = "특정 가맹점 메뉴 조회 (본사, 매니저 전용)")
     @GetMapping("/franchise/{franchiseId}")
     public ResponseEntity<Page<MenuResponseDto>> getMenusByFranchise(
             @PageableDefault(size = 10, page = 0) Pageable pageable,
@@ -86,13 +86,14 @@ public class FranchiseMenuController {
         return ResponseEntity.status(HttpStatus.OK).body("메뉴가 삭제되었습니다.");
     }
 
-    @PreAuthorize("hasRole('ROLE_HEADQUARTER')")
+    @PreAuthorize("hasAnyRole('ROLE_HEADQUARTER', 'ROLE_MANAGER')")
     @Operation(summary = "특정 메뉴를 판매 중인 가맹점 목록 조회")
     @GetMapping("/menu/{menuId}/franchises")
     public ResponseEntity<List<FranchiseSimpleResponseDto>> getFranchisesByMenu(
+            Principal principal,
             @PathVariable Long menuId
     ) {
-        List<FranchiseSimpleResponseDto> franchises = franchiseMenuService.getFranchisesByMenu(menuId);
+        List<FranchiseSimpleResponseDto> franchises = franchiseMenuService.getFranchisesByMenu(principal, menuId);
         return ResponseEntity.ok(franchises);
     }
 

@@ -20,6 +20,7 @@ public enum ExceptionMessage {
     FRANCHISE_NOT_FOUND("해당 가맹점을 찾을 수 없습니다.", HttpStatus.NOT_FOUND ),
     NO_SALES_RECORDS("해당 기간에 매출 기록이 없습니다.", HttpStatus.NOT_FOUND),
     INVALID_DATE_RANGE("시작일은 종료일보다 이전이거나 같아야 합니다.",HttpStatus.BAD_REQUEST),
+    INVALID_MONTH("조회 가능한 기간은 최대 2개월입니다.", HttpStatus.BAD_REQUEST),
     UNAUTHORIZED_ACCOUNT_ACCESS("계정에 대한 수정 권한이 없습니다.", HttpStatus.UNAUTHORIZED),
     INVALID_USER_ROLE("관리자만 접근 가능합니다.", HttpStatus.BAD_REQUEST),
 

@@ -58,8 +58,8 @@ public class SalesRecordScheduler {
     }
 
 
-//    // DDL 생성 후 한번만
-//    @Scheduled(initialDelay = 0, fixedDelay = 60_000)
+    // DDL 생성 후 한번만
+//    @Scheduled(initialDelay = 0, fixedDelay = 600_000)
 //    @Transactional
 //    public void loadFiveYearsByLoop() {
 //        LocalDate start = LocalDate.now().minusYears(4);

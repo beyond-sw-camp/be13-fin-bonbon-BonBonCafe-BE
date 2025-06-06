@@ -1,6 +1,8 @@
 package com.beyond.Team3.bonbon.franchiseMenu.service;
 
+import com.beyond.Team3.bonbon.common.enums.Role;
 import com.beyond.Team3.bonbon.franchise.entity.Franchise;
+import com.beyond.Team3.bonbon.franchise.entity.Manager;
 import com.beyond.Team3.bonbon.franchise.repository.FranchiseRepository;
 import com.beyond.Team3.bonbon.franchiseMenu.dto.FranchiseMenuRequestDto;
 import com.beyond.Team3.bonbon.franchiseMenu.dto.FranchiseMenuResponseDto;
@@ -14,6 +16,7 @@ import com.beyond.Team3.bonbon.menu.entity.Menu;
 import com.beyond.Team3.bonbon.menu.repository.MenuRepository;
 import com.beyond.Team3.bonbon.user.entity.User;
 import com.beyond.Team3.bonbon.user.repository.FranchiseeRepository;
+import com.beyond.Team3.bonbon.user.repository.ManagerRepository;
 import com.beyond.Team3.bonbon.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -32,6 +35,7 @@ import static com.beyond.Team3.bonbon.handler.message.ExceptionMessage.USER_NOT_
 public class FranchiseMenuService {
     private final UserRepository userRepository;
     private final MenuRepository menuRepository;
+    private final ManagerRepository managerRepository;
     private final FranchiseRepository franchiseRepository;
     private final FranchiseeRepository franchiseeRepository;
     private final FranchiseMenuRepository franchiseMenuRepository;
@@ -132,8 +136,21 @@ public class FranchiseMenuService {
     }
 
     @Transactional(readOnly = true)
-    public List<FranchiseSimpleResponseDto> getFranchisesByMenu(Long menuId) {
+    public List<FranchiseSimpleResponseDto> getFranchisesByMenu(Principal principal, Long menuId) {
+        User user = getLoginUser(principal);
+
         List<FranchiseMenu> franchiseMenus = franchiseMenuRepository.findByMenuId_MenuId(menuId);
+
+        // 매니저인 경우 지역코드로 필터링
+        if (user.getUserType() == Role.MANAGER) {
+            Manager manager = managerRepository.findByUserId(user)
+                    .orElseThrow(() -> new IllegalStateException("매니저 정보가 없습니다."));
+            int managerRegionCode = manager.getRegionCode().getRegionCode();
+
+            franchiseMenus = franchiseMenus.stream()
+                    .filter(fm -> fm.getFranchiseId().getRegionCode().getRegionCode() == managerRegionCode)
+                    .toList();
+        }
 
         return franchiseMenus.stream()
                 .map(fm -> FranchiseSimpleResponseDto.from(fm.getFranchiseId()))

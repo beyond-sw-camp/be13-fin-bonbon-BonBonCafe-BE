@@ -221,7 +221,7 @@
 <details>
 <summary>챗봇</summary>
 <ul>
-  <li>챗봇 매출 및 메뉴 판매량 분석 기 <img src="=https://github.com/user-attachments/assets/badccb8c-c8a8-445c-b638-f7f934e63d8c" /></li>
+  <li>챗봇 매출 및 메뉴 판매량 분석 기능 <img src="https://github.com/user-attachments/assets/badccb8c-c8a8-445c-b638-f7f934e63d8c" /></li>
 </ul>
 </details>
 

@@ -191,7 +191,7 @@
 </details>
 
 <details>
-<summary>📌 FRONTEND - 기능 시연</summary>
+<summary><strong>📌 FRONTEND - 기능 시연</strong></summary>
 
 <details>
 <summary>가맹점</summary>
@@ -313,7 +313,7 @@
 <!-- ------------- -->
 
 <details>
-<summary>📌 BACKEND - 기능 시연</summary>
+<summary><strong>📌 BACKEND - 기능 시연</strong></summary>
 <details>
 <summary>가맹점</summary>
 <ul>

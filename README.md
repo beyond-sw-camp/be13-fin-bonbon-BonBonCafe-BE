@@ -425,42 +425,47 @@
 <details>
 <summary>매출</summary>
 <ul>
-  <li>전체 가맹점 기간 매출 조회
-  
+  <li>본사 전체 가맹점 예 매출 조회
+   <img width="1325" alt="image" src="https://github.com/user-attachments/assets/a671fe66-e3db-41ab-9921-14809032302c" />
+   <img width="1325" alt="image" src="https://github.com/user-attachments/assets/d7a62d28-f4df-4f93-a949-570cdf36c9ad" />
+  </li>
+  <li>본사 전체 가맹점 메뉴 판매 순위 조회 
+  <img width="1325" alt="image" src="https://github.com/user-attachments/assets/0c45af6d-df2f-4d5c-8f44-e0221619bb8f" />
+  <img width="1325" alt="image" src="https://github.com/user-attachments/assets/a9d99d56-d331-4d5f-9a68-33e7be68fa6a" />
+  </li>
+  <li>본사 전체 가맹점 상위 매출 순위 조회
+   <img width="1325" alt="image" src="https://github.com/user-attachments/assets/5083d168-8f88-4276-885a-14dc2bd2d2bb" />
+   <img width="1325" alt="image" src="https://github.com/user-attachments/assets/f94daa42-3550-4fad-8a97-671f277b4f91" />
   
   </li>
-  <li>전체 가맹점 매출 순위 조회 
-  
-  
-  </li>
-  <li>전체 가맹점 메뉴 판매 순위 조회 
-  
-  
-  </li>
-  <li>전체 가맹점 예상 매출 조회 
-  
+  <li>본사 전체 가맹점 기간별 매출 조회
+   <img width="1325" alt="image" src="https://github.com/user-attachments/assets/62918667-3f71-4ec0-a86e-9b1f8471a999" />
+   <img width="1325" alt="image" src="https://github.com/user-attachments/assets/61b38800-87fe-4a6d-92a9-dfa2962a4e33" />
   
   </li>
   <li>가맹점 기간별 예상 매출 조회 
-  
-  
+   <img width="1325" alt="image" src="https://github.com/user-attachments/assets/347610cc-0a29-41e5-b64c-d4094b601206" />
+   <img width="1325" alt="image" src="https://github.com/user-attachments/assets/f11afef9-0acf-4ed5-a927-998f30a6d8b3" />
   </li>
-  <li>가맹점 기간별 매출 조회 
   
-  
-  </li>
   <li>가맹점 메뉴별 판매 순위 조회 
-  
+     <img width="1325" alt="image" src="https://github.com/user-attachments/assets/aa26a36b-716b-4094-b5ff-fc6218df7dc0" />
+     <img width="1325" alt="image" src="https://github.com/user-attachments/assets/98876001-874d-4ac6-b8b5-5e0685155674" />
   
   </li>
-  <li>지역별 매출 순위 조회 
-  
+
+  <li>매출 순위 조회 
+     <img width="1325" alt="image" src="https://github.com/user-attachments/assets/26c1d5c9-99f8-444f-ab62-6ca30399fff6" />
+     <img width="1325" alt="image" src="https://github.com/user-attachments/assets/7f8aec29-4e24-4c84-85b7-1cb18d17b4bc" />
   
   </li>
   <li>가맹점 일 매출 조회 
-  
-  
+     <img width="1325" alt="image" src="https://github.com/user-attachments/assets/3f82bbdd-660c-4b72-847b-623de9fb7664" />
+     <img width="1325" alt="image" src="https://github.com/user-attachments/assets/caa4ebdb-a7f4-4408-abf9-9ac0dfb2c105" />
   </li>
+
+
+  
 </ul>
 </details>
 

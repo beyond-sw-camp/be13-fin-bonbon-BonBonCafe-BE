@@ -214,14 +214,13 @@
 <summary>지도</summary>
 <ul>
   <li>지도로 가맹점 위치 및 요약 정보 확인 <img src="https://github.com/user-attachments/assets/9d6992ff-e04d-420b-9f7c-be424157defe" /></li>
-
 </ul>
 </details>
 
 <details>
 <summary>챗봇</summary>
 <ul>
-  <li>챗봇 매출 및 메뉴 판매량 분석 기 <img src="=https://github.com/user-attachments/assets/badccb8c-c8a8-445c-b638-f7f934e63d8c" /></li>
+  <li>챗봇 매출 및 메뉴 판매량 분석 기능 <img src="=https://github.com/user-attachments/assets/6a59d7b0-70e7-4a3d-803f-e5bd55730255" /></li>
 </ul>
 </details>
 

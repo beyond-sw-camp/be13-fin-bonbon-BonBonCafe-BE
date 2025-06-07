@@ -213,8 +213,15 @@
 <details>
 <summary>지도</summary>
 <ul>
-  <li>지도로 가맹점 위치 확인 및 요약 정 <img src="https://github.com/user-attachments/assets/372c0a22-3381-428e-97d6-5097fc5e9772" /></li>
+  <li>지도로 가맹점 위치 및 요약 정보 확인 <img src="https://github.com/user-attachments/assets/9d6992ff-e04d-420b-9f7c-be424157defe" /></li>
 
+</ul>
+</details>
+
+<details>
+<summary>챗봇</summary>
+<ul>
+  <li>챗봇 매출 및 메뉴 판매량 분석 기 <img src="=https://github.com/user-attachments/assets/badccb8c-c8a8-445c-b638-f7f934e63d8c" /></li>
 </ul>
 </details>
 
@@ -266,50 +273,6 @@
 <summary>본사</summary>
 <ul>
   <li>본사 정보 조회, 수정 <img src="https://github.com/user-attachments/assets/5bce534a-b048-4815-b5c8-6d8d8ed88904" /></li>
-</ul>
-</details>
-
-<details>
-<summary>재료</summary>
-<ul>
-  <li>재료 전체 조회 <img src="이미지링크" /></li>
-</ul>
-</details>
-
-<details>
-<summary>지역</summary>
-<ul>
-  <li>구/군 목록 조회 <img src="이미지링크" /></li>
-  <li>시/도 목록 조회 <img src="이미지링크" /></li>
-  <li>지역별 가맹점 조회 <img src="이미지링크" /></li>
-</ul>
-</details>
-
-<details>
-<summary>카테고리</summary>
-<ul>
-  <li>카테고리의 메뉴 전체 조회 <img src="이미지링크" /></li>
-  <li>카테고리 전체 조회 <img src="이미지링크" /></li>
-</ul>
-</details>
-
-<details>
-<summary>회원</summary>
-<ul>
-  <li>가맹점주 계정 목록 확인 <img src="이미지링크" /></li>
-  <li>본사 등록 계정 수정 <img src="이미지링크" /></li>
-  <li>가맹점 담당자 계정 목록 확인 <img src="이미지링크" /></li>
-  <li>본사 가맹점주 계정 등록 <img src="이미지링크" /></li>
-  <li>본사 등록 계정 조회 <img src="이미지링크" /></li>
-  <li>본사 생성 계정 전체 조회 <img src="이미지링크" /></li>
-  <li>개인 계정 비밀번호 변경 <img src="이미지링크" /></li>
-  <li>개인 계정 정보 변경 <img src="이미지링크" /></li>
-  <li>개인 계정 조회 <img src="이미지링크" /></li>
-  <li>본사 가맹점 담당자 계정 등록 <img src="이미지링크" /></li>
-  <li>AccessToken 재발급 <img src="이미지링크" /></li>
-  <li>로그아웃 <img src="이미지링크" /></li>
-  <li>로그인 <img src="이미지링크" /></li>
-  <li>본사 등록 계정 삭제 <img src="이미지링크" /></li>
 </ul>
 </details>
 

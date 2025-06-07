@@ -211,6 +211,14 @@
 </details>
 
 <details>
+<summary>지도</summary>
+<ul>
+  <li>지도로 가맹점 위치 확인 및 요약 정 <img src="https://github.com/user-attachments/assets/372c0a22-3381-428e-97d6-5097fc5e9772" /></li>
+
+</ul>
+</details>
+
+<details>
 <summary>가맹점 메뉴</summary>
 <ul>
   <li>가맹점 전용 메뉴 추가, 조회 <img src="https://github.com/user-attachments/assets/9fa01b54-1b91-49ff-b866-68cd4c14d808" /></li>

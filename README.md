@@ -194,15 +194,19 @@
 <summary><strong>📌 FRONTEND - 기능 시연</strong></summary>
 
 <details>
+<summary>메인 화면</summary>
+<ul>
+  <li>메인 화면 <img src="https://github.com/user-attachments/assets/22f59baf-ef27-4377-b451-b488ee36b9fe" /></li>
+</ul>
+</details>
+
+<details>
 <summary>가맹점</summary>
 <ul>
-  <li>가맹점 수정 <img src="이미지링크" /></li>
-  <li>가맹점 등록 <img src="이미지링크" /></li>
-  <li>가맹점 삭제 <img src="이미지링크" /></li>
-  <li>전체 가맹점 위치 조회 <img src="이미지링크" /></li>
-  <li>가맹점 요약 조회 <img src="이미지링크" /></li>
-  <li>특정 가맹점 조회 <img src="이미지링크" /></li>
-  <li>가맹점 전체 조회 <img src="이미지링크" /></li>
+  <li>가맹점 조회 <img src="https://github.com/user-attachments/assets/372c0a22-3381-428e-97d6-5097fc5e9772" /></li>
+  <li>가맹점 수정 <img src="https://github.com/user-attachments/assets/b518b62d-8b1e-493c-9d92-38f253eb52d8" /></li>
+  <li>가맹점 삭제 <img src="https://github.com/user-attachments/assets/ff2c98ab-bf3b-4b6f-8b39-0cd57dd84915" /></li>
+  <li>가맹점 등록 <img src="https://github.com/user-attachments/assets/0c422ba3-eabe-4284-95f2-3bdf11633aa7" /></li>
 </ul>
 </details>
 

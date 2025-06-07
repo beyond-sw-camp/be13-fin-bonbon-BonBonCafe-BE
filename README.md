@@ -233,15 +233,9 @@
 <details>
 <summary>매출</summary>
 <ul>
-  <li>전체 가맹점 기간 매출 조회 <img src="이미지링크" /></li>
-  <li>전체 가맹점 매출 순위 조회 <img src="이미지링크" /></li>
-  <li>전체 가맹점 메뉴 판매 순위 조회 <img src="이미지링크" /></li>
-  <li>전체 가맹점 예상 매출 조회 <img src="이미지링크" /></li>
-  <li>가맹점 기간별 예상 매출 조회 <img src="이미지링크" /></li>
-  <li>가맹점 기간별 매출 조회 <img src="이미지링크" /></li>
-  <li>가맹점 메뉴별 판매 순위 조회 <img src="이미지링크" /></li>
-  <li>지역별 매출 순위 조회 <img src="https://github.com/user-attachments/assets/9e36a632-ab97-4f93-9588-fc8dd0e9ad88" /></li>
-  <li>가맹점 일 매출 조회 <img src="이미지링크" /></li>
+  <li>가맹점 매출 분석 페이지 <img src="https://github.com/user-attachments/assets/3ec9b535-74ac-4525-9c0e-d7f1d25f425d" /></li>
+  <li>지역별 매출 순위 페이지 <img src="https://github.com/user-attachments/assets/9e36a632-ab97-4f93-9588-fc8dd0e9ad88" /></li>
+  <li>pdf 다운로드 <img src="https://github.com/user-attachments/assets/fa048233-6afa-4a94-8598-f87c7c435c49" /></li>
 </ul>
 </details>
 

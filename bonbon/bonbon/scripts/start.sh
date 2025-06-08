@@ -18,11 +18,11 @@ TIME_NOW=$(date '+%Y-%m-%d %H:%M:%S')
 SHA=$(cat /home/ec2-user/app/scripts/sha.txt)
 
 # 다운로드
-aws s3 cp s3://bonbon-back-end-bucket/${SHA}.zip /home/ec2-user/app/${SHA}.zip
+aws s3 cp s3://bonbon-back-bucket/${SHA}.zip /home/ec2-user/app/${SHA}.zip
 
 # S3에서 ZIP 파일 다운로드
 echo "$TIME_NOW > S3에서 ZIP 파일 다운로드 시작" >> $DEPLOY_LOG
-aws s3 cp s3://bonbon-back-end-bucket/${SHA}.zip $PROJECT_ROOT/${SHA}.zip >> $DEPLOY_LOG 2>&1
+aws s3 cp s3://bonbon-back-bucket/${SHA}.zip $PROJECT_ROOT/${SHA}.zip >> $DEPLOY_LOG 2>&1
 if [ $? -ne 0 ]; then
   echo "$TIME_NOW > 오류: S3에서 ZIP 파일 다운로드 실패" >> $DEPLOY_LOG
   exit 1
@@ -47,7 +47,7 @@ fi
 
 # JAR 파일 실행
 echo "$TIME_NOW > $JAR_FILE 파일 실행 시작" >> $DEPLOY_LOG
-nohup java -jar $JAR_FILE > $APP_LOG 2> $ERROR_LOG &
+nohup /opt/jdk-23/bin/java -jar $JAR_FILE > $APP_LOG 2> $ERROR_LOG &
 
 # CURRENT_PID=$(pgrep -f $JAR_FILE)
 # if [ -z "$CURRENT_PID" ]; then

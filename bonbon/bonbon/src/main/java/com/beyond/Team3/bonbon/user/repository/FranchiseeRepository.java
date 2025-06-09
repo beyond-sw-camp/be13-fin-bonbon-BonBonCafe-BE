@@ -26,8 +26,11 @@ public interface FranchiseeRepository extends JpaRepository<Franchisee, Long> , 
     @Query("select f " +
             "from Franchisee f " +
             "left Join f.userId fu " +
-            "where fu.parentId = :parentId")
-    Page<Franchisee> findFranchiseesFromHeadquarter(@Param("parentId") User parentId, Pageable pageable);
+            "where fu.parentId = :parentId " +
+            "and (:name is null or fu.name like %:name% or f.franchise.name like %:name%)")
+    Page<Franchisee> findFranchiseesFromHeadquarter(@Param("parentId") User parentId,
+                                                    @Param("name") String name,
+                                                    Pageable pageable);
 
     Optional<Franchisee> findByFranchise(Franchise franchise);
 

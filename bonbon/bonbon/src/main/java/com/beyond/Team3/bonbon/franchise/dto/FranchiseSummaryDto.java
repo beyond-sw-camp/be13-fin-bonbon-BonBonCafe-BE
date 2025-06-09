@@ -12,6 +12,6 @@ import lombok.ToString;
 public class FranchiseSummaryDto {
     private Long franchiseId;
     private String franchiseTel;
-    private String ManagerName;
-    private String ManagerTel;
+    private String managerName;
+    private String managerTel;
 }

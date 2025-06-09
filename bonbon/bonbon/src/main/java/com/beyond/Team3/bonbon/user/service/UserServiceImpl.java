@@ -130,11 +130,16 @@ public class UserServiceImpl implements UserService {
         User user = getCurrentUser(principal);
 
         // 이전 비밀번호 일치 / 새로운 비밀번호, 비밀번호 확인이 일치하는지 확인
-        if(!passwordEncoder.matches(passwordModifyDto.getOldPassword(), user.getPassword())
-                || !passwordModifyDto.getNewPassword().equals(passwordModifyDto.getNewPasswordConfirm()))
+        if(!passwordEncoder.matches(passwordModifyDto.getOldPassword(), user.getPassword()))
         {
             throw new UserException(ExceptionMessage.PASSWORD_NOT_MATCH);
         }
+
+        if(!passwordModifyDto.getNewPassword().equals(passwordModifyDto.getNewPasswordConfirm()))
+        {
+            throw new UserException(ExceptionMessage.PASSWORD_CONFIRM_NOT_MATCH);
+        }
+
 
         user.setPassword(passwordEncoder.encode(passwordModifyDto.getNewPassword()));
     }
@@ -203,7 +208,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Page<FranchiseFilterDto> findFranchiseWithoutOwnerPrincipal(int page, int size, Principal principal) {
+    public Page<FranchiseFilterDto> findFranchiseWithoutOwnerPrincipal(int page, int size, Principal principal, String name) {
         // 본사 정보 가져오기
         User currentUser = getCurrentUser(principal);
 
@@ -212,7 +217,7 @@ public class UserServiceImpl implements UserService {
             throw new PageException(ExceptionMessage.INVALID_PAGE_PARAMETER);
         }
 
-        Page<Franchise> withoutOwner = franchiseRepository.findWithoutOwner(currentUser.getHeadquarterId(), pageable);
+        Page<Franchise> withoutOwner = franchiseRepository.findWithoutOwner(currentUser.getHeadquarterId(), name, pageable);
 
         return withoutOwner.map(FranchiseFilterDto::new);
     }
@@ -220,12 +225,11 @@ public class UserServiceImpl implements UserService {
     // 생성한 Franchisee 계정 전체 조회
     @Override
     @Transactional(readOnly = true)
-    public Page<FranchiseeInfoDto> getFranchiseeAccounts(int page, int size, Role role, Principal principal) {
+    public Page<FranchiseeInfoDto> getFranchiseeAccounts(int page, int size, Role role, Principal principal, String name) {
 
         // 본사 정보 가져오기
         User parentId = getCurrentUser(principal);
 
-        // 매니저인지 확인
         if(!parentId.getUserType().equals(Role.HEADQUARTER)){
             throw new UserException(ExceptionMessage.INVALID_USER_ROLE);
         }
@@ -235,7 +239,7 @@ public class UserServiceImpl implements UserService {
             throw new PageException(ExceptionMessage.INVALID_PAGE_PARAMETER);
         }
 
-        Page<Franchisee> franchiseesFromHeadquarter = franchiseeRepository.findFranchiseesFromHeadquarter(parentId, pageable);
+        Page<Franchisee> franchiseesFromHeadquarter = franchiseeRepository.findFranchiseesFromHeadquarter(parentId, name, pageable);
 
         // role 입력 -> 조회
 //        Page<User> users = userRepository.findByParentIdAndUserType(parentId, role, pageable);
@@ -244,7 +248,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public Page<ManagerInfoDto> getManagerAccounts(int page, int size, Principal principal) {
+    public Page<ManagerInfoDto> getManagerAccounts(int page, int size, Principal principal, String name) {
 
         // 본사 정보 가져오기
         User parentId = getCurrentUser(principal);
@@ -254,7 +258,7 @@ public class UserServiceImpl implements UserService {
             throw new PageException(ExceptionMessage.INVALID_PAGE_PARAMETER);
         }
 
-        Page<Manager> manager = managerRepository.findManagerFromHeadquarter(parentId, pageable);
+        Page<Manager> manager = managerRepository.findManagerFromHeadquarter(parentId, pageable, name);
 
         return manager.map(ManagerInfoDto::new);
     }
@@ -353,7 +357,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public Page<FranchiseFilterDto> findFranchiseWithoutOwner(int page, int size, Long headquarterId) {
+    public Page<FranchiseFilterDto> findFranchiseWithoutOwner(int page, int size, Long headquarterId, String name) {
         // 본사 정보 가져오기
 
         Headquarter headquarter = headquarterRepository.findById(headquarterId)
@@ -364,14 +368,15 @@ public class UserServiceImpl implements UserService {
             throw new PageException(ExceptionMessage.INVALID_PAGE_PARAMETER);
         }
 
-        Page<Franchise> withoutOwner = franchiseRepository.findWithoutOwner(headquarter, pageable);
+        Page<Franchise> withoutOwner = franchiseRepository.findWithoutOwner(headquarter, name, pageable);
 
         return withoutOwner.map(FranchiseFilterDto::new);
+//        return null;
     }
 
     // 특정 지역에 있는 Frachise들 전부 가져오기
     @Override
-    public Page<FranchiseFilterDto> getFranchiseInRegion(int regionCode, int page, int size, Principal principal) {
+    public Page<FranchiseFilterDto> getFranchiseInRegion(int regionCode, int page, int size, Principal principal, String name) {
         User headquarter = getCurrentUser(principal);
 
         Pageable pageable = PageRequest.of(page, size);
@@ -379,7 +384,7 @@ public class UserServiceImpl implements UserService {
             throw new PageException(ExceptionMessage.INVALID_PAGE_PARAMETER);
         }
 
-        Page<Franchise> franchiseListInRegion = franchiseRepository.findFranchiseListInRegion(regionCode, headquarter.getHeadquarterId(), pageable);
+        Page<Franchise> franchiseListInRegion = franchiseRepository.findFranchiseListInRegion(regionCode, headquarter.getHeadquarterId(), name, pageable);
 
         return franchiseListInRegion.map(FranchiseFilterDto::new );
     }

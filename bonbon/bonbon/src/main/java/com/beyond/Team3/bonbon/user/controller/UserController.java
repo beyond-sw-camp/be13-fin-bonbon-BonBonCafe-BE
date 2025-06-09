@@ -71,8 +71,9 @@ public class UserController {
     public ResponseEntity<Page<ManagerInfoDto>> managerAccounts(
             @RequestParam(name = "page", defaultValue = "0") int page,
             @RequestParam(name = "size", defaultValue = "10") int size,
+            @RequestParam(name = "keyword", required = false) String name,
             Principal principal){
-        Page<ManagerInfoDto> accounts = userService.getManagerAccounts(page, size, principal);
+        Page<ManagerInfoDto> accounts = userService.getManagerAccounts(page, size, principal, name);
         return ResponseEntity.ok(accounts);
     }
 
@@ -83,8 +84,9 @@ public class UserController {
             @RequestParam int regionCode,
             @RequestParam(name = "page", defaultValue = "0") int page,
             @RequestParam(name = "size", defaultValue = "10") int size,
+            @RequestParam(name = "keyword", required = false) String name,
             Principal principal){
-        Page<FranchiseFilterDto> franchiseListInRegion = userService.getFranchiseInRegion(regionCode, page, size, principal);
+        Page<FranchiseFilterDto> franchiseListInRegion = userService.getFranchiseInRegion(regionCode, page, size, principal, name);
         return ResponseEntity.ok(franchiseListInRegion);
     }
 
@@ -142,8 +144,9 @@ public class UserController {
     public ResponseEntity<Page<FranchiseeInfoDto>> franchiseAccounts(
             @RequestParam(name = "page", defaultValue = "0") int page,
             @RequestParam(name = "size", defaultValue = "10") int size,
+            @RequestParam(name = "keyword", required = false) String name,
             Principal principal){
-        Page<FranchiseeInfoDto> accounts = userService.getFranchiseeAccounts(page, size, Role.FRANCHISEE, principal);
+        Page<FranchiseeInfoDto> accounts = userService.getFranchiseeAccounts(page, size, Role.FRANCHISEE, principal, name);
         return ResponseEntity.ok(accounts);
     }
 
@@ -178,9 +181,10 @@ public class UserController {
     public ResponseEntity<Page<FranchiseFilterDto>> getFranchisesWithoutOwner(
             @RequestParam(name = "page", defaultValue = "0") int page,
             @RequestParam(name = "size", defaultValue = "10") int size,
+            @RequestParam(name = "keyword", required = false) String name,
             @RequestParam(name = "headquarterId", required = false) Long headquarterId) {
 
-        Page<FranchiseFilterDto> franchiseWithoutOwner = userService.findFranchiseWithoutOwner(page, size, headquarterId);
+        Page<FranchiseFilterDto> franchiseWithoutOwner = userService.findFranchiseWithoutOwner(page, size, headquarterId, name);
 
         return ResponseEntity.ok(franchiseWithoutOwner);
     }
@@ -190,9 +194,10 @@ public class UserController {
     public ResponseEntity<Page<FranchiseFilterDto>> getFranchisesWithoutOwnerPrincipal(
             @RequestParam(name = "page", defaultValue = "0") int page,
             @RequestParam(name = "size", defaultValue = "10") int size,
+            @RequestParam(name = "keyword", required = false) String name,
             Principal principal) {
 
-        Page<FranchiseFilterDto> franchiseWithoutOwner = userService.findFranchiseWithoutOwnerPrincipal(page, size, principal);
+        Page<FranchiseFilterDto> franchiseWithoutOwner = userService.findFranchiseWithoutOwnerPrincipal(page, size, principal, name);
 
         return ResponseEntity.ok(franchiseWithoutOwner);
     }
@@ -229,7 +234,7 @@ public class UserController {
         return ResponseEntity.ok("비밀번호가 변경되었습니다.");
     }
 
-    @PostMapping("/")
+    @PostMapping
     @Operation(summary = "회원 개인 정보 수정", description = "회원의 전화번호, 이름, (사진) 수정 가능")
     public ResponseEntity<String> userModify(
             Principal principal,

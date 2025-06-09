@@ -130,11 +130,16 @@ public class UserServiceImpl implements UserService {
         User user = getCurrentUser(principal);
 
         // 이전 비밀번호 일치 / 새로운 비밀번호, 비밀번호 확인이 일치하는지 확인
-        if(!passwordEncoder.matches(passwordModifyDto.getOldPassword(), user.getPassword())
-                || !passwordModifyDto.getNewPassword().equals(passwordModifyDto.getNewPasswordConfirm()))
+        if(!passwordEncoder.matches(passwordModifyDto.getOldPassword(), user.getPassword()))
         {
             throw new UserException(ExceptionMessage.PASSWORD_NOT_MATCH);
         }
+
+        if(!passwordModifyDto.getNewPassword().equals(passwordModifyDto.getNewPasswordConfirm()))
+        {
+            throw new UserException(ExceptionMessage.PASSWORD_CONFIRM_NOT_MATCH);
+        }
+
 
         user.setPassword(passwordEncoder.encode(passwordModifyDto.getNewPassword()));
     }

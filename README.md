@@ -620,3 +620,29 @@
   </li>
 </ul>
 </details>
+
+<details>
+<summary><strong>📌 CI/CD 계획서</strong></summary>
+</details>
+
+<details>
+<summary><strong>📌 통합 테스트 결과</strong></summary>
+
+<details><summary>Backend pipeline
+
+</summary>
+</details>
+
+<details><summary>Frontend pipeline
+
+</summary>
+</details>
+
+<details><summary>ML pipeline
+
+</summary>
+</details>
+
+</details>
+
+

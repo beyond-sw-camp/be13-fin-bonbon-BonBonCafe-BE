@@ -625,12 +625,12 @@
 
 <details>
 <summary><strong>📌 CI/CD 계획서</strong></summary>
-   https://www.notion.so/playdatacademy/CI-CD-20dd943bcac28018bb80ef3b40148b1c
+   [https://www.notion.so/playdatacademy/CI-CD-20dd943bcac28018bb80ef3b40148b1c](https://drive.google.com/file/d/16Z0cElX2dqMDKs-k6ctLS--j1eCdTBvw/view?usp=sharing)
 </details>
    
 <details>
 <summary><strong>📌 통합 테스트 결과</strong></summary>
-    https://www.notion.so/playdatacademy/20dd943bcac280c096cdd2141023e274
+    [https://www.notion.so/playdatacademy/20dd943bcac280c096cdd2141023e274](https://drive.google.com/file/d/1mi_TMdYlJs3NzBNQi_F8hFXXuiizINOf/view?usp=sharing)
 
 </details>
 

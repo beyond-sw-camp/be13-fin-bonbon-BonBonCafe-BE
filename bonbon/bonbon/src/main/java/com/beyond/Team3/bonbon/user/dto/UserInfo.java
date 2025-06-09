@@ -12,7 +12,7 @@ public abstract class UserInfo {
 
     private String email;
 
-//    private String password; // 비밀번호
+    private String password; // 비밀번호
 
     private String name;
 
@@ -24,15 +24,18 @@ public abstract class UserInfo {
 
     private String userImage;
 
+    private String headquarterName;
+
     public UserInfo(User user) {
         this.userId=user.getUserId();
         this.email = user.getEmail();
-//        this.password = user.getPassword();
+        this.password = user.getPassword();
         this.name = user.getName();
         this.role = user.getUserType();
         this.phone = user.getPhone();
         this.status = user.getStatus();
         this.userImage = user.getUserImage();
+        this.headquarterName = user.getHeadquarterId().getName();
         System.out.println("userImage = " + this.userImage); // 확인 로그
     }
 }

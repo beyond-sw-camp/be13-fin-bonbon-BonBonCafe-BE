@@ -229,7 +229,7 @@ public class UserController {
         return ResponseEntity.ok("비밀번호가 변경되었습니다.");
     }
 
-    @PostMapping("/")
+    @PostMapping
     @Operation(summary = "회원 개인 정보 수정", description = "회원의 전화번호, 이름, (사진) 수정 가능")
     public ResponseEntity<String> userModify(
             Principal principal,

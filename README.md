@@ -143,7 +143,7 @@
 <details>
 <summary><strong>📌 시스템 아키텍처</strong></summary>
 
-![Image](https://github.com/user-attachments/assets/eb46fcf7-f32c-4a81-92bf-62812368c142)
+![Image](https://github.com/user-attachments/assets/28e5e408-2171-42a3-aae6-a3eb958ffb25)
 
 </details>
 
@@ -620,3 +620,18 @@
   </li>
 </ul>
 </details>
+
+</details>
+
+<details>
+<summary><strong>📌 CI/CD 계획서</strong></summary>
+   https://drive.google.com/file/d/16Z0cElX2dqMDKs-k6ctLS--j1eCdTBvw/view?usp=sharing
+</details>
+   
+<details>
+<summary><strong>📌 통합 테스트 결과</strong></summary>
+    https://drive.google.com/file/d/1mi_TMdYlJs3NzBNQi_F8hFXXuiizINOf/view?usp=sharing
+
+</details>
+
+

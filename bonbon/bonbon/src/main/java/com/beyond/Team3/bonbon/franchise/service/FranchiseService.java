@@ -15,7 +15,7 @@ public interface FranchiseService {
     FranchiseSummaryDto franchiseSummary(Long franchiseId);
     void deleteFranchise(Long franchiseId, Principal principal);
 
-    List<LocationResponseDto> findAllLocation();
+    List<LocationResponseDto> findAllLocation(String keyword);
 
     List<LocationResponseDto> getLocationsTest();
 

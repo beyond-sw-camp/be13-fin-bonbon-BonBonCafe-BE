@@ -220,32 +220,32 @@ public class GPTChatRestService {
 
     private CompletionChatResponse handleChatBot(Long franchiseId, GPTCompletionChatRequest chatRequest, String originalMessage) {
         String guideText = """
-                안녕하세요! 매출/메뉴 조회 챗봇입니다. 아래 예시를 참고하여 질문해주세요:
+                안녕하세요! 매출/메뉴 조회 챗봇입니다. 아래 예시를 참고하여 질문해주세요
                 
-                1. 특정 일자의 매출을 조회하려면:
+                1. 특정 일자의 매출을 조회하려면
                    매출 조회 YYYY-MM-DD
                    예) 매출 조회 2025-06-01
                 
-                2. 기간별 매출을 조회하려면:
+                2. 기간별 매출을 조회하려면
                    기간별 매출 YYYY-MM-DD YYYY-MM-DD
                    예) 기간별 매출 2025-06-01 2025-06-07
                 
-                3. 지난주 매출 조회는:
+                3. 지난주 매출 조회는
                    지난주 매출 조회
                 
-                4. 특정 기간 동안 메뉴별 판매량을 조회하려면:
+                4. 특정 기간 동안 메뉴별 판매량을 조회하려면
                    메뉴 판매량 조회 YYYY-MM-DD YYYY-MM-DD
                    예) 메뉴 판매량 조회 2025-06-01 2025-06-07
                 
-                5. 지난주 메뉴 판매량 조회는:
+                5. 지난주 메뉴 판매량 조회는
                    지난주 메뉴 판매량
                 
                 • 날짜 형식은 반드시 'YYYY-MM-DD' 형태로 입력하세요.
                 
-                6. 다음 주 예상 매출 조회는:
+                6. 다음 주 예상 매출 조회는
                    다음 주 예상 매출 조회
                 
-                7. 다음 달 예상 매출 조회는:
+                7. 다음 달 예상 매출 조회는
                    다음 달 예상 매출 조회
                 
                 

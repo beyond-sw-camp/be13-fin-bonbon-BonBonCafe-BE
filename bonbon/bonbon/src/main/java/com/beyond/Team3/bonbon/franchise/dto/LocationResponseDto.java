@@ -14,14 +14,16 @@ public class LocationResponseDto {
     private double latitude;
     private double longitude;
     private String franchiseImage;
+    private String memo;
 
 
-    public LocationResponseDto(Long franchiseId , String name, double latitude, double longitude, String franchiseImage) {
+    public LocationResponseDto(Long franchiseId , String name, double latitude, double longitude, String franchiseImage, String memo) {
         this.franchiseId = franchiseId;
         this.name = name;
         this.latitude = latitude;
         this.longitude = longitude;
         this.franchiseImage = franchiseImage;
+        this.memo = memo;
     }
 
 }

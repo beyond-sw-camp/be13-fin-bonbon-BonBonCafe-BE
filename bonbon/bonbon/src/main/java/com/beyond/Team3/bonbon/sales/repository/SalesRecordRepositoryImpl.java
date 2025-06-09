@@ -14,6 +14,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 import static com.beyond.Team3.bonbon.franchise.entity.QFranchise.franchise;
+import static com.beyond.Team3.bonbon.franchise.entity.QFranchisee.franchisee;
 import static com.beyond.Team3.bonbon.sales.entity.QSalesRecord.salesRecord;
 
 @Repository
@@ -47,10 +48,13 @@ public class SalesRecordRepositoryImpl implements SalesRecordRepositoryCustom{
         List<SalesRankingDto> content = queryFactory
                 .select(new QSalesRankingDto(
                         franchise.name,
-                        salesRecord.salesAmount.sum().intValue()
+                        salesRecord.salesAmount.sum().intValue(),
+                        franchise.roadAddress,
+                        franchisee.userId.name
                 ))
                 .from(salesRecord)
                 .join(salesRecord.franchise, franchise)
+                .join(franchise.franchisee, franchisee)
                 .where(
                         regionEq(regionCode),
                         yearEq(year),
@@ -106,10 +110,13 @@ public class SalesRecordRepositoryImpl implements SalesRecordRepositoryCustom{
         return queryFactory
                 .select(new QSalesRankingDto(
                         franchise.name,
-                        salesRecord.salesAmount.sum().intValue()
+                        salesRecord.salesAmount.sum().intValue(),
+                        franchise.roadAddress,
+                        franchisee.userId.name
                 ))
                 .from(salesRecord)
                 .join(salesRecord.franchise, franchise)
+                .join(franchise.franchisee, franchisee)
                 .where(
                         salesDateGoe(startDate),
                         salesDateLoe(endDate)

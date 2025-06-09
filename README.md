@@ -626,24 +626,11 @@
 <details>
 <summary><strong>📌 CI/CD 계획서</strong></summary>
 </details>
-
+    https://www.notion.so/playdatacademy/CI-CD-20dd943bcac28018bb80ef3b40148b1c
 <details>
 <summary><strong>📌 통합 테스트 결과</strong></summary>
+    https://www.notion.so/playdatacademy/20dd943bcac280c096cdd2141023e274
 
-<details><summary>Backend pipeline
-
-</summary>
-</details>
-
-<details><summary>Frontend pipeline
-
-</summary>
-</details>
-
-<details><summary>ML pipeline
-
-</summary>
-</details>
 </details>
 
 

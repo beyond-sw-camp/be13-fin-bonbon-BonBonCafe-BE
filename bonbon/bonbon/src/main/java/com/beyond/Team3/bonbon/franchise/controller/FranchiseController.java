@@ -1,6 +1,5 @@
 package com.beyond.Team3.bonbon.franchise.controller;
 
-import com.beyond.Team3.bonbon.franchise.dto.FranchisePageResponseDto;
 import com.beyond.Team3.bonbon.franchise.dto.FranchiseRequestDto;
 import com.beyond.Team3.bonbon.franchise.dto.FranchiseResponseDto;
 import com.beyond.Team3.bonbon.franchise.dto.FranchiseUpdateRequestDto;
@@ -15,8 +14,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.reactive.function.client.WebClient;
-import reactor.core.publisher.Mono;
 
 import java.security.Principal;
 import java.util.List;
@@ -117,8 +114,6 @@ public class FranchiseController {
         return ResponseEntity.ok(responseDto);
     }
 
-
-
     // 더미
     @GetMapping("/test/")
     @Operation(
@@ -129,46 +124,5 @@ public class FranchiseController {
         List<LocationResponseDto> responseDto = franchiseService.getLocationsTest();
         return ResponseEntity.ok(responseDto);
     }
-
-//    @GetMapping("/test/{region}")
-//    public void test(@PathVariable String region){
-//
-//
-//        RestTemplate restTemplate = new RestTemplate();
-//        String url = "https://dapi.kakao.com/v2/local/search/address.json?query=" + region;
-//
-//
-//        // 요청 헤더 설정
-//        HttpHeaders headers = new HttpHeaders();
-//        headers.setContentType(MediaType.APPLICATION_JSON);
-//        headers.set("Authorization", "KakaoAK " + kakaoApiKey);
-//
-//        HttpEntity<String> entity = new HttpEntity<>(headers);
-//
-//        ResponseEntity<String> response = restTemplate.exchange(
-//                url,
-//                HttpMethod.GET,
-//                entity,
-//                String.class
-//        );
-//
-//        System.out.println(response.getBody());
-//
-//    }
-//    @GetMapping("/search")
-//    public String sarch(String query){
-//        Mono<String> mono = WebClient.builder().baseUrl("https://dapi.kakao.com")
-//                .build().get()
-//                .uri(builder -> builder.path("/v2/local/search/address.json")
-//                        .queryParam("query", query)
-//                        .build()
-//                )
-//                .header("Authorization", "KakaoAK " + kakaoApiKey)
-//                .exchangeToMono(response -> response.bodyToMono(String.class));
-//        return mono.block();
-//    }
-
-
-
 
 }

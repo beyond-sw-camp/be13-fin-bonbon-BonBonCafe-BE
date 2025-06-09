@@ -621,6 +621,8 @@
 </ul>
 </details>
 
+</details>
+
 <details>
 <summary><strong>📌 CI/CD 계획서</strong></summary>
 </details>
@@ -642,7 +644,6 @@
 
 </summary>
 </details>
-
 </details>
 
 

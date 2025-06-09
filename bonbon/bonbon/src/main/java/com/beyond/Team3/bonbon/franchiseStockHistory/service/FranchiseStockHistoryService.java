@@ -77,6 +77,20 @@ public class FranchiseStockHistoryService {
                 throw new IllegalArgumentException("해당 본사의 가맹점이 아닙니다.");
             }
         }
+        if (user.getUserType() == Role.MANAGER) {
+            Manager manager = managerRepository.findByUserId(user)
+                    .orElseThrow(() -> new IllegalStateException("매니저 정보 없음"));
+
+            // region, headquarter 둘 다 체크
+            int regionCode = manager.getRegionCode().getRegionCode();
+            boolean isSameRegion = history.getFranchiseId().getRegionCode().getRegionCode() == regionCode;
+            boolean isSameHeadquarter = history.getFranchiseId().getHeadquarterId().getHeadquarterId()
+                    .equals(user.getHeadquarterId().getHeadquarterId());
+
+            if (!(isSameRegion && isSameHeadquarter)) {
+                throw new IllegalArgumentException("해당 본사의 가맹점이 아니거나 관할 지역이 아닙니다.");
+            }
+        }
 
         return FranchiseStockHistoryResponseDto.from(history);
     }
@@ -98,6 +112,7 @@ public class FranchiseStockHistoryService {
             int regionCode = manager.getRegionCode().getRegionCode();
 
             List<Long> franchiseIds = franchiseRepository.findByRegionCode_RegionCode(regionCode).stream()
+                    .filter(franchise -> franchise.getHeadquarterId().getHeadquarterId().equals(user.getHeadquarterId().getHeadquarterId()))
                     .map(Franchise::getFranchiseId)
                     .toList();
 
@@ -176,13 +191,31 @@ public class FranchiseStockHistoryService {
         BigDecimal quantity = history.getQuantity();
 
         // 권한 체크
+        // 권한 체크
         if (user.getUserType() == Role.FRANCHISEE) {
             Franchisee franchisee = getFranchiseeByPrincipal(principal);
             history.validateFranchise(franchisee.getFranchise().getFranchiseId());
+
         } else if (user.getUserType() == Role.HEADQUARTER) {
             if (!franchise.getHeadquarterId().equals(user.getHeadquarterId())) {
                 throw new IllegalArgumentException("해당 본사의 가맹점의 신청내역이 아닙니다.");
             }
+
+        } else if (user.getUserType() == Role.MANAGER) {
+            Manager manager = managerRepository.findByUserId(user)
+                    .orElseThrow(() -> new IllegalStateException("매니저 정보 없음"));
+
+            int regionCode = manager.getRegionCode().getRegionCode();
+            Long userHeadquarterId = user.getHeadquarterId().getHeadquarterId();
+            Long historyHeadquarterId = history.getFranchiseId().getHeadquarterId().getHeadquarterId();
+
+            if (!(franchise.getRegionCode().getRegionCode() == regionCode &&
+                    historyHeadquarterId.equals(userHeadquarterId))) {
+                throw new IllegalArgumentException("관할 지역 또는 본사의 가맹점이 아닙니다.");
+            }
+
+        } else {
+            throw new IllegalArgumentException("삭제 권한이 없습니다.");
         }
 
         //  가맹점 재고 차감은 있으면
@@ -232,7 +265,12 @@ public class FranchiseStockHistoryService {
                         .orElseThrow(() -> new IllegalStateException("매니저 정보 없음"));
 
                 int regionCode = manager.getRegionCode().getRegionCode();
-                isNotMyFranchise = history.getFranchiseId().getRegionCode().getRegionCode() != regionCode;
+                Long userHeadquarterId = user.getHeadquarterId().getHeadquarterId();
+                Long historyHeadquarterId = history.getFranchiseId().getHeadquarterId().getHeadquarterId();
+
+                // 🔥 region + 본사 둘 다 체크
+                isNotMyFranchise = !(history.getFranchiseId().getRegionCode().getRegionCode() == regionCode
+                        && historyHeadquarterId.equals(userHeadquarterId));
             }
 
             if (isNotMyFranchise) {

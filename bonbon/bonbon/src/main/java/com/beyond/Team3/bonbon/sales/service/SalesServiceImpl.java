@@ -26,6 +26,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.security.Principal;
 import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -44,6 +45,10 @@ public class SalesServiceImpl implements SalesService {
     @Override
     @Transactional
     public DailySalesDto getDailySales(Long franchiseId, LocalDate salesDate) {
+
+        // 현재 날짜보다 이상으로 조회할 수 없게 예외처리
+        if(salesDate.isAfter(LocalDate.now()))
+            throw new FranchiseException(ExceptionMessage.NO_SALES_RECORDS);
 
         // 가맹점 확인
         Franchise franchise = franchiseRepository.findByFranchiseId(franchiseId)
@@ -84,6 +89,14 @@ public class SalesServiceImpl implements SalesService {
         if(startDate.isAfter(endDate)) {
             throw new FranchiseException(ExceptionMessage.INVALID_DATE_RANGE);
         }
+        long diffMonths = ChronoUnit.MONTHS.between(startDate, endDate);
+        if (diffMonths > 2) {
+            throw new FranchiseException(ExceptionMessage.INVALID_MONTH);
+        }
+
+        // 현재 날짜보다 이상으로 조회할 수 없게 예외처리
+        if(endDate.isAfter(LocalDate.now()))
+            throw new FranchiseException(ExceptionMessage.NO_SALES_RECORDS);
 
         // getDailySales 서비스 로직 호출
         for (LocalDate date = startDate; !date.isAfter(endDate); date = date.plusDays(1)) {

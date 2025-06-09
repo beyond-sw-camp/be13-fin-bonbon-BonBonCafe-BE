@@ -47,7 +47,7 @@ fi
 
 # JAR 파일 실행
 echo "$TIME_NOW > $JAR_FILE 파일 실행 시작" >> $DEPLOY_LOG
-nohup java -jar $JAR_FILE > $APP_LOG 2> $ERROR_LOG &
+nohup /opt/jdk-23/bin/java -jar $JAR_FILE > $APP_LOG 2> $ERROR_LOG &
 
 # CURRENT_PID=$(pgrep -f $JAR_FILE)
 # if [ -z "$CURRENT_PID" ]; then

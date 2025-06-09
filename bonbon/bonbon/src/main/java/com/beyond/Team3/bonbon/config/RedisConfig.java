@@ -20,21 +20,21 @@ public class RedisConfig {
     // redis 연결 포트
     @Value("${spring.data.redis.port}")
     private int port;
-//
-//    @Value("${spring.data.redis.password}")
-//    private String password;
 
-//    @Bean
-//    public RedisConnectionFactory redisConnectionFactory() {
-//        // Redis 연결 객체 생성
-//        LettuceConnectionFactory factory = new LettuceConnectionFactory(host, port);
-//        // 패스워드가 설정되어 있으면, Redis 서버에 패스워드 인증을 추가
-//        if (password != null && !password.isEmpty()) {
-//            factory.setPassword(password);
-//        }
-//        factory.afterPropertiesSet(); // 꼭 추가!
-//        return factory;
-//    }
+    @Value("${spring.data.redis.password}")
+    private String password;
+
+    @Bean
+    public RedisConnectionFactory redisConnectionFactory() {
+        // Redis 연결 객체 생성
+        LettuceConnectionFactory factory = new LettuceConnectionFactory(host, port);
+        // 패스워드가 설정되어 있으면, Redis 서버에 패스워드 인증을 추가
+        if (password != null && !password.isEmpty()) {
+            factory.setPassword(password);
+        }
+        factory.afterPropertiesSet(); // 꼭 추가!
+        return factory;
+    }
 
     @Bean
     @Primary    // StringRedisTemplate 빈도 있어서 의존성 충돌이 일어남 -> RediesTemplate을 우선적으로 의존성 주입이 되도록 설정

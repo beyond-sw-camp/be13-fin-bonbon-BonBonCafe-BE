@@ -57,6 +57,7 @@ public class SalesRecordRepositoryImpl implements SalesRecordRepositoryCustom{
                         monthEq(month)
                 )
                 .groupBy(franchise.franchiseId)
+                .having(salesRecord.salesAmount.sum().gt(0))
                 .orderBy(salesRecord.salesAmount.sum().desc())
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
@@ -69,7 +70,8 @@ public class SalesRecordRepositoryImpl implements SalesRecordRepositoryCustom{
                 .where(
                         regionEq(regionCode),
                         yearEq(year),
-                        monthEq(month)
+                        monthEq(month),
+                        salesRecord.salesAmount.gt(0)
                 );
 //                .groupBy(franchise.franchiseId,franchise.name)
         // 리스트를 가져와서 그 리스트의 크기를 확인하는 방식 -> 성능 저하될 수 있음

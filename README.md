@@ -136,7 +136,7 @@
 <details>
 <summary><strong>📌 요구사항 정의서</strong></summary>
 
-- 링크: [요구사항 정의서](https://docs.google.com/spreadsheets/d/1DiH1bHHJueDsMxrl0_vGZ8jhjAMejhCEK-gJhL4AF-4/edit?gid=1152197925#gid=1152197925)
+- 링크: [요구사항 정의서](https://docs.google.com/spreadsheets/d/1seqapdAquVKAEQWeu1K7NB2LUu_DfyKDnwHq0qzQGHU/edit?gid=1152197925#gid=1152197925)
 
 </details>
 
@@ -150,7 +150,7 @@
 <details>
 <summary><strong>📌 WBS</strong></summary>
 
-- 링크: [WBS](https://docs.google.com/spreadsheets/d/1DiH1bHHJueDsMxrl0_vGZ8jhjAMejhCEK-gJhL4AF-4/edit?gid=0#gid=0)
+- 링크: [WBS](https://docs.google.com/spreadsheets/d/1seqapdAquVKAEQWeu1K7NB2LUu_DfyKDnwHq0qzQGHU/edit?gid=0#gid=0)
 
 </details>
 
@@ -179,14 +179,14 @@
 <details>
 <summary><strong>📌 단위 테스트 결과서</strong></summary>
 
-- 링크: [단위 테스트 결과서](https://docs.google.com/spreadsheets/d/1DiH1bHHJueDsMxrl0_vGZ8jhjAMejhCEK-gJhL4AF-4/edit?gid=417184159#gid=417184159)
+- 링크: [단위 테스트 결과서](https://docs.google.com/spreadsheets/d/1seqapdAquVKAEQWeu1K7NB2LUu_DfyKDnwHq0qzQGHU/edit?gid=417184159#gid=417184159)
 
 </details>
 
 <details>
 <summary><strong>📌 UI/UX 단위 테스트 결과서</strong></summary>
 
-- 링크: [UI/UX 단위 테스트 결과서](https://docs.google.com/spreadsheets/d/1DiH1bHHJueDsMxrl0_vGZ8jhjAMejhCEK-gJhL4AF-4/edit?gid=1228868911#gid=1228868911)
+- 링크: [UI/UX 단위 테스트 결과서](https://docs.google.com/spreadsheets/d/1seqapdAquVKAEQWeu1K7NB2LUu_DfyKDnwHq0qzQGHU/edit?gid=1228868911#gid=1228868911)
 
 </details>
 
@@ -228,25 +228,25 @@
 <details>
 <summary>가맹점 메뉴</summary>
 <ul>
-  <li>가맹점 전용 메뉴 추가, 조회 <img src="https://github.com/user-attachments/assets/9fa01b54-1b91-49ff-b866-68cd4c14d808" /></li>
-  <li>가맹점 전용 메뉴 삭제 <img src="https://github.com/user-attachments/assets/1143ba36-879f-4c17-8e3b-1e6236f75951"/></li>
+  <li>가맹점 전용 메뉴 추가, 조회, 제거 <img src="https://github.com/user-attachments/assets/9a949cc1-e29a-42c5-a7b3-9089d4198252"</li>
 </ul>
 </details>
 
 <details>
 <summary>재고</summary>
 <ul>
-  <li>가맹점 재고 주문 및 조회, 본사 주문 처리 <img src="https://github.com/user-attachments/assets/672c15fa-ed4f-4474-bc01-d2d4965f490d" /></li>
-  <li>본사 재고 등록<img src="https://github.com/user-attachments/assets/9df1248f-6a0d-4b06-bf34-f5e7043abd83" /></li>
-  <li>본사 재고 삭제<img src="https://github.com/user-attachments/assets/c72a9cdc-5b86-41bd-8d1f-ecb24ecf7eac" /></li>
+  <li>가맹점 재고 주문 및 조회, 본사 주문 처리
+    <img src="https://github.com/user-attachments/assets/ea4b551d-196c-4ba3-b33c-cc4c989ee7b3" /></li>
+  <li>본사 재고 추가 및 수정<img src="https://github.com/user-attachments/assets/613fc71f-80e2-46bf-95e9-67e073a6181d" /></li>
+  <li>본사 재고 삭제<img src="https://github.com/user-attachments/assets/b6bf6e83-642c-49e4-9fbe-9ea8a8249c8f" /></li>
 </ul>
 </details>
 
 <details>
 <summary>게시판</summary>
 <ul>
-  <li>게시글 등록, 수정, 삭제 <img src="https://github.com/user-attachments/assets/d95e03e3-20ae-4fcf-8b93-57c095f01489" /></li>
-  <li>문자 일괄 전송 <img src="https://github.com/user-attachments/assets/7c784913-b19b-4b4a-8efb-b4bf1f3e7622" /></li>
+  <li>게시글 등록, 수정, 문자 전송 <img src="https://github.com/user-attachments/assets/cafe39f0-7242-49d4-ac72-edfac277cb11" /></li>
+  <li>문자 일괄 전송 <img src="https://github.com/user-attachments/assets/bf49c61a-a356-4d7b-be93-5bb909941694" /></li>
 </ul>
 </details>
 <details>
@@ -261,10 +261,9 @@
 <details>
 <summary>메뉴</summary>
 <ul>
-  <li>메뉴 등록 <img src="https://github.com/user-attachments/assets/4ec94851-8e31-4235-bb08-6b8ab9a76cb7" /></li>
-  <li>메뉴 조회, 수정, 판매중인 가맹점 조회 <img src="https://github.com/user-attachments/assets/bd02f042-b2a1-406c-a6a7-27bfdd141640" /></li>
-  <li>메뉴 삭제 <img src="https://github.com/user-attachments/assets/0034f171-e940-436e-bd89-75ea5a5c5acd" /></li>
-  <li>카테고리별 메뉴 조회 <img src="https://github.com/user-attachments/assets/af65c697-8bf1-455a-924a-c9b61fa86862" /></li>
+  <li>메뉴 등록 <img src="https://github.com/user-attachments/assets/49fcc054-83ac-4d7f-801e-646cfb1c094c" /></li>
+  <li>메뉴 수정 <img src="https://github.com/user-attachments/assets/98e33d22-ed07-408c-8f7a-6a3465f7f808" /></li>
+  <li>메뉴를 등록한 가맹점 조회 및 메뉴 삭제 <img src="https://github.com/user-attachments/assets/bde4082c-c2e2-499c-afe6-34c06e8372cc" /></li>
 
 </ul>
 </details>
@@ -272,10 +271,9 @@
 <details>
 <summary>본사</summary>
 <ul>
-  <li>본사 정보 조회, 수정 <img src="https://github.com/user-attachments/assets/5bce534a-b048-4815-b5c8-6d8d8ed88904" /></li>
+  <li>본사 정보 조회, 수정 <img src="https://github.com/user-attachments/assets/bfc05348-3130-4b4d-9d6e-e0f49e4c28a3" /></li>
 </ul>
 </details>
-
 </details>
 
 <!-- ------------- -->

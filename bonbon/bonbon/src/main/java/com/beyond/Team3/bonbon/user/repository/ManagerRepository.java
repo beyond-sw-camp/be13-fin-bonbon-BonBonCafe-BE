@@ -26,6 +26,9 @@ public interface ManagerRepository extends JpaRepository<Manager, Long> {
     @Query("select m " +
             "from Manager m " +
             "left Join m.userId mu " +
-            "where mu.parentId = :parentId")
-    Page<Manager> findManagerFromHeadquarter(@Param("parentId") User parentId, Pageable pageable);
+            "where mu.parentId = :parentId " +
+            "and (:name is null or mu.name like %:name%)")
+    Page<Manager> findManagerFromHeadquarter(@Param("parentId") User parentId,
+                                             Pageable pageable,
+                                             @Param("name") String name);
 }

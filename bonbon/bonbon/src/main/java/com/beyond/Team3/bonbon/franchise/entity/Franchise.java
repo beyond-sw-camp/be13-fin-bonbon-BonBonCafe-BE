@@ -65,6 +65,9 @@ public class Franchise extends EntityDate {
     @Column(name = "franchise_image")
     private String franchiseImage;      // 매장 사진
 
+    @Column(name = "memo")
+    private String memo;
+
     @Column(name = "store_size")
     private int storeSize;      // 매장 크기
 
@@ -90,7 +93,7 @@ public class Franchise extends EntityDate {
         this.franchiseImage = requestDto.getFranchiseImage();
         this.storeSize = requestDto.getStoreSize();
         this.seatingCapacity = requestDto.getSeatingCapacity();
-        this.parkingAvailability = requestDto.isParkingAvailability();
+        this.parkingAvailability = requestDto.getParkingAvailability();
         this.status = requestDto.getStatus();
         this.openHours = requestDto.getOpenHours();
     }

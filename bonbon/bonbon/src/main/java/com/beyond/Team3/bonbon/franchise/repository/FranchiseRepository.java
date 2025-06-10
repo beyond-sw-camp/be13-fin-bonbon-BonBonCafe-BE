@@ -19,9 +19,12 @@ public interface FranchiseRepository extends JpaRepository<Franchise, Long> {
 
     @Query("select f " +
             "from Franchise f " +
-            "left JOIN  f.franchisee fe " +
-            "where fe is null and f.headquarterId =:headquarterId")
-    Page<Franchise> findWithoutOwner(@Param("headquarterId") Headquarter headquarterId, Pageable pageable);
+            "left join f.franchisee fe " +
+            "where fe is null and f.headquarterId = :headquarterId " +
+            "and (:name is null or f.roadAddress like %:name% or f.name like %:name%)")
+    Page<Franchise> findWithoutOwner(@Param("headquarterId") Headquarter headquarterId,
+                                     @Param("name") String name,
+                                     Pageable pageable);
 
     List<Franchise> findByHeadquarterId_HeadquarterId(Long headquarterId);
 
@@ -32,9 +35,11 @@ public interface FranchiseRepository extends JpaRepository<Franchise, Long> {
 
     @Query("select f " +
             "from Franchise f " +
-            "where f.regionCode.regionCode = :regionCode and f.headquarterId = :headquarter")
+            "where f.regionCode.regionCode = :regionCode and f.headquarterId = :headquarter " +
+            "and (:name is null or f.roadAddress like %:name% or f.name like %:name%)")
     Page<Franchise> findFranchiseListInRegion(@Param("regionCode") int regionCode,
                                               @Param("headquarter") Headquarter headquarter,
+                                              @Param("name") String name,
                                               Pageable pageable);
 
     boolean existsByRoadAddress(String roadAddress);

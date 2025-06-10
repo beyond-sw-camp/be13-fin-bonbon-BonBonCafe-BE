@@ -32,9 +32,9 @@ public interface UserService {
 
     UserInfo getAccountDetail(Long userId, Principal principal);
 
-    Page<FranchiseeInfoDto> getFranchiseeAccounts(int page, int size, Role role, Principal principal);
+    Page<FranchiseeInfoDto> getFranchiseeAccounts(int page, int size, Role role, Principal principal, String name);
 
-    Page<ManagerInfoDto> getManagerAccounts(int page, int size, Principal principal);
+    Page<ManagerInfoDto> getManagerAccounts(int page, int size, Principal principal, String name);
 
     ManagerInfoDto getManagerDetail(Long userId, Principal principal);
 
@@ -44,13 +44,13 @@ public interface UserService {
 
     void deleteManager(Long userId, Principal principal);
 
-    Page<FranchiseFilterDto> findFranchiseWithoutOwner(int page, int size, Long headquarterId);
+    Page<FranchiseFilterDto> findFranchiseWithoutOwner(int page, int size, Long headquarterId, String name);
 
-    Page<FranchiseFilterDto> getFranchiseInRegion(int regionCode, int page, int size, Principal principal);
+    Page<FranchiseFilterDto> getFranchiseInRegion(int regionCode, int page, int size, Principal principal, String name);
 
     void franchiseeUpdate(Long userId, FranchiseeModifyDto franchiseeModifyDto, Principal principal);
 
     void managerUpdate(Long managerId, ManagerModifyDto managerModifyDto, Principal principal);
 
-    Page<FranchiseFilterDto> findFranchiseWithoutOwnerPrincipal(int page, int size, Principal principal);
+    Page<FranchiseFilterDto> findFranchiseWithoutOwnerPrincipal(int page, int size, Principal principal, String name);
 }

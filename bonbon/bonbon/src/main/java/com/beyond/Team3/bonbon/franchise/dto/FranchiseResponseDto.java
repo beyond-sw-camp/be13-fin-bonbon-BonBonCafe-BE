@@ -40,6 +40,8 @@ public class FranchiseResponseDto {
 
     private String franchiseImage;      // 매장 사진
 
+    private String memo;
+
     private int storeSize;      // 매장 크기
 
     private int seatingCapacity;    // 매장 내 좌석 수
@@ -64,6 +66,7 @@ public class FranchiseResponseDto {
         this.roadAddress = franchise.getRoadAddress();
         this.detailAddress = franchise.getDetailAddress();
         this.openDate = franchise.getOpenDate();
+        this.memo = franchise.getMemo();
         this.franchiseImage = franchise.getFranchiseImage();
         this.storeSize = franchise.getStoreSize();
         this.seatingCapacity = franchise.getSeatingCapacity();
@@ -83,6 +86,7 @@ public class FranchiseResponseDto {
         this.roadAddress = franchise.getRoadAddress();
         this.detailAddress = franchise.getDetailAddress();
         this.openDate = franchise.getOpenDate();
+        this.memo = franchise.getMemo();
         this.franchiseImage = franchise.getFranchiseImage();
         this.storeSize = franchise.getStoreSize();
         this.seatingCapacity = franchise.getSeatingCapacity();

@@ -62,13 +62,13 @@ public class FranchiseServiceImpl implements FranchiseService {
     @Value("${kakao.map.api.key}")
     private String kakaoApiKey;
 
-    private Manager getManagerFromPrincipal(Principal principal) {
-        String email = principal.getName();
-        User user = userRepository.findByEmail(email)
-                .orElseThrow(() -> new UserException(ExceptionMessage.USER_NOT_FOUND));
-        return managerRepository.findByUserId(user)
-                .orElseThrow(() -> new FranchiseException(ExceptionMessage.MANAGER_NOT_FOUND));
-    };
+//    private Manager getManagerFromPrincipal(Principal principal) {
+//        String email = principal.getName();
+//        User user = userRepository.findByEmail(email)
+//                .orElseThrow(() -> new UserException(ExceptionMessage.USER_NOT_FOUND));
+//        return managerRepository.findByUserId(user)
+//                .orElseThrow(() -> new FranchiseException(ExceptionMessage.MANAGER_NOT_FOUND));
+//    };
 
     private Franchise getFranchiseId(Long franchiseId) {
         return franchiseRepository.findByFranchiseId(franchiseId)
@@ -119,48 +119,6 @@ public class FranchiseServiceImpl implements FranchiseService {
                 })
                 .toList();
 
-
-//        if (region != null && district != null) {
-//            // 조건에 맞는 가맹점만 조회
-//            franchisePage = franchiseRepository.findByRegionAndDistrict(region, district, pageable);
-//        } else {
-//            // 전체 목록
-//            franchisePage = franchiseRepository.findAll(pageable);
-//        }
-
-
-//        if (franchisePage.isEmpty()) {
-//            throw new IllegalArgumentException("franchise is empty");
-//        }
-//
-//        List<FranchiseResponseDto> responseDto = franchisePage.getContent().stream()
-//                .map(franchise -> {
-//                    // 지역 이름 조회 (RegionName enum)
-//                    RegionName regionName = franchise.getRegionCode() != null
-//                            ? franchise.getRegionCode().getRegionName()
-//                            : null;
-//                    // 점주 이름 조회
-//                    String franchiseeName = franchiseeRepository.findByFranchise(franchise)
-//                            .map(franchisee -> {
-//                                Long userId = franchisee.getUserId() != null ? franchisee.getUserId().getUserId() : null;
-//                                if (userId != null) {
-//                                    return userRepository.findById(userId)
-//                                            .map(User::getName)
-//                                            .orElse(null);
-//                                } else {
-//                                    return null;
-//                                }
-//                            })
-//                            .orElse(null); // 점주 없으면 null
-//
-//                    return new FranchiseResponseDto(franchise, regionName, franchiseeName);
-//
-//                })
-//                .toList();
-
-//        FranchisePageResponseDto pageResponseDto = new FranchisePageResponseDto(responseDto, franchisePage.getTotalElements());
-
-//        return pageResponseDto;
         return new PageImpl<>(responseDto, pageable, franchisePage.getTotalElements());
     }
 
@@ -203,8 +161,6 @@ public class FranchiseServiceImpl implements FranchiseService {
             throw new FranchiseException(ExceptionMessage.ALREADY_REGISTERED_ADDRESS);
         }
 
-
-
         // 가맹점 등록
         RegionName regionName = requestDto.getRegionName();
         Region regionCode = regionRepository.findByRegionName(regionName);
@@ -234,6 +190,7 @@ public class FranchiseServiceImpl implements FranchiseService {
                     .orElseThrow(() -> new FranchiseException(ExceptionMessage.MANAGER_NOT_FOUND));
             authorizeManagerRegion(manager, franchise.getRegionCode());
         } else if (user.getUserType() == Role.HEADQUARTER) {
+
         } else {
             throw new FranchiseException(ExceptionMessage.UNAUTHORIZED_FRANCHISE_MODIFY);
         }
@@ -249,24 +206,8 @@ public class FranchiseServiceImpl implements FranchiseService {
         Franchise franchise = franchiseRepository.findByFranchiseId(franchiseId)
                 .orElseThrow(() -> new FranchiseException(ExceptionMessage.FRANCHISE_NOT_FOUND));
 
-
         Region region = franchise.getRegionCode();
-//        Manager manager = managerRepository.findByRegionCode(region)
-//                .orElseThrow(()-> new FranchiseException(ExceptionMessage.MANAGER_NOT_FOUND));
-//
-//        User managerInfo = userRepository.findByUserId(manager.getUserId().getUserId())
-//                .orElseThrow(() -> new UserException(ExceptionMessage.USER_NOT_FOUND));
-//
-//
-//        log.info("Franchise found: {}", franchise.getFranchiseId());
-//        log.info("Manager name: {}, phone: {}", managerInfo.getName(), managerInfo.getPhone());
-//
-//        return new FranchiseSummaryDto(
-//                franchise.getFranchiseId(),
-//                franchise.getFranchiseTel(),
-//                managerInfo.getName(),
-//                managerInfo.getPhone()
-//        );
+
         // 매니저 조회 (없을 수 있음)
         Optional<Manager> managerOpt = managerRepository.findByRegionCode(region);
         String managerName = null;
@@ -393,8 +334,17 @@ public class FranchiseServiceImpl implements FranchiseService {
     }
 
     @Override
-    public List<LocationResponseDto> findAllLocation() {
-        List<FranchiseLocation> franchiseLocation = franchiseLocationRepository.findAll();
+    public List<LocationResponseDto> findAllLocation(String keyword) {
+        List<FranchiseLocation> franchiseLocation;
+
+        if (keyword != null && !keyword.trim().isEmpty()) {
+            franchiseLocation = franchiseLocationRepository
+                    .findByFranchise_NameContainingOrFranchise_RoadAddressContaining(keyword.trim(), keyword.trim());
+        } else {
+            franchiseLocation = franchiseLocationRepository.findAll();
+        }
+
+
 
         return franchiseLocation.stream()
                 .map(location -> new LocationResponseDto(
@@ -402,7 +352,8 @@ public class FranchiseServiceImpl implements FranchiseService {
                         location.getFranchise().getName(),  // 가맹점 이름
                         location.getLatitude(),
                         location.getLongitude(),
-                        location.getFranchise().getFranchiseImage()
+                        location.getFranchise().getFranchiseImage(),
+                        location.getFranchise().getMemo()
                 ))
                 .collect(Collectors.toList());
     }
@@ -427,7 +378,8 @@ public class FranchiseServiceImpl implements FranchiseService {
                         franchise.getName(),
                         existingLocation.getLatitude(),
                         existingLocation.getLongitude(),
-                        existingLocation.getFranchise().getFranchiseImage()
+                        existingLocation.getFranchise().getFranchiseImage(),
+                        franchise.getMemo()
                 ));
                 continue;
             }
@@ -458,8 +410,8 @@ public class FranchiseServiceImpl implements FranchiseService {
                     FranchiseLocation location = new FranchiseLocation(franchise, latitude, longitude);
                     franchiseLocationRepository.save(location);
 
-//                    // 반환용 리스트에도 추가
-                    locationList.add(new LocationResponseDto(franchise.getFranchiseId(), franchise.getName(), latitude, longitude, franchise.getFranchiseImage()));
+                    // 반환용 리스트에도 추가
+                    locationList.add(new LocationResponseDto(franchise.getFranchiseId(), franchise.getName(), latitude, longitude, franchise.getFranchiseImage(), franchise.getMemo()));
                 }
             } catch (Exception e) {
                 log.error("Kakao API 호출 실패 (프랜차이즈: {}): {}", franchise.getName(), e.getMessage());
@@ -469,52 +421,5 @@ public class FranchiseServiceImpl implements FranchiseService {
         return locationList;
     }
 }
-
-//
-//    @Override
-//    public List<FranchiseLocationDto> getFranchiseLocations() {
-//
-//        WebClient webClient = webClientBuilder
-//                .baseUrl("https://dapi.kakao.com")
-//                .defaultHeader("Authorization", "KakaoAK " + kakaoApiKey)
-//                .build();
-//
-//        List<Franchise> franchises = franchiseRepository.findAll();
-//
-//        return franchises.stream()
-//                .map(franchise -> {
-//                    String address = franchise.getRoadAddress();
-//                    String name = franchise.getName();
-//
-//                    String response = webClient.get()
-//                            .uri(uriBuilder -> uriBuilder
-//                                    .path("/v2/local/search/address.json")
-//                                    .queryParam("query", address)
-//                                    .build())
-//                            .retrieve()
-//                            .bodyToMono(String.class)
-//                            .block();
-//
-//                    try {
-//                        ObjectMapper mapper = new ObjectMapper();
-//                        JsonNode root = mapper.readTree(response);
-//                        JsonNode documents = root.path("documents");
-//
-//                        if (!documents.isEmpty()) {
-//                            JsonNode first = documents.get(0);
-//                            double latitude = first.path("y").asDouble();
-//                            double longitude = first.path("x").asDouble();
-//
-//                            return new FranchiseLocation(name, latitude, longitude);
-//                        }
-//                    } catch (Exception e) {
-//                        e.printStackTrace();
-//                    }
-//
-//                    return null;
-//                })
-//                .filter(Objects::nonNull)
-//                .collect(Collectors.toList());
-//    }
 
 

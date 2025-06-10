@@ -72,7 +72,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(requests ->
                         requests
                                 .requestMatchers("/swagger-ui/**", "/v3/api-docs/**", "/actuator/health").permitAll()
-                                .requestMatchers("/s3/*").permitAll()
+                                .requestMatchers("/files/*").permitAll()
                                 .requestMatchers("/health").permitAll()
                                 .requestMatchers(HttpMethod.POST, "/bonbon/user/franchisee").permitAll()
                                 .requestMatchers("/bonbon/user/login", "/bonbon/user/manager", "/bonbon/user/franchisee", "/bonbon/email/send", "/bonbon/user/email-check", "/bonbon/email/verify", "/bonbon/user/headquarters", "/bonbon/user/franchisee/without-owner", "/bonbon/user/region").permitAll() // 로그인 하지 않는 사용자 login 페이지 접근 가능

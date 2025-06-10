@@ -14,6 +14,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 import static com.beyond.Team3.bonbon.franchise.entity.QFranchise.franchise;
+import static com.beyond.Team3.bonbon.franchise.entity.QFranchisee.franchisee;
 import static com.beyond.Team3.bonbon.sales.entity.QSalesRecord.salesRecord;
 
 @Repository
@@ -47,16 +48,20 @@ public class SalesRecordRepositoryImpl implements SalesRecordRepositoryCustom{
         List<SalesRankingDto> content = queryFactory
                 .select(new QSalesRankingDto(
                         franchise.name,
-                        salesRecord.salesAmount.sum().intValue()
+                        salesRecord.salesAmount.sum().intValue(),
+                        franchise.roadAddress,
+                        franchisee.userId.name
                 ))
                 .from(salesRecord)
                 .join(salesRecord.franchise, franchise)
+                .join(franchise.franchisee, franchisee)
                 .where(
                         regionEq(regionCode),
                         yearEq(year),
                         monthEq(month)
                 )
                 .groupBy(franchise.franchiseId)
+                .having(salesRecord.salesAmount.sum().gt(0))
                 .orderBy(salesRecord.salesAmount.sum().desc())
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
@@ -69,7 +74,8 @@ public class SalesRecordRepositoryImpl implements SalesRecordRepositoryCustom{
                 .where(
                         regionEq(regionCode),
                         yearEq(year),
-                        monthEq(month)
+                        monthEq(month),
+                        salesRecord.salesAmount.gt(0)
                 );
 //                .groupBy(franchise.franchiseId,franchise.name)
         // 리스트를 가져와서 그 리스트의 크기를 확인하는 방식 -> 성능 저하될 수 있음
@@ -104,10 +110,13 @@ public class SalesRecordRepositoryImpl implements SalesRecordRepositoryCustom{
         return queryFactory
                 .select(new QSalesRankingDto(
                         franchise.name,
-                        salesRecord.salesAmount.sum().intValue()
+                        salesRecord.salesAmount.sum().intValue(),
+                        franchise.roadAddress,
+                        franchisee.userId.name
                 ))
                 .from(salesRecord)
                 .join(salesRecord.franchise, franchise)
+                .join(franchise.franchisee, franchisee)
                 .where(
                         salesDateGoe(startDate),
                         salesDateLoe(endDate)

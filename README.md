@@ -136,7 +136,7 @@
 <details>
 <summary><strong>📌 요구사항 정의서</strong></summary>
 
-- 링크: [요구사항 정의서](https://docs.google.com/spreadsheets/d/1DiH1bHHJueDsMxrl0_vGZ8jhjAMejhCEK-gJhL4AF-4/edit?gid=1152197925#gid=1152197925)
+- 링크: [요구사항 정의서](https://docs.google.com/spreadsheets/d/1seqapdAquVKAEQWeu1K7NB2LUu_DfyKDnwHq0qzQGHU/edit?gid=1152197925#gid=1152197925)
 
 </details>
 

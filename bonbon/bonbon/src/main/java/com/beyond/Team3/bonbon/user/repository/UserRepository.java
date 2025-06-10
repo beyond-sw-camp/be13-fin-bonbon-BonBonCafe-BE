@@ -27,4 +27,5 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     Optional<User> findByUserTypeAndHeadquarterId(Role userType, Headquarter headquarterId);
 
+    List<User> findAllByUserTypeAndHeadquarterId(Role role, Headquarter headquarter);
 }

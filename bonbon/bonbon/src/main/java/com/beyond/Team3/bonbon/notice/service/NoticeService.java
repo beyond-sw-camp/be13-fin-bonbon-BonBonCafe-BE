@@ -1,8 +1,9 @@
 package com.beyond.Team3.bonbon.notice.service;
 
 import com.beyond.Team3.bonbon.common.enums.PostType;
-import com.beyond.Team3.bonbon.franchise.repository.FranchiseRepository;
+import com.beyond.Team3.bonbon.common.enums.Role;
 import com.beyond.Team3.bonbon.handler.exception.UserException;
+import com.beyond.Team3.bonbon.handler.message.ExceptionMessage;
 import com.beyond.Team3.bonbon.headquarter.entity.Headquarter;
 import com.beyond.Team3.bonbon.headquarter.repository.HeadquarterRepository;
 import com.beyond.Team3.bonbon.notice.dto.NoticeRequestDto;
@@ -30,7 +31,6 @@ public class NoticeService {
     private final UserRepository userRepository;
     private final CoolSmsService coolSmsService;
     private final NoticeRepository noticeRepository;
-    private final FranchiseRepository franchiseRepository;
     private final HeadquarterRepository headquarterRepository;
 
     @Transactional(readOnly = true)
@@ -78,19 +78,29 @@ public class NoticeService {
         Headquarter headquarter = getUserHeadquarter(principal);
         Notice notice = getVerifiedNotice(noticeId, headquarter.getHeadquarterId());
 
-        List<String> phoneNumbers = franchiseRepository
-                .findByHeadquarterId_HeadquarterId(notice.getHeadquarterId().getHeadquarterId())
-                .stream()
-                .map(f -> f.getFranchiseTel().replaceAll("[^0-9]", ""))
+        List<User> franchisees = userRepository.findAllByUserTypeAndHeadquarterId(
+                Role.FRANCHISEE, headquarter
+        );
+
+        if (franchisees.isEmpty()) {
+            throw new UserException(ExceptionMessage.USER_NOT_FOUND);
+        }
+
+        List<String> phoneNumbers = franchisees.stream()
+                .map(u -> u.getPhone().replaceAll("[^0-9]", ""))
+                .filter(p -> !p.isBlank())
                 .distinct()
                 .toList();
+
+        System.out.println("📱 문자 발송 대상 번호 리스트:");
+        phoneNumbers.forEach(System.out::println);
 
         String content = switch (notice.getPostType()) {
             case NOTICE -> "[공지] " + notice.getTitle() + "\n👉 https://www.be13-bonbon.com/notices/" + noticeId;
             case EVENT -> "[이벤트] " + notice.getTitle() + "\n👉 https://www.be13-bonbon.com/events/" + noticeId;
         };
-        coolSmsService.sendBulkMessage(phoneNumbers, content);
 
+        coolSmsService.sendBulkMessage(phoneNumbers, content);
         noticeRepository.markAsSentOnly(noticeId);
     }
 

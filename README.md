@@ -150,7 +150,7 @@
 <details>
 <summary><strong>📌 WBS</strong></summary>
 
-- 링크: [WBS](https://docs.google.com/spreadsheets/d/1DiH1bHHJueDsMxrl0_vGZ8jhjAMejhCEK-gJhL4AF-4/edit?gid=0#gid=0)
+- 링크: [WBS](https://docs.google.com/spreadsheets/d/1seqapdAquVKAEQWeu1K7NB2LUu_DfyKDnwHq0qzQGHU/edit?gid=0#gid=0)
 
 </details>
 
@@ -179,14 +179,14 @@
 <details>
 <summary><strong>📌 단위 테스트 결과서</strong></summary>
 
-- 링크: [단위 테스트 결과서](https://docs.google.com/spreadsheets/d/1DiH1bHHJueDsMxrl0_vGZ8jhjAMejhCEK-gJhL4AF-4/edit?gid=417184159#gid=417184159)
+- 링크: [단위 테스트 결과서](https://docs.google.com/spreadsheets/d/1seqapdAquVKAEQWeu1K7NB2LUu_DfyKDnwHq0qzQGHU/edit?gid=417184159#gid=417184159)
 
 </details>
 
 <details>
 <summary><strong>📌 UI/UX 단위 테스트 결과서</strong></summary>
 
-- 링크: [UI/UX 단위 테스트 결과서](https://docs.google.com/spreadsheets/d/1DiH1bHHJueDsMxrl0_vGZ8jhjAMejhCEK-gJhL4AF-4/edit?gid=1228868911#gid=1228868911)
+- 링크: [UI/UX 단위 테스트 결과서](https://docs.google.com/spreadsheets/d/1seqapdAquVKAEQWeu1K7NB2LUu_DfyKDnwHq0qzQGHU/edit?gid=1228868911#gid=1228868911)
 
 </details>
 

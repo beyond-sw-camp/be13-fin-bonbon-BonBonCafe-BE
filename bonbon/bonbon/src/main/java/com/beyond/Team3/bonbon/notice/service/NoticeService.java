@@ -96,8 +96,10 @@ public class NoticeService {
         phoneNumbers.forEach(System.out::println);
 
         String content = switch (notice.getPostType()) {
-            case NOTICE -> "[공지] " + notice.getTitle() + "\n👉 https://www.be13-bonbon.com/notices/" + noticeId;
-            case EVENT -> "[이벤트] " + notice.getTitle() + "\n👉 https://www.be13-bonbon.com/events/" + noticeId;
+            case NOTICE ->
+                    "[공지] " + notice.getTitle() + "\n👉 https://www.be13-bonbon.com/headquarters/notices/" + noticeId;
+            case EVENT ->
+                    "[이벤트] " + notice.getTitle() + "\n👉 https://www.be13-bonbon.com/headquarters/events/" + noticeId;
         };
 
         coolSmsService.sendBulkMessage(phoneNumbers, content);

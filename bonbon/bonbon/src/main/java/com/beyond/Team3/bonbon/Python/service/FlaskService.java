@@ -33,7 +33,8 @@ public class FlaskService {
 
 //    private final String GLOBAL_URL = "http://127.0.0.1:8082/forecast/global";
 //    private final String FRANCHISE_URL = "http://127.0.0.1:8082/forecast/franchise/%d";
-    private final String FORECAST_URL = "http://127.0.0.1:8082/forecast";
+//    private final String FORECAST_URL = "http://127.0.0.1:8082/forecast";
+    private final String FORECAST_URL = "http://13.125.253.21:8082/forecast";
     // 전체 가맹점 예측
     public List<ForecastResponseDto> getGlobalForecast(List<DailySalesDto> history, int periods)
             throws JsonProcessingException {
